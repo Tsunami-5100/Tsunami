@@ -1,3 +1,4 @@
 # Tsunami
-Name: Shijie Zhang, Zhi Yao, Dandan Xu
-Nuid:  001537250, 001520706, 001085731
+Shijie Zhang (001537250)
+Zhi Yao (001520706) 
+Dandan Xu (001085731)
