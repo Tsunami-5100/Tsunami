@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/RepairmanRole/RepairmanwWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/MainJFrame.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Message/Message.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Enterprise/MarketEnterprise.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Enterprise/PropertyEnterprise.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/ConfigureASystem.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/SysadminRole/SysadminWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Resident/ResidentDirectory.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/EcoSystem.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/PropertyAdminRole/PropertyAdminWorkPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Market/MerchandiseOrder.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Market/MerchandiseDirectory.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/ResidentRole/ResidentWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/KindergardenAdminRole/KindergardenWorkAdminJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Property/SRRequest.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Network/Network.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/SecuriryRole/SecurityWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/DeliveryManRole/DeliveryManWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Enterprise/KindergartenEnterprise.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Employee/EmployeeDirectory.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Enterprise/HospitalEnterprise.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Property/SRRequestDirectory.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Enterprise/Enterprise.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Organization/Organization.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/UserAccount/UserAccount.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Property/Payment.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Resident/Resident.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/RegisterJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/UserInterface/MarketAdminRole/MarketAdminWorkJPanel.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/WorkQueue/WorkRequest.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Message/MessageDirectory.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Employee/Employee.java</file>
+            <file>file:/Users/edmond/Desktop/CommunityServiceSystem_2.1%202/src/Business/Market/Merchandise.java</file>
+        </group>
+    </open-files>
+</project-private>
