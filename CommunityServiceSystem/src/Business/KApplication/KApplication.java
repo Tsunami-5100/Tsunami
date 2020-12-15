@@ -14,7 +14,10 @@ import Business.WorkQueue.WorkRequest;
 public class KApplication extends WorkRequest{
     private String kidName;
     private int kidAge;
+    private String kindergartenName;
     private String className;
+    private String phoneNum;
+    private String Email;
     public String getKidName() {
         return kidName;
     }
@@ -31,6 +34,14 @@ public class KApplication extends WorkRequest{
         this.kidAge = kidAge;
     }
 
+    public String getKindergartenName() {
+        return kindergartenName;
+    }
+
+    public void setKindergartenName(String kindergartenName) {
+        this.kindergartenName = kindergartenName;
+    }
+
     public String getClassName() {
         return className;
     }
@@ -39,9 +50,25 @@ public class KApplication extends WorkRequest{
         this.className = className;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
     @Override
     public String toString() {
-        return kidName;
+        return kindergartenName;
     }
 
 }

@@ -4,10 +4,13 @@
  */
 package Business.UserAccount;
 
+import Business.AmbulanceDriver.AmbulanceDriverDirectoy;
+import Business.AmbulanceRequest.AmbulanceRequest;
 import Business.Employee.Employee;
-import Business.Enterprise.Enterprise;
-import Business.Role.HospitalManagerRole;
+import Business.KBApplication.KBApplicationDirectory;
 import Business.KClass.KClass;
+import Business.KindergartenBus.KindergartenBusDirectory;
+import Business.KindergartenStudent.KindergartenStudentDirectory;
 import Business.Market.MerchandiseOrder;
 import Business.Property.Payment;
 import Business.Property.SRRequest;
@@ -21,31 +24,35 @@ import javax.swing.ImageIcon;
  * @author raunak
  */
 public class UserAccount {
-
+//    private String 
     private String username;
     private String name;
     private String password;
+    private Employee employee;
     private String emails;
     private String Phone;
-    private String workArea;
-    private Employee employee;
     private Role role;
     private WorkQueue workQueue;
     private ArrayList<KClass> classList;
+    private ArrayList<AmbulanceRequest> ambulanceRequestList;
+    private AmbulanceDriverDirectoy ambulanceDriverDirectoy;
+    private KindergartenBusDirectory kindergartenBusDirectory;
+    private KBApplicationDirectory kBApplicationDirectory;
+    private KindergartenStudentDirectory kindergartenStudentDirectory;
     private ArrayList<MerchandiseOrder> merchandiseOrderList;
     private ArrayList<SRRequest> SRRequestList;
     private ArrayList<Payment> PaymentList;
     private ImageIcon myimage;
-
+    
     public UserAccount() {
         workQueue = new WorkQueue();
-        classList = new ArrayList<KClass>();
+        classList = new ArrayList<>();
+        ambulanceRequestList = new ArrayList<>();
         merchandiseOrderList = new ArrayList<MerchandiseOrder>();
         SRRequestList = new ArrayList<SRRequest>();
         PaymentList = new ArrayList<Payment>();
-
     }
-
+    
     public String getUsername() {
         return username;
     }
@@ -84,16 +91,71 @@ public class UserAccount {
 
     public ArrayList<KClass> getClassList() {
         if (this.classList == null) {
-            this.classList = new ArrayList<KClass>();
+            this.classList = new ArrayList<>();
         }
-
+        
         return classList;
     }
 
     public void setClassList(ArrayList<KClass> classList) {
         this.classList = classList;
+    }   
+
+    public ArrayList<AmbulanceRequest> getAmbulanceRequestList() {
+        if (this.ambulanceRequestList == null) {
+            this.ambulanceRequestList = new ArrayList<AmbulanceRequest>();
+        }
+        return ambulanceRequestList;
     }
 
+    public void setAmbulanceRequestList(ArrayList<AmbulanceRequest> ambulanceRequestList) {
+        this.ambulanceRequestList = ambulanceRequestList;
+    }
+
+    public AmbulanceDriverDirectoy getAmbulanceDriverDirectoy() {
+        if (this.ambulanceDriverDirectoy == null) {
+            this.ambulanceDriverDirectoy = new AmbulanceDriverDirectoy();
+        }
+        return ambulanceDriverDirectoy;
+    }
+
+    public void setAmbulanceDriverDirectoy(AmbulanceDriverDirectoy ambulanceDriverDirectoy) {
+        this.ambulanceDriverDirectoy = ambulanceDriverDirectoy;
+    }
+
+    public KindergartenBusDirectory getKindergartenBusDirectory() {
+        if (this.kindergartenBusDirectory == null) {
+            this.kindergartenBusDirectory = new KindergartenBusDirectory();
+        }
+        return kindergartenBusDirectory;
+    }
+
+    public void setKindergartenBusDirectory(KindergartenBusDirectory kindergartenBusDirectory) {
+        this.kindergartenBusDirectory = kindergartenBusDirectory;
+    }
+
+    public KBApplicationDirectory getkBApplicationDirectory() {
+        if (this.kBApplicationDirectory==null) {
+            kBApplicationDirectory = new KBApplicationDirectory();
+        }
+        return kBApplicationDirectory;
+    }
+
+    public void setkBApplicationDirectory(KBApplicationDirectory kBApplicationDirectory) {
+        this.kBApplicationDirectory = kBApplicationDirectory;
+    }
+
+    public KindergartenStudentDirectory getKindergartenStudentDirectory() {
+        if (this.kindergartenStudentDirectory == null) {
+            this.kindergartenStudentDirectory = new KindergartenStudentDirectory();
+        }
+        return kindergartenStudentDirectory;
+    }
+
+    public void setKindergartenStudentDirectory(KindergartenStudentDirectory kindergartenStudentDirectory) {
+        this.kindergartenStudentDirectory = kindergartenStudentDirectory;
+    }
+    
     public String getName() {
         return name;
     }
@@ -155,5 +217,7 @@ public class UserAccount {
     public String toString() {
         return username;
     }
-
+    
+    
+    
 }

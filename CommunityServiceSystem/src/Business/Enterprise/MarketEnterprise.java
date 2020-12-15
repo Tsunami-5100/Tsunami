@@ -6,7 +6,6 @@
 package Business.Enterprise;
 
 import Business.Market.Merchandise;
-import Business.Market.MerchandiseDirectory;
 import Business.Market.MerchandiseOrder;
 import Business.Role.Role;
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
  * @author Unicorn
  */
 public class MarketEnterprise extends Enterprise{
-    
     private ArrayList<Merchandise> merchandiseList;
     private ArrayList<MerchandiseOrder> merchandiseOrderList;
     
@@ -25,7 +23,6 @@ public class MarketEnterprise extends Enterprise{
         merchandiseList = new ArrayList<Merchandise>();
         merchandiseOrderList = new ArrayList<MerchandiseOrder>();
     }
-
     public ArrayList<Merchandise> getMerchandiseList() {
         if (this.merchandiseList == null) {
             this.merchandiseList = new ArrayList<Merchandise>();
@@ -48,7 +45,7 @@ public class MarketEnterprise extends Enterprise{
     public void setMerchandiseOrderList(ArrayList<MerchandiseOrder> merchandiseOrderList) {
         this.merchandiseOrderList = merchandiseOrderList;
     }
- 
+    
     @Override
     public ArrayList<Role> getSupportedRole() {
         return null;

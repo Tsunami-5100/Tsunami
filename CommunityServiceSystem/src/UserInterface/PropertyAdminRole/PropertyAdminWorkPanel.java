@@ -49,10 +49,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private SRRequest selectedRequest;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
 
-    public PropertyAdminWorkPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, EcoSystem ecoSystem) {
+    public PropertyAdminWorkPanel(JPanel userProcessContainer, UserAccount userAccount, Organization organization, Enterprise enterprise, EcoSystem ecoSystem) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
-        this.userAccount = account;
+        this.userAccount = userAccount;
         this.ecoSystem = ecoSystem;
         resident = new Resident();
         ecoSystem = dB4OUtil.retrieveSystem();
@@ -60,7 +60,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         System.out.print(propertyEnterprise.getName());
         this.propertyManagementOrganization = (PropertyManagementOrganization) organization;
         populateMessageTable();
-        //jLabel6.setText("HI! " + userAccount.getEmployee().getName());
+        labWelcome.setText("Welcome, " +userAccount.getUsername() + "!");
         jLabel30.setText("You have " + TableNotification.getRowCount() + " new Notifications:");
         Thread t = new Thread(this);
         t.start();
@@ -230,7 +230,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private void initComponents() {
 
         btnDashboard = new javax.swing.JButton();
-        labAdminName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSecurity = new javax.swing.JButton();
         btnRepairman = new javax.swing.JButton();
@@ -238,8 +237,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel5 = new javax.swing.JLabel();
         btnPayment = new javax.swing.JButton();
         btnApplicaiton = new javax.swing.JButton();
-        btnCompalint = new javax.swing.JButton();
-        jLabel12 = new javax.swing.JLabel();
         labTime = new javax.swing.JLabel();
         ContentPanel = new javax.swing.JPanel();
         DashboardPanel = new javax.swing.JPanel();
@@ -255,11 +252,8 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel15 = new javax.swing.JLabel();
         btnPAdd = new javax.swing.JButton();
         btnPView = new javax.swing.JButton();
-        txtViewBus2 = new javax.swing.JTextField();
         btnPDelete = new javax.swing.JButton();
         payment = new javax.swing.JPanel();
-        paymentNull = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
         paymentAdd = new javax.swing.JPanel();
         jLabel53 = new javax.swing.JLabel();
         ResidentCombox = new javax.swing.JComboBox();
@@ -285,12 +279,9 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel23 = new javax.swing.JLabel();
         PComboStatus = new javax.swing.JComboBox();
         RepairPanel = new javax.swing.JPanel();
-        txtViewBus1 = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
         btnRView = new javax.swing.JButton();
         Repairman = new javax.swing.JPanel();
-        RepairmanNull = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
         RepairmanAdd = new javax.swing.JPanel();
         jLabel50 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -319,12 +310,9 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnRAdd = new javax.swing.JButton();
         btnRDelete = new javax.swing.JButton();
         SecurityPanel = new javax.swing.JPanel();
-        txtViewBus = new javax.swing.JTextField();
         jLabel46 = new javax.swing.JLabel();
         btnSView = new javax.swing.JButton();
         SecurityJpanel = new javax.swing.JPanel();
-        SecurityNull = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
         SecurityAdd = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -353,7 +341,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnSAdd = new javax.swing.JButton();
         btnSDelete = new javax.swing.JButton();
         ApplicationPanel = new javax.swing.JPanel();
-        txtViewBus3 = new javax.swing.JTextField();
         jScrollPane9 = new javax.swing.JScrollPane();
         tabApplication = new javax.swing.JTable();
         jLabel72 = new javax.swing.JLabel();
@@ -361,8 +348,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         AComboAppType = new javax.swing.JComboBox();
         btnAppView = new javax.swing.JButton();
         ApplicationJPanel = new javax.swing.JPanel();
-        ApplicationNull = new javax.swing.JPanel();
-        jLabel45 = new javax.swing.JLabel();
         AppSecurity = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         comboAPPGuard = new javax.swing.JComboBox();
@@ -391,11 +376,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jScrollPane13 = new javax.swing.JScrollPane();
         txtMDesc = new javax.swing.JTextArea();
         jLabel71 = new javax.swing.JLabel();
-        ComplaintPanel = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        tabDoctor1 = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
+        labWelcome = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
 
@@ -415,11 +396,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         });
         add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 243, 244, 41));
 
-        labAdminName.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        labAdminName.setForeground(new java.awt.Color(255, 255, 255));
-        labAdminName.setText("xxx");
-        add(labAdminName, new org.netbeans.lib.awtextra.AbsoluteConstraints(457, 71, -1, -1));
-
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard.png"))); // NOI18N
         add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 467, 41, 50));
@@ -427,7 +403,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnSecurity.setBackground(new java.awt.Color(58, 83, 155));
         btnSecurity.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnSecurity.setForeground(new java.awt.Color(255, 255, 255));
-        btnSecurity.setText("Security Management");
+        btnSecurity.setText("Manage Security Man");
         btnSecurity.setBorder(null);
         btnSecurity.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSecurity.addActionListener(new java.awt.event.ActionListener() {
@@ -440,7 +416,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnRepairman.setBackground(new java.awt.Color(58, 83, 155));
         btnRepairman.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnRepairman.setForeground(new java.awt.Color(255, 255, 255));
-        btnRepairman.setText("Repairman Management");
+        btnRepairman.setText("Manage Repairman");
         btnRepairman.setBorder(null);
         btnRepairman.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRepairman.addActionListener(new java.awt.event.ActionListener() {
@@ -461,7 +437,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnPayment.setBackground(new java.awt.Color(58, 83, 155));
         btnPayment.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnPayment.setForeground(new java.awt.Color(255, 255, 255));
-        btnPayment.setText("Payment Management");
+        btnPayment.setText("Manage Payment");
         btnPayment.setBorder(null);
         btnPayment.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPayment.addActionListener(new java.awt.event.ActionListener() {
@@ -474,7 +450,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         btnApplicaiton.setBackground(new java.awt.Color(58, 83, 155));
         btnApplicaiton.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnApplicaiton.setForeground(new java.awt.Color(255, 255, 255));
-        btnApplicaiton.setText("Application Management");
+        btnApplicaiton.setText("Manage Request");
         btnApplicaiton.setBorder(null);
         btnApplicaiton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnApplicaiton.addActionListener(new java.awt.event.ActionListener() {
@@ -483,23 +459,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             }
         });
         add(btnApplicaiton, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 555, 244, 40));
-
-        btnCompalint.setBackground(new java.awt.Color(58, 83, 155));
-        btnCompalint.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnCompalint.setForeground(new java.awt.Color(255, 255, 255));
-        btnCompalint.setText("Complaint Management");
-        btnCompalint.setBorder(null);
-        btnCompalint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnCompalint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCompalintActionPerformed(evt);
-            }
-        });
-        add(btnCompalint, new org.netbeans.lib.awtextra.AbsoluteConstraints(84, 634, 244, 40));
-
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-strike.png"))); // NOI18N
-        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 624, 50, 50));
 
         labTime.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
         labTime.setForeground(new java.awt.Color(255, 255, 255));
@@ -510,11 +469,13 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         ContentPanel.setLayout(new java.awt.CardLayout());
 
         DashboardPanel.setBackground(new java.awt.Color(255, 255, 255));
+        DashboardPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel13.setBackground(new java.awt.Color(58, 83, 155));
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(58, 83, 155));
         jLabel13.setText("DASHBOARD");
+        DashboardPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 20, -1, 48));
 
         TableNotification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -543,8 +504,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         TableNotification.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableNotification);
 
+        DashboardPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, 630, 280));
+
         btnMarkread.setBackground(new java.awt.Color(255, 255, 255));
-        btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
+        btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnMarkread.setForeground(new java.awt.Color(58, 83, 155));
         btnMarkread.setText("Markread");
         btnMarkread.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -554,41 +517,12 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnMarkreadActionPerformed(evt);
             }
         });
+        DashboardPanel.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 610, 170, 40));
 
-        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(58, 83, 155));
         jLabel30.setText("You have * new Notifications:");
-
-        javax.swing.GroupLayout DashboardPanelLayout = new javax.swing.GroupLayout(DashboardPanel);
-        DashboardPanel.setLayout(DashboardPanelLayout);
-        DashboardPanelLayout.setHorizontalGroup(
-            DashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DashboardPanelLayout.createSequentialGroup()
-                .addGap(211, 211, 211)
-                .addGroup(DashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(219, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DashboardPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(DashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnMarkread, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13))
-                .addGap(416, 416, 416))
-        );
-        DashboardPanelLayout.setVerticalGroup(
-            DashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(DashboardPanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 258, Short.MAX_VALUE)
-                .addComponent(btnMarkread, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(219, 219, 219))
-        );
+        DashboardPanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 170, 330, 30));
 
         ContentPanel.add(DashboardPanel, "card2");
 
@@ -599,7 +533,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(58, 83, 155));
         jLabel14.setText("MANAGE PAYMENT");
-        PaymentPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, -1, 48));
+        PaymentPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, -1, 48));
 
         tabPayment.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -635,15 +569,15 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             tabPayment.getColumnModel().getColumn(4).setResizable(false);
         }
 
-        PaymentPanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 800, 236));
+        PaymentPanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 210, 800, 236));
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(58, 83, 155));
         jLabel15.setText("Status:");
-        PaymentPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, -1, 50));
+        PaymentPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, 50));
 
         btnPAdd.setBackground(new java.awt.Color(255, 255, 255));
-        btnPAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnPAdd.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnPAdd.setForeground(new java.awt.Color(58, 83, 155));
         btnPAdd.setText("Add");
         btnPAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -653,10 +587,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnPAddActionPerformed(evt);
             }
         });
-        PaymentPanel.add(btnPAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 110, 30));
+        PaymentPanel.add(btnPAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, 120, 30));
 
         btnPView.setBackground(new java.awt.Color(255, 255, 255));
-        btnPView.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnPView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnPView.setForeground(new java.awt.Color(58, 83, 155));
         btnPView.setText("View");
         btnPView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -666,18 +600,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnPViewActionPerformed(evt);
             }
         });
-        PaymentPanel.add(btnPView, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 370, 120, 30));
-
-        txtViewBus2.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewBus2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewBus2ActionPerformed(evt);
-            }
-        });
-        PaymentPanel.add(txtViewBus2, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 370, 160, 30));
+        PaymentPanel.add(btnPView, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 470, 130, 30));
 
         btnPDelete.setBackground(new java.awt.Color(255, 255, 255));
-        btnPDelete.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnPDelete.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnPDelete.setForeground(new java.awt.Color(58, 83, 155));
         btnPDelete.setText("Delete");
         btnPDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -687,19 +613,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnPDeleteActionPerformed(evt);
             }
         });
-        PaymentPanel.add(btnPDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 380, 110, 30));
+        PaymentPanel.add(btnPDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 470, 120, 30));
 
         payment.setBackground(new java.awt.Color(255, 255, 255));
         payment.setLayout(new java.awt.CardLayout());
-
-        paymentNull.setBackground(new java.awt.Color(255, 255, 255));
-        paymentNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel19.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-expensive.png"))); // NOI18N
-        paymentNull.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
-
-        payment.add(paymentNull, "card5");
 
         paymentAdd.setBackground(new java.awt.Color(255, 255, 255));
         paymentAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -707,22 +624,23 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel53.setBackground(new java.awt.Color(58, 83, 155));
         jLabel53.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel53.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel53.setText("Input Detailed Information to add a new Payment");
-        paymentAdd.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 30, -1, -1));
+        jLabel53.setText("Please input detailed information to add a new payment:");
+        paymentAdd.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
+        ResidentCombox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         ResidentCombox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        paymentAdd.add(ResidentCombox, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, 180, -1));
+        paymentAdd.add(ResidentCombox, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 180, -1));
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(58, 83, 155));
         jLabel10.setText("Resident:");
-        paymentAdd.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, -1, 30));
+        paymentAdd.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, -1, 30));
 
         APaymentFee.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         APaymentFee.setToolTipText("");
-        paymentAdd.add(APaymentFee, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 120, 180, 30));
+        paymentAdd.add(APaymentFee, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 180, 30));
 
-        btnAPAdd.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnAPAdd.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnAPAdd.setForeground(new java.awt.Color(58, 83, 155));
         btnAPAdd.setText("Submit");
         btnAPAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -730,27 +648,27 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnAPAddActionPerformed(evt);
             }
         });
-        paymentAdd.add(btnAPAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 130, 40));
+        paymentAdd.add(btnAPAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 350, 130, 40));
 
         jLabel59.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel59.setForeground(new java.awt.Color(58, 83, 155));
         jLabel59.setText("Payment Type:");
         jLabel59.setToolTipText("");
-        paymentAdd.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, -1, 30));
+        paymentAdd.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, -1, 30));
 
         jLabel67.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(58, 83, 155));
         jLabel67.setText("Payment Fee Amount:");
         jLabel67.setToolTipText("");
-        paymentAdd.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 190, -1, 40));
+        paymentAdd.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, -1, 40));
 
         APaymentType.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         APaymentType.setToolTipText("");
-        paymentAdd.add(APaymentType, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 180, 30));
+        paymentAdd.add(APaymentType, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 180, 30));
 
         jLabel29.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-expensive.png"))); // NOI18N
-        paymentAdd.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 590, 470));
+        paymentAdd.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 590, 470));
 
         payment.add(paymentAdd, "card3");
 
@@ -761,99 +679,92 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel54.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel54.setForeground(new java.awt.Color(58, 83, 155));
         jLabel54.setText("Payment  Detailed Information");
-        PaymentView.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
+        PaymentView.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
 
         jLabel28.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(58, 83, 155));
         jLabel28.setText("Payment Type:");
-        PaymentView.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, 30));
+        PaymentView.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, -1, 30));
 
         VPAmount.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         VPAmount.setToolTipText("");
         VPAmount.setEnabled(false);
-        PaymentView.add(VPAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, 180, 30));
+        PaymentView.add(VPAmount, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, 180, 30));
 
         jLabel60.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel60.setForeground(new java.awt.Color(58, 83, 155));
         jLabel60.setText("Fee Amount:");
         jLabel60.setToolTipText("");
-        PaymentView.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, -1, 30));
+        PaymentView.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, -1, 30));
 
         VPType.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         VPType.setToolTipText("");
         VPType.setEnabled(false);
-        PaymentView.add(VPType, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 60, 180, 30));
+        PaymentView.add(VPType, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 180, 30));
 
         VPRdate.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         VPRdate.setToolTipText("");
         VPRdate.setEnabled(false);
-        PaymentView.add(VPRdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 180, 30));
+        PaymentView.add(VPRdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 220, 180, 30));
 
         VPRname.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         VPRname.setToolTipText("");
         VPRname.setEnabled(false);
-        PaymentView.add(VPRname, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 180, 30));
+        PaymentView.add(VPRname, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, 180, 30));
 
         jLabel61.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel61.setForeground(new java.awt.Color(58, 83, 155));
         jLabel61.setText("Resident Name:");
         jLabel61.setToolTipText("");
-        PaymentView.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 240, -1, 30));
+        PaymentView.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 130, 30));
 
         jLabel68.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel68.setForeground(new java.awt.Color(58, 83, 155));
         jLabel68.setText("Request Date:");
         jLabel68.setToolTipText("");
-        PaymentView.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, -1, 40));
+        PaymentView.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, -1, 40));
 
         jLabel62.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel62.setForeground(new java.awt.Color(58, 83, 155));
         jLabel62.setText("Resident Phone:");
         jLabel62.setToolTipText("");
-        PaymentView.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 300, -1, 30));
+        PaymentView.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 340, -1, 30));
 
         VPRphone.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         VPRphone.setToolTipText("");
         VPRphone.setEnabled(false);
-        PaymentView.add(VPRphone, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 300, 180, 30));
+        PaymentView.add(VPRphone, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 340, 180, 30));
 
         jLabel23.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-expensive.png"))); // NOI18N
-        PaymentView.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
+        PaymentView.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, 590, 470));
 
         payment.add(PaymentView, "card4");
 
-        PaymentPanel.add(payment, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        PaymentPanel.add(payment, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 540, 960, 540));
 
+        PComboStatus.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         PComboStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Pending", "Compeleted" }));
         PComboStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PComboStatusActionPerformed(evt);
             }
         });
-        PaymentPanel.add(PComboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 200, 30));
+        PaymentPanel.add(PComboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 140, 200, 30));
 
         ContentPanel.add(PaymentPanel, "card3");
 
         RepairPanel.setBackground(new java.awt.Color(255, 255, 255));
         RepairPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtViewBus1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewBus1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewBus1ActionPerformed(evt);
-            }
-        });
-        RepairPanel.add(txtViewBus1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 160, 30));
-
         jLabel47.setBackground(new java.awt.Color(58, 83, 155));
         jLabel47.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(58, 83, 155));
         jLabel47.setText("Repairman Management");
-        RepairPanel.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+        RepairPanel.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 30, -1, -1));
 
         btnRView.setBackground(new java.awt.Color(255, 255, 255));
-        btnRView.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnRView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRView.setForeground(new java.awt.Color(58, 83, 155));
         btnRView.setText("View");
         btnRView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -863,19 +774,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnRViewActionPerformed(evt);
             }
         });
-        RepairPanel.add(btnRView, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 330, 120, 30));
+        RepairPanel.add(btnRView, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 440, 130, 30));
 
         Repairman.setBackground(new java.awt.Color(255, 255, 255));
         Repairman.setLayout(new java.awt.CardLayout());
-
-        RepairmanNull.setBackground(new java.awt.Color(255, 255, 255));
-        RepairmanNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-maintenance 2.png"))); // NOI18N
-        RepairmanNull.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
-
-        Repairman.add(RepairmanNull, "card5");
 
         RepairmanAdd.setBackground(new java.awt.Color(255, 255, 255));
         RepairmanAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -883,51 +785,51 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel50.setBackground(new java.awt.Color(58, 83, 155));
         jLabel50.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel50.setText("Input Detailed Information to add a new Security Guard");
-        RepairmanAdd.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, -1, -1));
+        jLabel50.setText("Please input account Information to add a security guard:");
+        RepairmanAdd.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(58, 83, 155));
         jLabel8.setText("Name:");
-        RepairmanAdd.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, -1, 30));
+        RepairmanAdd.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, -1, 30));
 
         aRPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aRPassword.setToolTipText("");
-        RepairmanAdd.add(aRPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 180, 30));
+        RepairmanAdd.add(aRPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, 180, 30));
 
         aRName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aRName.setToolTipText("");
-        RepairmanAdd.add(aRName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 30, 180, 30));
+        RepairmanAdd.add(aRName, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 140, 180, 30));
 
-        RAdd.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        RAdd.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
         RAdd.setForeground(new java.awt.Color(58, 83, 155));
-        RAdd.setText("ADD");
+        RAdd.setText("Add");
         RAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 RAddActionPerformed(evt);
             }
         });
-        RepairmanAdd.add(RAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 70, 130, 40));
+        RepairmanAdd.add(RAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 380, 130, 40));
 
         jLabel57.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel57.setForeground(new java.awt.Color(58, 83, 155));
         jLabel57.setText("Password:");
         jLabel57.setToolTipText("");
-        RepairmanAdd.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 270, -1, 30));
+        RepairmanAdd.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 270, -1, 30));
 
         jLabel65.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel65.setForeground(new java.awt.Color(58, 83, 155));
         jLabel65.setText("UserName:");
         jLabel65.setToolTipText("");
-        RepairmanAdd.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 190, -1, 40));
+        RepairmanAdd.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, 40));
 
         aRUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aRUserName.setToolTipText("");
-        RepairmanAdd.add(aRUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 180, 30));
+        RepairmanAdd.add(aRUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 180, 30));
 
         jLabel17.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-maintenance 2.png"))); // NOI18N
-        RepairmanAdd.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
+        RepairmanAdd.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 70, 590, 470));
 
         Repairman.add(RepairmanAdd, "card3");
 
@@ -938,79 +840,81 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel51.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel51.setForeground(new java.awt.Color(58, 83, 155));
         jLabel51.setText("Repairman Detailed Information");
-        RepairmanView.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
+        RepairmanView.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(58, 83, 155));
         jLabel9.setText("Name:");
-        RepairmanView.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, -1, 30));
+        RepairmanView.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, -1, 30));
 
         vRPhoneNumber.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vRPhoneNumber.setToolTipText("");
         vRPhoneNumber.setEnabled(false);
-        RepairmanView.add(vRPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 310, 180, 30));
+        RepairmanView.add(vRPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 310, 180, 30));
 
         jLabel52.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel52.setForeground(new java.awt.Color(58, 83, 155));
         jLabel52.setText("Phone:");
         jLabel52.setToolTipText("");
-        RepairmanView.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 310, -1, 30));
+        RepairmanView.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, -1, 30));
 
         vRName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vRName.setToolTipText("");
         vRName.setEnabled(false);
-        RepairmanView.add(vRName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, 180, 30));
+        RepairmanView.add(vRName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, 180, 30));
 
-        btnRUpload.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnRUpload.setBackground(new java.awt.Color(255, 255, 255));
+        btnRUpload.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnRUpload.setText("UPLOAD");
+        btnRUpload.setText("Upload");
         btnRUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRUploadActionPerformed(evt);
             }
         });
-        RepairmanView.add(btnRUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 130, 40));
+        RepairmanView.add(btnRUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 390, 130, 40));
 
-        btnRSave.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnRSave.setBackground(new java.awt.Color(255, 255, 255));
+        btnRSave.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnRSave.setText("SAVE");
+        btnRSave.setText("Save");
         btnRSave.setEnabled(false);
         btnRSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRSaveActionPerformed(evt);
             }
         });
-        RepairmanView.add(btnRSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 390, 130, 40));
+        RepairmanView.add(btnRSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 130, 40));
 
         vRUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vRUserName.setToolTipText("");
         vRUserName.setEnabled(false);
-        RepairmanView.add(vRUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, 180, 30));
+        RepairmanView.add(vRUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 180, 30));
 
         vRPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vRPassword.setToolTipText("");
         vRPassword.setEnabled(false);
-        RepairmanView.add(vRPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 240, 180, 30));
+        RepairmanView.add(vRPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 240, 180, 30));
 
         jLabel58.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel58.setForeground(new java.awt.Color(58, 83, 155));
         jLabel58.setText("Password:");
         jLabel58.setToolTipText("");
-        RepairmanView.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, -1, 40));
+        RepairmanView.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, -1, 40));
 
         jLabel66.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel66.setForeground(new java.awt.Color(58, 83, 155));
         jLabel66.setText("UserName:");
         jLabel66.setToolTipText("");
-        RepairmanView.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, 50));
+        RepairmanView.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, -1, 50));
 
         jLabel18.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-maintenance 2.png"))); // NOI18N
-        RepairmanView.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
+        RepairmanView.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 590, 470));
 
         Repairman.add(RepairmanView, "card4");
 
-        RepairPanel.add(Repairman, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        RepairPanel.add(Repairman, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 500, 940, 580));
 
         TableRepairman.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1043,10 +947,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             TableRepairman.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        RepairPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 590, 220));
+        RepairPanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 660, 290));
 
         btnRAdd.setBackground(new java.awt.Color(255, 255, 255));
-        btnRAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnRAdd.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRAdd.setForeground(new java.awt.Color(58, 83, 155));
         btnRAdd.setText("Add");
         btnRAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1056,10 +960,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnRAddActionPerformed(evt);
             }
         });
-        RepairPanel.add(btnRAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 110, 30));
+        RepairPanel.add(btnRAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 120, 30));
 
         btnRDelete.setBackground(new java.awt.Color(255, 255, 255));
-        btnRDelete.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnRDelete.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRDelete.setForeground(new java.awt.Color(58, 83, 155));
         btnRDelete.setText("Delete");
         btnRDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1069,20 +973,12 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnRDeleteActionPerformed(evt);
             }
         });
-        RepairPanel.add(btnRDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 110, 30));
+        RepairPanel.add(btnRDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 440, 120, 30));
 
         ContentPanel.add(RepairPanel, "card4");
 
         SecurityPanel.setBackground(new java.awt.Color(255, 255, 255));
         SecurityPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewBus.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewBus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewBusActionPerformed(evt);
-            }
-        });
-        SecurityPanel.add(txtViewBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 160, 30));
 
         jLabel46.setBackground(new java.awt.Color(58, 83, 155));
         jLabel46.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -1091,7 +987,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         SecurityPanel.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, -1, -1));
 
         btnSView.setBackground(new java.awt.Color(255, 255, 255));
-        btnSView.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnSView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnSView.setForeground(new java.awt.Color(58, 83, 155));
         btnSView.setText("View");
         btnSView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1101,19 +997,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnSViewActionPerformed(evt);
             }
         });
-        SecurityPanel.add(btnSView, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 330, 120, 30));
+        SecurityPanel.add(btnSView, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 370, 120, 30));
 
         SecurityJpanel.setBackground(new java.awt.Color(255, 255, 255));
         SecurityJpanel.setLayout(new java.awt.CardLayout());
-
-        SecurityNull.setBackground(new java.awt.Color(255, 255, 255));
-        SecurityNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel20.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        SecurityNull.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 590, 470));
-
-        SecurityJpanel.add(SecurityNull, "card5");
 
         SecurityAdd.setBackground(new java.awt.Color(255, 255, 255));
         SecurityAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1122,50 +1009,50 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel49.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel49.setForeground(new java.awt.Color(58, 83, 155));
         jLabel49.setText("Input Detailed Information to add a new Security Guard");
-        SecurityAdd.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, -1));
+        SecurityAdd.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(58, 83, 155));
         jLabel4.setText("Name:");
-        SecurityAdd.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, -1, 30));
+        SecurityAdd.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, -1, 30));
 
         aSName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aSName.setToolTipText("");
-        SecurityAdd.add(aSName, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 180, 30));
+        SecurityAdd.add(aSName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 180, 30));
 
-        btnSubmitSecurity.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnSubmitSecurity.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnSubmitSecurity.setForeground(new java.awt.Color(58, 83, 155));
-        btnSubmitSecurity.setText("ADD");
+        btnSubmitSecurity.setText("Add");
         btnSubmitSecurity.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSubmitSecurityActionPerformed(evt);
             }
         });
-        SecurityAdd.add(btnSubmitSecurity, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 130, 40));
+        SecurityAdd.add(btnSubmitSecurity, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 130, 40));
 
         jLabel55.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(58, 83, 155));
         jLabel55.setText("Password:");
         jLabel55.setToolTipText("");
-        SecurityAdd.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 250, -1, 30));
+        SecurityAdd.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 310, -1, 30));
 
         jLabel63.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel63.setForeground(new java.awt.Color(58, 83, 155));
         jLabel63.setText("UserName:");
         jLabel63.setToolTipText("");
-        SecurityAdd.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, 40));
+        SecurityAdd.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, -1, 40));
 
         aSUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aSUserName.setToolTipText("");
-        SecurityAdd.add(aSUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 180, 30));
+        SecurityAdd.add(aSUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 250, 180, 30));
 
         aSPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aSPassword.setToolTipText("");
-        SecurityAdd.add(aSPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 180, 30));
+        SecurityAdd.add(aSPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 310, 180, 30));
 
         jLabel21.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        SecurityAdd.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 590, 470));
+        SecurityAdd.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, 450, 570));
 
         SecurityJpanel.add(SecurityAdd, "card3");
 
@@ -1248,7 +1135,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
 
         SecurityJpanel.add(SecurityView, "card4");
 
-        SecurityPanel.add(SecurityJpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        SecurityPanel.add(SecurityJpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 620));
 
         TableSecurity.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1282,10 +1169,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             TableSecurity.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        SecurityPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 590, 220));
+        SecurityPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 590, 220));
 
         btnSAdd.setBackground(new java.awt.Color(255, 255, 255));
-        btnSAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnSAdd.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnSAdd.setForeground(new java.awt.Color(58, 83, 155));
         btnSAdd.setText("Add");
         btnSAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1295,10 +1182,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnSAddActionPerformed(evt);
             }
         });
-        SecurityPanel.add(btnSAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 110, 30));
+        SecurityPanel.add(btnSAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 110, 30));
 
         btnSDelete.setBackground(new java.awt.Color(255, 255, 255));
-        btnSDelete.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnSDelete.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnSDelete.setForeground(new java.awt.Color(58, 83, 155));
         btnSDelete.setText("Delete");
         btnSDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1308,20 +1195,12 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnSDeleteActionPerformed(evt);
             }
         });
-        SecurityPanel.add(btnSDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 110, 30));
+        SecurityPanel.add(btnSDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, 110, 30));
 
         ContentPanel.add(SecurityPanel, "card4");
 
         ApplicationPanel.setBackground(new java.awt.Color(255, 255, 255));
         ApplicationPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewBus3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewBus3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewBus3ActionPerformed(evt);
-            }
-        });
-        ApplicationPanel.add(txtViewBus3, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 370, 160, 30));
 
         tabApplication.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1359,30 +1238,30 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             tabApplication.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        ApplicationPanel.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 823, 230));
+        ApplicationPanel.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 823, 230));
 
         jLabel72.setBackground(new java.awt.Color(58, 83, 155));
         jLabel72.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel72.setForeground(new java.awt.Color(58, 83, 155));
         jLabel72.setText("MANAGE APPLICATION");
-        ApplicationPanel.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, 48));
+        ApplicationPanel.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, 48));
 
-        jLabel73.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel73.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel73.setForeground(new java.awt.Color(58, 83, 155));
         jLabel73.setText("Application type:");
-        ApplicationPanel.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 80, -1, -1));
+        ApplicationPanel.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, -1, -1));
 
-        AComboAppType.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        AComboAppType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         AComboAppType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All Request", "Security Request", "Maintenance Request" }));
         AComboAppType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AComboAppTypeActionPerformed(evt);
             }
         });
-        ApplicationPanel.add(AComboAppType, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 80, 182, -1));
+        ApplicationPanel.add(AComboAppType, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 182, -1));
 
         btnAppView.setBackground(new java.awt.Color(255, 255, 255));
-        btnAppView.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnAppView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnAppView.setForeground(new java.awt.Color(58, 83, 155));
         btnAppView.setText("View");
         btnAppView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -1392,33 +1271,24 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnAppViewActionPerformed(evt);
             }
         });
-        ApplicationPanel.add(btnAppView, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 370, 120, 30));
+        ApplicationPanel.add(btnAppView, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 440, 120, 30));
 
         ApplicationJPanel.setBackground(new java.awt.Color(255, 255, 255));
         ApplicationJPanel.setLayout(new java.awt.CardLayout());
-
-        ApplicationNull.setBackground(new java.awt.Color(255, 255, 255));
-        ApplicationNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel45.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-list 2.png"))); // NOI18N
-        ApplicationNull.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
-
-        ApplicationJPanel.add(ApplicationNull, "card5");
 
         AppSecurity.setBackground(new java.awt.Color(255, 255, 255));
         AppSecurity.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel40.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel40.setText("Maintenance Application Detailed Information");
-        AppSecurity.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        jLabel40.setText("Security Application Detailed Information");
+        AppSecurity.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 20, -1, -1));
 
         comboAPPGuard.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        AppSecurity.add(comboAPPGuard, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 150, 40));
+        AppSecurity.add(comboAPPGuard, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 540, 170, 30));
 
-        btnRequestSAssign1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        btnRequestSAssign1.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
         btnRequestSAssign1.setForeground(new java.awt.Color(58, 83, 155));
         btnRequestSAssign1.setText("Assign");
         btnRequestSAssign1.addActionListener(new java.awt.event.ActionListener() {
@@ -1426,22 +1296,22 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnRequestSAssign1ActionPerformed(evt);
             }
         });
-        AppSecurity.add(btnRequestSAssign1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 140, 40));
+        AppSecurity.add(btnRequestSAssign1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 540, 140, 30));
 
-        jLabel78.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel78.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel78.setForeground(new java.awt.Color(58, 83, 155));
         jLabel78.setText("Location:");
-        AppSecurity.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, 30));
+        AppSecurity.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, 30));
 
-        jLabel79.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel79.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel79.setForeground(new java.awt.Color(58, 83, 155));
         jLabel79.setText("Incident Type:");
-        AppSecurity.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, -1));
+        AppSecurity.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 160, 120, -1));
 
-        jLabel80.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel80.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel80.setForeground(new java.awt.Color(58, 83, 155));
         jLabel80.setText("Urgency Level:");
-        AppSecurity.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
+        AppSecurity.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, -1, -1));
 
         txtSUrgency.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtSUrgency.setEnabled(false);
@@ -1450,7 +1320,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtSUrgencyActionPerformed(evt);
             }
         });
-        AppSecurity.add(txtSUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
+        AppSecurity.add(txtSUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 210, 140, -1));
 
         txtRequestTypeS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtRequestTypeS.setEnabled(false);
@@ -1459,7 +1329,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtRequestTypeSActionPerformed(evt);
             }
         });
-        AppSecurity.add(txtRequestTypeS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
+        AppSecurity.add(txtRequestTypeS, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 140, -1));
 
         txtRequestLocationS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtRequestLocationS.setEnabled(false);
@@ -1468,25 +1338,25 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtRequestLocationSActionPerformed(evt);
             }
         });
-        AppSecurity.add(txtRequestLocationS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
+        AppSecurity.add(txtRequestLocationS, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 110, 140, -1));
 
         txtSecurityDesc.setColumns(20);
         txtSecurityDesc.setRows(5);
         jScrollPane12.setViewportView(txtSecurityDesc);
 
-        AppSecurity.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 530, 190));
+        AppSecurity.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 530, 190));
 
-        jLabel84.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel84.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel84.setForeground(new java.awt.Color(58, 83, 155));
         jLabel84.setText("Description of Incident:");
         jLabel84.setToolTipText("");
-        AppSecurity.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, 30));
+        AppSecurity.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, -1, 30));
 
         jLabel81.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel81.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        AppSecurity.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 590, 470));
+        AppSecurity.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 590, 470));
 
-        ApplicationJPanel.add(AppSecurity, "card7");
+        ApplicationJPanel.add(AppSecurity, "card3");
 
         AppMaintenance.setBackground(new java.awt.Color(255, 255, 255));
         AppMaintenance.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1495,12 +1365,12 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         jLabel41.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(58, 83, 155));
         jLabel41.setText("Maintenance Application Detailed Information");
-        AppMaintenance.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+        AppMaintenance.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
 
-        comboAPPReapairman.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        AppMaintenance.add(comboAPPReapairman, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 150, 40));
+        comboAPPReapairman.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        AppMaintenance.add(comboAPPReapairman, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 150, 30));
 
-        btnRequestMAssign1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        btnRequestMAssign1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnRequestMAssign1.setForeground(new java.awt.Color(58, 83, 155));
         btnRequestMAssign1.setText("Assign");
         btnRequestMAssign1.addActionListener(new java.awt.event.ActionListener() {
@@ -1508,22 +1378,22 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 btnRequestMAssign1ActionPerformed(evt);
             }
         });
-        AppMaintenance.add(btnRequestMAssign1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 140, 40));
+        AppMaintenance.add(btnRequestMAssign1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 460, 140, 30));
 
-        jLabel42.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel42.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel42.setForeground(new java.awt.Color(58, 83, 155));
         jLabel42.setText("Apartment #:");
-        AppMaintenance.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 80, -1, 30));
+        AppMaintenance.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 110, 30));
 
-        jLabel43.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel43.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(58, 83, 155));
         jLabel43.setText("Issue Type:");
-        AppMaintenance.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, -1, -1));
+        AppMaintenance.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, -1, -1));
 
-        jLabel44.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel44.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel44.setForeground(new java.awt.Color(58, 83, 155));
         jLabel44.setText("Urgency Level:");
-        AppMaintenance.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
+        AppMaintenance.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, -1, -1));
 
         txtMUrgency.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtMUrgency.setEnabled(false);
@@ -1532,7 +1402,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtMUrgencyActionPerformed(evt);
             }
         });
-        AppMaintenance.add(txtMUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
+        AppMaintenance.add(txtMUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 210, 140, -1));
 
         txtRequestIssueType.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtRequestIssueType.setEnabled(false);
@@ -1541,7 +1411,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtRequestIssueTypeActionPerformed(evt);
             }
         });
-        AppMaintenance.add(txtRequestIssueType, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
+        AppMaintenance.add(txtRequestIssueType, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 140, -1));
 
         txtRequestApartment.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         txtRequestApartment.setEnabled(false);
@@ -1550,98 +1420,40 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                 txtRequestApartmentActionPerformed(evt);
             }
         });
-        AppMaintenance.add(txtRequestApartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
+        AppMaintenance.add(txtRequestApartment, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 110, 140, -1));
 
-        jLabel85.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel85.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel85.setForeground(new java.awt.Color(58, 83, 155));
         jLabel85.setText("Description of Issue:");
         jLabel85.setToolTipText("");
-        AppMaintenance.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 290, -1, 30));
+        AppMaintenance.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, -1, 30));
 
         txtMDesc.setColumns(20);
         txtMDesc.setRows(5);
         jScrollPane13.setViewportView(txtMDesc);
 
-        AppMaintenance.add(jScrollPane13, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 530, 130));
+        AppMaintenance.add(jScrollPane13, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 530, 130));
 
         jLabel71.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel71.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-maintenance 2.png"))); // NOI18N
-        AppMaintenance.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 590, 470));
+        AppMaintenance.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 590, 470));
 
         ApplicationJPanel.add(AppMaintenance, "card6");
 
-        ApplicationPanel.add(ApplicationJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        ApplicationPanel.add(ApplicationJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 490, 1090, 580));
 
         ContentPanel.add(ApplicationPanel, "card4");
 
-        ComplaintPanel.setBackground(new java.awt.Color(255, 255, 255));
+        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(341, 128, 1460, 1080));
 
-        jLabel26.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel26.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel26.setText("MANAGE COMPLAINT");
-
-        tabDoctor1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Complaint Id", "Driver Name", "Note"
-            }
-        ));
-        tabDoctor1.setFocusable(false);
-        tabDoctor1.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tabDoctor1.setName("abc"); // NOI18N
-        tabDoctor1.setRowHeight(25);
-        tabDoctor1.setSelectionBackground(new java.awt.Color(216, 232, 249));
-        tabDoctor1.setShowVerticalLines(false);
-        tabDoctor1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane6.setViewportView(tabDoctor1);
-
-        javax.swing.GroupLayout ComplaintPanelLayout = new javax.swing.GroupLayout(ComplaintPanel);
-        ComplaintPanel.setLayout(ComplaintPanelLayout);
-        ComplaintPanelLayout.setHorizontalGroup(
-            ComplaintPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ComplaintPanelLayout.createSequentialGroup()
-                .addGap(197, 197, 197)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(263, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ComplaintPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel26)
-                .addGap(363, 363, 363))
-        );
-        ComplaintPanelLayout.setVerticalGroup(
-            ComplaintPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ComplaintPanelLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(630, Short.MAX_VALUE))
-        );
-
-        ContentPanel.add(ComplaintPanel, "card5");
-
-        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(341, 128, -1, -1));
-
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Welcome,");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(341, 71, -1, -1));
+        labWelcome.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        labWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        labWelcome.setText("Welcome,");
+        add(labWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(341, 71, 310, -1));
 
         jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-dashboard.png"))); // NOI18N
-        add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 70, -1));
+        add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, -1, -1));
 
         btnLogout.setBackground(new java.awt.Color(58, 83, 155));
         btnLogout.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -1665,7 +1477,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         RepairPanel.setVisible(false);
         SecurityPanel.setVisible(false);
         ApplicationPanel.setVisible(false);
-        ComplaintPanel.setVisible(false);
         populateMessageTable();
     }//GEN-LAST:event_btnDashboardActionPerformed
 
@@ -1676,9 +1487,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         RepairPanel.setVisible(false);
         SecurityPanel.setVisible(true);
         ApplicationPanel.setVisible(false);
-        ComplaintPanel.setVisible(false);
 
-        SecurityNull.setVisible(false);
         SecurityAdd.setVisible(false);
         SecurityView.setVisible(false);
         populateSecurityTable();
@@ -1691,8 +1500,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         RepairPanel.setVisible(true);
         SecurityPanel.setVisible(false);
         ApplicationPanel.setVisible(false);
-        ComplaintPanel.setVisible(false);
-        RepairmanNull.setVisible(true);
         RepairmanAdd.setVisible(false);
         RepairmanView.setVisible(false);
         populateRepairTable();
@@ -1701,7 +1508,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private void btnPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaymentActionPerformed
         // TODO add your handling code here:
         populatePaymentTable();
-        paymentNull.setVisible(true);
         paymentAdd.setVisible(false);
         PaymentView.setVisible(false);
         DashboardPanel.setVisible(false);
@@ -1709,7 +1515,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         RepairPanel.setVisible(false);
         SecurityPanel.setVisible(false);
         ApplicationPanel.setVisible(false);
-        ComplaintPanel.setVisible(false);
     }//GEN-LAST:event_btnPaymentActionPerformed
 
     private void btnApplicaitonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplicaitonActionPerformed
@@ -1720,26 +1525,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         RepairPanel.setVisible(false);
         SecurityPanel.setVisible(false);
         ApplicationPanel.setVisible(true);
-        ComplaintPanel.setVisible(false);
 
-        ApplicationNull.setVisible(true);
         AppSecurity.setVisible(false);
         AppMaintenance.setVisible(false);
     }//GEN-LAST:event_btnApplicaitonActionPerformed
-
-    private void btnCompalintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompalintActionPerformed
-        // TODO add your handling code here:
-        DashboardPanel.setVisible(false);
-        PaymentPanel.setVisible(false);
-        RepairPanel.setVisible(false);
-        SecurityPanel.setVisible(false);
-        ApplicationPanel.setVisible(false);
-        ComplaintPanel.setVisible(true);
-    }//GEN-LAST:event_btnCompalintActionPerformed
-
-    private void txtViewBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBusActionPerformed
 
     private void btnSViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSViewActionPerformed
         // TODO add your handling code here:
@@ -1748,7 +1537,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         if (selectedRow >= 0) {
             UserAccount s = (UserAccount) TableSecurity.getValueAt(selectedRow, 0);
             //setvisable
-            SecurityNull.setVisible(false);
             SecurityAdd.setVisible(false);
             SecurityView.setVisible(true);
 
@@ -1766,7 +1554,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
 
     private void btnSAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSAddActionPerformed
         // TODO add your handling code here:
-        SecurityNull.setVisible(false);
         SecurityAdd.setVisible(true);
         SecurityView.setVisible(false);
     }//GEN-LAST:event_btnSAddActionPerformed
@@ -1788,10 +1575,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         }
     }//GEN-LAST:event_btnSDeleteActionPerformed
 
-    private void txtViewBus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBus1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBus1ActionPerformed
-
     private void btnRViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRViewActionPerformed
         // TODO add your handling code here:
         int selectedRow = TableSecurity.getSelectedRow();
@@ -1799,7 +1582,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         if (selectedRow >= 0) {
             UserAccount s = (UserAccount) TableSecurity.getValueAt(selectedRow, 0);
             //setvisable
-            RepairmanNull.setVisible(false);
             RepairmanAdd.setVisible(false);
             RepairmanView.setVisible(true);
 
@@ -1818,7 +1600,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
 
     private void btnRAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRAddActionPerformed
         // TODO add your handling code here:
-        RepairmanNull.setVisible(false);
         RepairmanAdd.setVisible(true);
         RepairmanView.setVisible(false);
     }//GEN-LAST:event_btnRAddActionPerformed
@@ -1873,7 +1654,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
 
     private void btnPAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPAddActionPerformed
         // TODO add your handling code here:
-        paymentNull.setVisible(false);
+
         paymentAdd.setVisible(true);
         PaymentView.setVisible(false);
         ResidentCombox.removeAllItems();
@@ -1893,7 +1674,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         if (selectedRow >= 0) {
             Payment s = (Payment) tabPayment.getValueAt(selectedRow, 0);
             //setvisable
-            paymentNull.setVisible(false);
             paymentAdd.setVisible(false);
             PaymentView.setVisible(true);
 
@@ -1907,10 +1687,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             JOptionPane.showMessageDialog(null, "Please select a Payment order.");
         }
     }//GEN-LAST:event_btnPViewActionPerformed
-
-    private void txtViewBus2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBus2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBus2ActionPerformed
 
     private void btnPDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPDeleteActionPerformed
         // TODO add your handling code here:
@@ -1997,10 +1773,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
         }
     }//GEN-LAST:event_PComboStatusActionPerformed
 
-    private void txtViewBus3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBus3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBus3ActionPerformed
-
     private void btnRequestSAssign1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRequestSAssign1ActionPerformed
         // TODO add your handling code here:
         for (Resident resident : ecoSystem.getResidentDirectory().getResidentList()) {
@@ -2028,7 +1800,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                         AComboAppType.setSelectedIndex(0);
                         populateAppRequestTable();
                         JOptionPane.showMessageDialog(null, "Assign successfully!!");
-                        ApplicationNull.setVisible(true);
                         AppSecurity.setVisible(false);
                         AppMaintenance.setVisible(false);
 
@@ -2071,7 +1842,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
             selectedRequest = s;
             if (s.getRequestType().equalsIgnoreCase("Security Request")) {
                 if (s.getStatus().equals("Awaiting processing")) {
-                    ApplicationNull.setVisible(false);
                     AppSecurity.setVisible(true);
                     AppMaintenance.setVisible(false);
 
@@ -2089,7 +1859,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                     btnRequestSAssign1.setVisible(false);
                     comboAPPGuard.setVisible(false);
                     
-                    ApplicationNull.setVisible(false);
                     AppSecurity.setVisible(true);
                     AppMaintenance.setVisible(false);
 
@@ -2101,7 +1870,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
 
             } else {
                 if (s.getStatus().equals("Awaiting processing")) {
-                    ApplicationNull.setVisible(false);
                     AppSecurity.setVisible(false);
                     AppMaintenance.setVisible(true);
 
@@ -2116,7 +1884,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                         }
                     }
                 } else {
-                    ApplicationNull.setVisible(false);
                     AppSecurity.setVisible(false);
                     AppMaintenance.setVisible(true);
 
@@ -2179,7 +1946,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
                             comboAPPReapairman.setSelectedIndex(0);
                             populateAppRequestTable();
                             JOptionPane.showMessageDialog(null, "Assign successfully!!");
-                            ApplicationNull.setVisible(true);
                             AppSecurity.setVisible(false);
                             AppMaintenance.setVisible(false);
 
@@ -2215,9 +1981,7 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JPanel AppMaintenance;
     private javax.swing.JPanel AppSecurity;
     private javax.swing.JPanel ApplicationJPanel;
-    private javax.swing.JPanel ApplicationNull;
     private javax.swing.JPanel ApplicationPanel;
-    private javax.swing.JPanel ComplaintPanel;
     private javax.swing.JPanel ContentPanel;
     private javax.swing.JPanel DashboardPanel;
     private javax.swing.JComboBox PComboStatus;
@@ -2227,12 +1991,10 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JPanel RepairPanel;
     private javax.swing.JPanel Repairman;
     private javax.swing.JPanel RepairmanAdd;
-    private javax.swing.JPanel RepairmanNull;
     private javax.swing.JPanel RepairmanView;
     private javax.swing.JComboBox ResidentCombox;
     private javax.swing.JPanel SecurityAdd;
     private javax.swing.JPanel SecurityJpanel;
-    private javax.swing.JPanel SecurityNull;
     private javax.swing.JPanel SecurityPanel;
     private javax.swing.JPanel SecurityView;
     private javax.swing.JTable TableNotification;
@@ -2252,7 +2014,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JButton btnAPAdd;
     private javax.swing.JButton btnAppView;
     private javax.swing.JButton btnApplicaiton;
-    private javax.swing.JButton btnCompalint;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMarkread;
@@ -2278,20 +2039,15 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JComboBox comboAPPGuard;
     private javax.swing.JComboBox comboAPPReapairman;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
@@ -2303,7 +2059,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
@@ -2319,7 +2074,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
     private javax.swing.JLabel jLabel61;
     private javax.swing.JLabel jLabel62;
@@ -2348,15 +2102,12 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JLabel labAdminName;
     private javax.swing.JLabel labTime;
+    private javax.swing.JLabel labWelcome;
     private javax.swing.JPanel payment;
     private javax.swing.JPanel paymentAdd;
-    private javax.swing.JPanel paymentNull;
     private javax.swing.JTable tabApplication;
-    private javax.swing.JTable tabDoctor1;
     private javax.swing.JTable tabPayment;
     private javax.swing.JTextArea txtMDesc;
     private javax.swing.JTextField txtMUrgency;
@@ -2366,10 +2117,6 @@ public class PropertyAdminWorkPanel extends javax.swing.JPanel implements Runnab
     private javax.swing.JTextField txtRequestTypeS;
     private javax.swing.JTextField txtSUrgency;
     private javax.swing.JTextArea txtSecurityDesc;
-    private javax.swing.JTextField txtViewBus;
-    private javax.swing.JTextField txtViewBus1;
-    private javax.swing.JTextField txtViewBus2;
-    private javax.swing.JTextField txtViewBus3;
     private javax.swing.JTextField vRName;
     private javax.swing.JTextField vRPassword;
     private javax.swing.JTextField vRPhoneNumber;

@@ -18,7 +18,6 @@ public abstract class Enterprise extends Organization{
     private OrganizationDirectory organizationDirectory;
     private EnterpriseDirectory enterpriseDirectory;
 
-
     public OrganizationDirectory getOrganizationDirectory() {
         return organizationDirectory;
     }
@@ -55,6 +54,8 @@ public abstract class Enterprise extends Organization{
     public void setEnterpriseType(EnterpriseType enterpriseType) {
         this.enterpriseType = enterpriseType;
     }
+    
+    
     
     public Enterprise(String name, EnterpriseType type){
         super(name);

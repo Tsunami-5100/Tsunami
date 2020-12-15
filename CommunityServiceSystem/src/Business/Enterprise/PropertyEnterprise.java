@@ -24,7 +24,7 @@ public class PropertyEnterprise extends Enterprise{
         paymentList = new ArrayList<Payment>();
         SRRrequestList = new ArrayList<SRRequest>();
     }
-
+    
     public ArrayList<Payment> getPaymentList() {
         if (this.paymentList == null) {
             this.paymentList = new ArrayList<Payment>();

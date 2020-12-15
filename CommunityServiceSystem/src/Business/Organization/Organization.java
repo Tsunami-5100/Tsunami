@@ -4,9 +4,10 @@
  */
 package Business.Organization;
 
+import Business.AmbulanceRequest.AmbulanceRequestDirectory;
 import Business.Employee.EmployeeDirectory;
-import Business.KApplication.KAppicationDirectory;
-import Business.Message.Message;
+import Business.KApplication.KApplicationDirectory;
+import Business.KBApplication.KBApplicationDirectory;
 import Business.Message.MessageDirectory;
 import Business.Resident.ResidentDirectory;
 import Business.Role.Role;
@@ -25,7 +26,9 @@ public abstract class Organization {
     private EmployeeDirectory employeeDirectory;
     private UserAccountDirectory userAccountDirectory;
     private ResidentDirectory residentDirectory;
-    private KAppicationDirectory kAppicationDirectory;
+    private KApplicationDirectory kAppicationDirectory;
+    private AmbulanceRequestDirectory ambulanceRequestDirectory;
+    private KBApplicationDirectory kBApplicationDirectory;
     private MessageDirectory messageList;
     private int organizationID;
     private static int counter=0;
@@ -58,7 +61,7 @@ public abstract class Organization {
         workQueue = new WorkQueue();
         employeeDirectory = new EmployeeDirectory();
         userAccountDirectory = new UserAccountDirectory();
-        kAppicationDirectory = new KAppicationDirectory();
+        kAppicationDirectory = new KApplicationDirectory();
         organizationID = counter;
         ++counter;
     }
@@ -70,6 +73,9 @@ public abstract class Organization {
     }
 
     public ResidentDirectory getResidentDirectory() {
+        if (this.residentDirectory == null) {
+            this.residentDirectory = new ResidentDirectory();
+        }
         return residentDirectory;
     }
 
@@ -85,11 +91,14 @@ public abstract class Organization {
         return employeeDirectory;
     }
 
-    public KAppicationDirectory getkAppicationDirectory() {
+    public KApplicationDirectory getkAppicationDirectory() {
+        if (this.kAppicationDirectory == null) {
+            this.kAppicationDirectory = new KApplicationDirectory();
+        }
         return kAppicationDirectory;
     }
 
-    public void setkAppicationDirectory(KAppicationDirectory kAppicationDirectory) {
+    public void setkAppicationDirectory(KApplicationDirectory kAppicationDirectory) {
         this.kAppicationDirectory = kAppicationDirectory;
     }
     
@@ -109,6 +118,28 @@ public abstract class Organization {
         this.workQueue = workQueue;
     }
 
+    public AmbulanceRequestDirectory getAmbulanceRequestDirectory() {
+        if (this.ambulanceRequestDirectory == null) {
+            this.ambulanceRequestDirectory = new AmbulanceRequestDirectory();
+        }
+        return ambulanceRequestDirectory;
+    }
+
+    public void setAmbulanceRequestDirectory(AmbulanceRequestDirectory ambulanceRequestDirectory) {
+        this.ambulanceRequestDirectory = ambulanceRequestDirectory;
+    }
+
+    public KBApplicationDirectory getkBApplicationDirectory() {
+        if (this.kBApplicationDirectory == null) {
+            this.kBApplicationDirectory = new KBApplicationDirectory();
+        }
+        return kBApplicationDirectory;
+    }
+
+    public void setkBApplicationDirectory(KBApplicationDirectory kBApplicationDirectory) {
+        this.kBApplicationDirectory = kBApplicationDirectory;
+    }
+    
     public MessageDirectory getMessageList() {
         if(messageList == null){
             messageList = new MessageDirectory();
@@ -119,7 +150,8 @@ public abstract class Organization {
     public void setMessageList(MessageDirectory messageList) {
         this.messageList = messageList;
     }
-
+           
+    
     @Override
     public String toString() {
         return name;

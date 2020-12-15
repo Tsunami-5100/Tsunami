@@ -44,11 +44,10 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         this.userProcessContainer = userProcessContainer;
         this.ecoSystem = ecoSystem;
         ecoSystem = dB4OUtil.retrieveSystem();
-        populateNetworkTable();
         Thread t = new Thread(this);
         t.start();
         TableUI();
-        //populateNetworkTable();
+        populateNetworkTable();
         
     }
     
@@ -108,12 +107,20 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         for (Network network : ecoSystem.getNetworkList()) {
             for (Enterprise enterprise : network.getEnterpriseDirectory().getEnterpriseList()) {
                 for (UserAccount userAccount : enterprise.getUserAccountDirectory().getUserAccountList()) {
-                    Object[] row = new Object[3];
-                    row[0] = userAccount.getUsername();
-                    row[1] = enterprise.getName();
-                    row[2] = network.getName();
-                    
-                    model.addRow(row);
+                    boolean market = userAccount.getRole().toString().equals("Business.Role.MarketManagerRole");
+                    boolean property = userAccount.getRole().toString().equals("Business.Role.PropertyManagerRole");
+                    boolean hospital = userAccount.getRole().toString().equals("Business.Role.HospitalManagerRole");
+                    boolean kinder = userAccount.getRole().toString().equals("Business.Role.KindergartenManagerRole");
+                    System.out.println("UserInterface.SysadminRole.SysadminWorkJPanel.populateAccountTable() 114. " + market + property + hospital + kinder);
+                    System.out.println("UserInterface.SysadminRole.SysadminWorkJPanel.populateAccountTable() 115. " + userAccount.getRole());
+                    if (market|| property || hospital || kinder) {
+                        Object[] row = new Object[3];
+                        row[0] = userAccount.getUsername();
+                        row[1] = enterprise.getName();
+                        row[2] = network.getName();
+
+                        model.addRow(row);
+                    }
                 }
             }
         }
@@ -169,13 +176,6 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         jLabel1 = new javax.swing.JLabel();
         btnAccount = new javax.swing.JButton();
         ContentPanel = new javax.swing.JPanel();
-        NetworkPanel = new javax.swing.JPanel();
-        NBtnSubmit = new javax.swing.JButton();
-        NTxtNetwork = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tabNetwork = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
         EnterprisePanel = new javax.swing.JPanel();
         ETxtEpName = new javax.swing.JTextField();
         EComboEnterType = new javax.swing.JComboBox();
@@ -202,6 +202,13 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         ATxtName = new javax.swing.JTextField();
         ABtnSubmit = new javax.swing.JButton();
         AComboEpName = new javax.swing.JComboBox();
+        NetworkPanel = new javax.swing.JPanel();
+        NBtnSubmit = new javax.swing.JButton();
+        NTxtNetwork = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabNetwork = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 83, 155));
 
@@ -232,7 +239,7 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         btnNetworkmag.setBackground(new java.awt.Color(58, 83, 155));
         btnNetworkmag.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnNetworkmag.setForeground(new java.awt.Color(255, 255, 255));
-        btnNetworkmag.setText("Network Management");
+        btnNetworkmag.setText("Manage Network");
         btnNetworkmag.setBorder(null);
         btnNetworkmag.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNetworkmag.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +254,7 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         btnEnterprise.setBackground(new java.awt.Color(58, 83, 155));
         btnEnterprise.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnEnterprise.setForeground(new java.awt.Color(255, 255, 255));
-        btnEnterprise.setText("Enterprise Management");
+        btnEnterprise.setText("Manage Enterprise");
         btnEnterprise.setBorder(null);
         btnEnterprise.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEnterprise.addActionListener(new java.awt.event.ActionListener() {
@@ -262,7 +269,7 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         btnAccount.setBackground(new java.awt.Color(58, 83, 155));
         btnAccount.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnAccount.setForeground(new java.awt.Color(255, 255, 255));
-        btnAccount.setText("Account Management");
+        btnAccount.setText("Manage Account");
         btnAccount.setBorder(null);
         btnAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAccount.addActionListener(new java.awt.event.ActionListener() {
@@ -273,6 +280,187 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
 
         ContentPanel.setBackground(new java.awt.Color(255, 255, 255));
         ContentPanel.setLayout(new java.awt.CardLayout());
+
+        EnterprisePanel.setBackground(new java.awt.Color(255, 255, 255));
+        EnterprisePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ETxtEpName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ETxtEpName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        EnterprisePanel.add(ETxtEpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 550, 182, -1));
+
+        EComboEnterType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        EnterprisePanel.add(EComboEnterType, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 480, 182, -1));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel10.setText("Enterprise Name:");
+        EnterprisePanel.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 550, -1, 41));
+
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel11.setText("Enterprise Type:");
+        EnterprisePanel.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 470, -1, 41));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel9.setText("Network:");
+        EnterprisePanel.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 390, -1, 41));
+
+        EComboNetwork.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        EnterprisePanel.add(EComboNetwork, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 400, 182, -1));
+
+        jLabel8.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel8.setText("MANAGE ENTERPRISE");
+        EnterprisePanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 30, -1, 48));
+
+        tabEnterprise.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Enterprise Name", "Type", "Network"
+            }
+        ));
+        tabEnterprise.setFocusable(false);
+        tabEnterprise.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabEnterprise.setRowHeight(25);
+        tabEnterprise.setSelectionBackground(new java.awt.Color(216, 232, 249));
+        tabEnterprise.setShowVerticalLines(false);
+        tabEnterprise.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabEnterprise);
+
+        EnterprisePanel.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 697, 236));
+
+        EBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
+        EBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        EBtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
+        EBtnSubmit.setText("Submit");
+        EBtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        EBtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        EBtnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EBtnSubmitActionPerformed(evt);
+            }
+        });
+        EnterprisePanel.add(EBtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 670, 132, 42));
+
+        ContentPanel.add(EnterprisePanel, "card3");
+
+        AccountPanel.setBackground(new java.awt.Color(255, 255, 255));
+        AccountPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel12.setText("MANAGE ACCOUNT");
+        AccountPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, -1, 48));
+
+        tabAccount.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "User Name", "Enterprise Name", "Network"
+            }
+        ));
+        tabAccount.setFocusable(false);
+        tabAccount.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabAccount.setName("abc"); // NOI18N
+        tabAccount.setRowHeight(25);
+        tabAccount.setSelectionBackground(new java.awt.Color(216, 232, 249));
+        tabAccount.setShowVerticalLines(false);
+        tabAccount.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(tabAccount);
+
+        AccountPanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, 644, 236));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel13.setText("Network:");
+        AccountPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 420, -1, 41));
+
+        AComboNetwork.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        AComboNetwork.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AComboNetworkActionPerformed(evt);
+            }
+        });
+        AccountPanel.add(AComboNetwork, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 430, 182, -1));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel14.setText("Enterprise Name:");
+        AccountPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 490, -1, 41));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel15.setText("User Name:");
+        AccountPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 560, -1, 41));
+
+        ATxtUserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ATxtUserName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        AccountPanel.add(ATxtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 570, 182, -1));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel16.setText("Password:");
+        AccountPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 640, -1, 41));
+
+        ATxtPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ATxtPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        AccountPanel.add(ATxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 640, 182, -1));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel17.setText("Name:");
+        AccountPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 710, -1, 41));
+
+        ATxtName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        ATxtName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        AccountPanel.add(ATxtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 710, 182, -1));
+
+        ABtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
+        ABtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        ABtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
+        ABtnSubmit.setText("Submit");
+        ABtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        ABtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ABtnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ABtnSubmitActionPerformed(evt);
+            }
+        });
+        AccountPanel.add(ABtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 800, 132, 42));
+
+        AComboEpName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        AComboEpName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AComboEpNameActionPerformed(evt);
+            }
+        });
+        AccountPanel.add(AComboEpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 500, 182, -1));
+
+        ContentPanel.add(AccountPanel, "card4");
 
         NetworkPanel.setBackground(new java.awt.Color(255, 255, 255));
         NetworkPanel.setName(""); // NOI18N
@@ -291,19 +479,19 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
             }
         });
         NetworkPanel.add(NBtnSubmit);
-        NBtnSubmit.setBounds(439, 545, 132, 42);
+        NBtnSubmit.setBounds(640, 660, 132, 42);
 
         NTxtNetwork.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         NTxtNetwork.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         NetworkPanel.add(NTxtNetwork);
-        NTxtNetwork.setBounds(340, 450, 320, 40);
+        NTxtNetwork.setBounds(540, 570, 320, 40);
 
         jLabel4.setBackground(new java.awt.Color(58, 83, 155));
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(58, 83, 155));
         jLabel4.setText("MANAGE NETWORK");
         NetworkPanel.add(jLabel4);
-        jLabel4.setBounds(382, 29, 236, 48);
+        jLabel4.setBounds(590, 90, 236, 48);
 
         tabNetwork.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -332,243 +520,15 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         jScrollPane2.setViewportView(tabNetwork);
 
         NetworkPanel.add(jScrollPane2);
-        jScrollPane2.setBounds(201, 95, 600, 236);
+        jScrollPane2.setBounds(400, 210, 600, 236);
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(58, 83, 155));
         jLabel5.setText("Please Enter a Network Name:");
         NetworkPanel.add(jLabel5);
-        jLabel5.setBounds(196, 358, 317, 80);
+        jLabel5.setBounds(400, 480, 317, 80);
 
         ContentPanel.add(NetworkPanel, "card2");
-
-        EnterprisePanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        ETxtEpName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        ETxtEpName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
-        EComboEnterType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel10.setText("Enterprise Name:");
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel11.setText("Enterprise Type:");
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel9.setText("Network:");
-
-        EComboNetwork.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-
-        jLabel8.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel8.setText("MANAGE ENTERPRISE");
-
-        tabEnterprise.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Enterprise Name", "Type", "Network"
-            }
-        ));
-        tabEnterprise.setFocusable(false);
-        tabEnterprise.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tabEnterprise.setRowHeight(25);
-        tabEnterprise.setSelectionBackground(new java.awt.Color(216, 232, 249));
-        tabEnterprise.setShowVerticalLines(false);
-        tabEnterprise.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(tabEnterprise);
-
-        EBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
-        EBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        EBtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
-        EBtnSubmit.setText("Submit");
-        EBtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        EBtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        EBtnSubmit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EBtnSubmitActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout EnterprisePanelLayout = new javax.swing.GroupLayout(EnterprisePanel);
-        EnterprisePanel.setLayout(EnterprisePanelLayout);
-        EnterprisePanelLayout.setHorizontalGroup(
-            EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EnterprisePanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addGap(352, 352, 352))
-            .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                        .addGap(275, 275, 275)
-                        .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(EComboEnterType, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                                        .addGap(92, 92, 92)
-                                        .addComponent(EComboNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EnterprisePanelLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ETxtEpName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                        .addGap(151, 151, 151)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                        .addGap(434, 434, 434)
-                        .addComponent(EBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(152, Short.MAX_VALUE))
-        );
-        EnterprisePanelLayout.setVerticalGroup(
-            EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EnterprisePanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
-                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EComboNetwork, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EComboEnterType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(EnterprisePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ETxtEpName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
-                .addComponent(EBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(489, 489, 489))
-        );
-
-        ContentPanel.add(EnterprisePanel, "card3");
-
-        AccountPanel.setBackground(new java.awt.Color(255, 255, 255));
-        AccountPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel12.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel12.setText("MANAGE ACCOUNT");
-        AccountPanel.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(398, 28, -1, 48));
-
-        tabAccount.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "User Name", "Enterprise Name", "Network"
-            }
-        ));
-        tabAccount.setFocusable(false);
-        tabAccount.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tabAccount.setName("abc"); // NOI18N
-        tabAccount.setRowHeight(25);
-        tabAccount.setSelectionBackground(new java.awt.Color(216, 232, 249));
-        tabAccount.setShowVerticalLines(false);
-        tabAccount.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(tabAccount);
-
-        AccountPanel.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 94, 600, 236));
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel13.setText("Network:");
-        AccountPanel.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(325, 400, -1, 41));
-
-        AComboNetwork.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        AComboNetwork.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AComboNetworkActionPerformed(evt);
-            }
-        });
-        AccountPanel.add(AComboNetwork, new org.netbeans.lib.awtextra.AbsoluteConstraints(502, 364, 182, -1));
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel14.setText("Enterprise Name:");
-        AccountPanel.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(252, 467, -1, 41));
-
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel15.setText("User Name:");
-        AccountPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(304, 538, -1, 41));
-
-        ATxtUserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        ATxtUserName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        AccountPanel.add(ATxtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 450, 182, -1));
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel16.setText("Password:");
-        AccountPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(316, 614, -1, 41));
-
-        ATxtPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        ATxtPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        AccountPanel.add(ATxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 490, 182, -1));
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel17.setText("Name:");
-        AccountPanel.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 683, -1, 41));
-
-        ATxtName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        ATxtName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        AccountPanel.add(ATxtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 530, 182, -1));
-
-        ABtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
-        ABtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        ABtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
-        ABtnSubmit.setText("Submit");
-        ABtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        ABtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ABtnSubmit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ABtnSubmitActionPerformed(evt);
-            }
-        });
-        AccountPanel.add(ABtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 430, 132, 42));
-
-        AComboEpName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        AComboEpName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AComboEpNameActionPerformed(evt);
-            }
-        });
-        AccountPanel.add(AComboEpName, new org.netbeans.lib.awtextra.AbsoluteConstraints(502, 408, 182, -1));
-
-        ContentPanel.add(AccountPanel, "card4");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -577,7 +537,6 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10)
@@ -585,8 +544,10 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
                     .addGroup(layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(179, 179, 179)
-                        .addComponent(jLabel6))
+                        .addGap(180, 180, 180)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 974, Short.MAX_VALUE)
+                        .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -596,11 +557,11 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(10, 10, 10)
                             .addComponent(btnEnterprise, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(800, Short.MAX_VALUE))
+                .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 350, Short.MAX_VALUE)
-                    .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1000, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 347, Short.MAX_VALUE)
+                    .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1452, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -608,11 +569,14 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(jLabel6)))
-                .addGap(117, 117, 117)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(130, 130, 130))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(117, 117, 117)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
@@ -630,13 +594,11 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(btnAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 627, Short.MAX_VALUE)
-                .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(805, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addGap(0, 128, Short.MAX_VALUE)
-                    .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 954, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(0, 97, Short.MAX_VALUE)
+                    .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1103, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -709,23 +671,18 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         
     }//GEN-LAST:event_EBtnSubmitActionPerformed
 
-    private void AComboEpNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AComboEpNameActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_AComboEpNameActionPerformed
-
     private void ABtnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ABtnSubmitActionPerformed
         // TODO add your handling code here:
         Enterprise enterprise = (Enterprise) AComboEpName.getSelectedItem();
-
+                
         String username = ATxtUserName.getText();
         String password = ATxtPassword.getText();
         String name = ATxtName.getText();
         Employee employee = enterprise.getEmployeeDirectory().createEmployee(name);
-
+        
         if (enterprise.getEnterpriseType().toString().equals("Hospital")) {
             UserAccount account = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new HospitalManagerRole());
-
+            
         }
         else if (enterprise.getEnterpriseType().toString().equals("Kindergarten")) {
             UserAccount account = enterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new KindergartenManagerRole());
@@ -742,6 +699,11 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
         populateAccountTable();
     }//GEN-LAST:event_ABtnSubmitActionPerformed
 
+    private void AComboEpNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AComboEpNameActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_AComboEpNameActionPerformed
+
     private void AComboNetworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AComboNetworkActionPerformed
         // TODO add your handling code here:
         Network network = (Network) AComboNetwork.getSelectedItem();
@@ -757,7 +719,7 @@ public class SysadminWorkJPanel extends javax.swing.JPanel implements Runnable{
             minute = cal.get(Calendar.MINUTE);
             second = cal.get(Calendar.SECOND);
             
-            SimpleDateFormat sdftime = new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
+            SimpleDateFormat sdftime = new SimpleDateFormat("MM/dd/yyyy  KK:mm:ss a");
             Date date = cal.getTime();
             String timeForm = sdftime.format(date);
             labTime.setText(timeForm);

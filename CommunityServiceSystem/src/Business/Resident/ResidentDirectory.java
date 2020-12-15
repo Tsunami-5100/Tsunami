@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package Business.Resident;
-
-import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Role.Role;
 import Business.UserAccount.UserAccount;
@@ -37,7 +35,6 @@ public class ResidentDirectory {
         resident.setEmail(email);
         resident.setPhoneNum(phoneNum);
         residentList.add(resident);
-        System.out.println("Business.Resident.ResidentDirectory.addResident() 40. " + resident.getNetworkName());
         return resident;
     }
 

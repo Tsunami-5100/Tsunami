@@ -14,7 +14,7 @@ import Business.UserAccount.UserAccount;
 import Business.Role.Role;
 import Business.Role.SystemAdminRole;
 import java.util.ArrayList;
-import Business.KApplication.KAppicationDirectory;
+import Business.KApplication.KApplicationDirectory;
 
 /**
  *
@@ -35,13 +35,15 @@ public class EcoSystem extends Organization{
 
     public EcoSystem() {
         super(null);
-        if(networkList==null){
-            networkList=new ArrayList();
-        }
         this.networkList = networkList;
     }
     
-
+//    
+//    private EcoSystem(){
+//        super(null);
+//        networkList = new ArrayList<Network>();
+//        kAppicationDirectory = new KApplicationDirectory();
+//    }
     
     public Network createAndAddNetwork(){
         Network network = new Network();
@@ -57,6 +59,9 @@ public class EcoSystem extends Organization{
     }
 
     public ArrayList<Network> getNetworkList() {
+        if (this.networkList == null) {
+            this.networkList = new ArrayList<>();
+        }
         return networkList;
     }
 

@@ -5,13 +5,7 @@
  */
 package UserInterface.SecuriryRole;
 
-//import UserInterface.Delivery.*;
-//import UserInterface.Ambulance.*;
-//import UserInterface.SchoolBus.*;
-//import UserInterface.Teacher.*;
-//import UserInterface.Doctor.*;
-//import UserInterface.SupermarkAdmin.*;
-//import UserInterface.HospitalAdmin.*;
+
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
@@ -23,11 +17,13 @@ import Business.Organization.SecurityOrganization;
 import Business.Property.SRRequest;
 import Business.Resident.Resident;
 import Business.UserAccount.UserAccount;
+import com.kingaspx.util.BrowserUtil;
+import com.kingaspx.version.Version;
+import com.teamdev.jxbrowser.chromium.Browser;
+import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
-//import Business.Hospital.Ambulance;
-//import Business.Hospital.Doctor;
-//import Business.Hospital.Hospital;
-//import Business.Hospital.Patient;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -205,28 +201,11 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         jLabel12 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         ContentPanel = new javax.swing.JPanel();
-        Dashboard = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        labelComplaintNum1 = new javax.swing.JLabel();
-        jPanel11 = new javax.swing.JPanel();
-        labelPatientNum1 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        labelDoctorNum1 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        TableNotification = new javax.swing.JTable();
-        btnMarkread = new javax.swing.JButton();
         RequestList = new javax.swing.JPanel();
-        txtViewRequest = new javax.swing.JTextField();
         jLabel52 = new javax.swing.JLabel();
         btnViewRequest = new javax.swing.JButton();
         RequestJpanel = new javax.swing.JPanel();
         RequestNull = new javax.swing.JPanel();
-        jLabel81 = new javax.swing.JLabel();
         AppSecurity = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         jLabel78 = new javax.swing.JLabel();
@@ -239,6 +218,7 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         txtSecurityDesc = new javax.swing.JTextArea();
         jLabel84 = new javax.swing.JLabel();
         btnFinish = new javax.swing.JButton();
+        ViewLocationin = new javax.swing.JButton();
         jLabel82 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableRequest = new javax.swing.JTable();
@@ -248,7 +228,6 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         btnViewRequest1 = new javax.swing.JButton();
         RequestJpanel1 = new javax.swing.JPanel();
         RequestNull1 = new javax.swing.JPanel();
-        jLabel87 = new javax.swing.JLabel();
         AppSecurity1 = new javax.swing.JPanel();
         jLabel41 = new javax.swing.JLabel();
         jLabel88 = new javax.swing.JLabel();
@@ -263,6 +242,12 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         jLabel92 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TableRequestH = new javax.swing.JTable();
+        ViewLocation = new javax.swing.JPanel();
+        jLabel124 = new javax.swing.JLabel();
+        map_panel = new javax.swing.JPanel();
+        txtSLocation = new javax.swing.JTextField();
+        jLabel126 = new javax.swing.JLabel();
+        btnSLocationConfirm = new javax.swing.JButton();
         ManageComplaint = new javax.swing.JPanel();
         txtViewReceiver1 = new javax.swing.JTextField();
         jLabel73 = new javax.swing.JLabel();
@@ -300,6 +285,21 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         jLabel83 = new javax.swing.JLabel();
         jLabel85 = new javax.swing.JLabel();
         jLabel86 = new javax.swing.JLabel();
+        Dashboard = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        labelComplaintNum1 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        labelPatientNum1 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        labelDoctorNum1 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        TableNotification = new javax.swing.JTable();
+        btnMarkread = new javax.swing.JButton();
         btnComplaint = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -382,6 +382,597 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
 
         ContentPanel.setBackground(new java.awt.Color(255, 255, 255));
         ContentPanel.setLayout(new java.awt.CardLayout());
+
+        RequestList.setBackground(new java.awt.Color(255, 255, 255));
+        RequestList.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel52.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel52.setText("Request List");
+        RequestList.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, -1, -1));
+
+        btnViewRequest.setBackground(new java.awt.Color(255, 255, 255));
+        btnViewRequest.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnViewRequest.setForeground(new java.awt.Color(58, 83, 155));
+        btnViewRequest.setText("View");
+        btnViewRequest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        btnViewRequest.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnViewRequest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewRequestActionPerformed(evt);
+            }
+        });
+        RequestList.add(btnViewRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 370, 120, 30));
+
+        RequestJpanel.setBackground(new java.awt.Color(255, 255, 255));
+        RequestJpanel.setLayout(new java.awt.CardLayout());
+
+        RequestNull.setBackground(new java.awt.Color(255, 255, 255));
+        RequestNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        RequestJpanel.add(RequestNull, "card5");
+
+        AppSecurity.setBackground(new java.awt.Color(255, 255, 255));
+        AppSecurity.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel40.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel40.setText("Maintenance Application Detailed Information");
+        AppSecurity.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
+
+        jLabel78.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel78.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel78.setText("Location:");
+        AppSecurity.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, 30));
+
+        jLabel79.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel79.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel79.setText("Incident Type:");
+        AppSecurity.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, -1));
+
+        jLabel80.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel80.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel80.setText("Urgency Level:");
+        AppSecurity.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
+
+        txtSUrgency.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtSUrgency.setEnabled(false);
+        txtSUrgency.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSUrgencyActionPerformed(evt);
+            }
+        });
+        AppSecurity.add(txtSUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
+
+        txtRequestTypeS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestTypeS.setEnabled(false);
+        txtRequestTypeS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRequestTypeSActionPerformed(evt);
+            }
+        });
+        AppSecurity.add(txtRequestTypeS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
+
+        txtRequestLocationS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestLocationS.setEnabled(false);
+        txtRequestLocationS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRequestLocationSActionPerformed(evt);
+            }
+        });
+        AppSecurity.add(txtRequestLocationS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
+
+        txtSecurityDesc.setColumns(20);
+        txtSecurityDesc.setRows(5);
+        jScrollPane12.setViewportView(txtSecurityDesc);
+
+        AppSecurity.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 530, 190));
+
+        jLabel84.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel84.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel84.setText("Description of Incident:");
+        jLabel84.setToolTipText("");
+        AppSecurity.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, 30));
+
+        btnFinish.setBackground(new java.awt.Color(255, 255, 255));
+        btnFinish.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnFinish.setForeground(new java.awt.Color(58, 83, 155));
+        btnFinish.setText("Finish");
+        btnFinish.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        btnFinish.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnFinish.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFinishActionPerformed(evt);
+            }
+        });
+        AppSecurity.add(btnFinish, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, 210, 30));
+
+        ViewLocationin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-user_location.png"))); // NOI18N
+        ViewLocationin.setBorder(null);
+        ViewLocationin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewLocationinActionPerformed(evt);
+            }
+        });
+        AppSecurity.add(ViewLocationin, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 80, 80, 30));
+
+        jLabel82.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
+        AppSecurity.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 590, 470));
+
+        RequestJpanel.add(AppSecurity, "card7");
+
+        RequestList.add(RequestJpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 440, 940, 640));
+
+        TableRequest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Request ID", "Incident Type", "Urgency Level", "Resident Name", "Request Date"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TableRequest.setFocusable(false);
+        TableRequest.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        TableRequest.setRowHeight(30);
+        TableRequest.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        TableRequest.setShowVerticalLines(false);
+        TableRequest.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(TableRequest);
+        if (TableRequest.getColumnModel().getColumnCount() > 0) {
+            TableRequest.getColumnModel().getColumn(0).setResizable(false);
+            TableRequest.getColumnModel().getColumn(1).setResizable(false);
+            TableRequest.getColumnModel().getColumn(2).setResizable(false);
+            TableRequest.getColumnModel().getColumn(3).setResizable(false);
+            TableRequest.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        RequestList.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 820, 260));
+
+        ContentPanel.add(RequestList, "card4");
+
+        RequestHistory.setBackground(new java.awt.Color(255, 255, 255));
+        RequestHistory.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtViewRequest1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        txtViewRequest1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtViewRequest1ActionPerformed(evt);
+            }
+        });
+        RequestHistory.add(txtViewRequest1, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 360, 160, 30));
+
+        jLabel53.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel53.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel53.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel53.setText("Request List");
+        RequestHistory.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 30, -1, -1));
+
+        btnViewRequest1.setBackground(new java.awt.Color(255, 255, 255));
+        btnViewRequest1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnViewRequest1.setForeground(new java.awt.Color(58, 83, 155));
+        btnViewRequest1.setText("View");
+        btnViewRequest1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        btnViewRequest1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnViewRequest1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewRequest1ActionPerformed(evt);
+            }
+        });
+        RequestHistory.add(btnViewRequest1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 360, 120, 30));
+
+        RequestJpanel1.setBackground(new java.awt.Color(255, 255, 255));
+        RequestJpanel1.setLayout(new java.awt.CardLayout());
+
+        RequestNull1.setBackground(new java.awt.Color(255, 255, 255));
+        RequestNull1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        RequestJpanel1.add(RequestNull1, "card5");
+
+        AppSecurity1.setBackground(new java.awt.Color(255, 255, 255));
+        AppSecurity1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel41.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel41.setText("Maintenance Application Detailed Information:");
+        AppSecurity1.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+
+        jLabel88.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel88.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel88.setText("Location:");
+        AppSecurity1.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 110, -1, 30));
+
+        jLabel89.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel89.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel89.setText("Incident Type:");
+        AppSecurity1.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
+
+        jLabel90.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel90.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel90.setText("Urgency Level:");
+        AppSecurity1.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 210, -1, -1));
+
+        txtSUrgency1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtSUrgency1.setEnabled(false);
+        txtSUrgency1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSUrgency1ActionPerformed(evt);
+            }
+        });
+        AppSecurity1.add(txtSUrgency1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 210, 140, -1));
+
+        txtRequestTypeS1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestTypeS1.setEnabled(false);
+        txtRequestTypeS1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRequestTypeS1ActionPerformed(evt);
+            }
+        });
+        AppSecurity1.add(txtRequestTypeS1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 140, -1));
+
+        txtRequestLocationS1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestLocationS1.setEnabled(false);
+        txtRequestLocationS1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRequestLocationS1ActionPerformed(evt);
+            }
+        });
+        AppSecurity1.add(txtRequestLocationS1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 110, 140, -1));
+
+        txtSecurityDesc1.setColumns(20);
+        txtSecurityDesc1.setRows(5);
+        jScrollPane13.setViewportView(txtSecurityDesc1);
+
+        AppSecurity1.add(jScrollPane13, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 640, 190));
+
+        jLabel91.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel91.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel91.setText("Description of Incident:");
+        jLabel91.setToolTipText("");
+        AppSecurity1.add(jLabel91, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 260, -1, 30));
+
+        jLabel92.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel92.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
+        AppSecurity1.add(jLabel92, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 590, 600));
+
+        RequestJpanel1.add(AppSecurity1, "card7");
+
+        RequestHistory.add(RequestJpanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 980, 640));
+
+        TableRequestH.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Request ID", "Resident Name", "Status", "Request Date", "Resolve Date"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TableRequestH.setFocusable(false);
+        TableRequestH.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        TableRequestH.setRowHeight(30);
+        TableRequestH.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        TableRequestH.setShowVerticalLines(false);
+        TableRequestH.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(TableRequestH);
+        if (TableRequestH.getColumnModel().getColumnCount() > 0) {
+            TableRequestH.getColumnModel().getColumn(0).setResizable(false);
+            TableRequestH.getColumnModel().getColumn(1).setResizable(false);
+            TableRequestH.getColumnModel().getColumn(2).setResizable(false);
+            TableRequestH.getColumnModel().getColumn(3).setResizable(false);
+            TableRequestH.getColumnModel().getColumn(4).setResizable(false);
+        }
+
+        RequestHistory.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 980, 260));
+
+        ContentPanel.add(RequestHistory, "card4");
+
+        ViewLocation.setBackground(new java.awt.Color(255, 255, 255));
+        ViewLocation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel124.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel124.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel124.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel124.setText("View the incident Location");
+        ViewLocation.add(jLabel124, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, -1, 30));
+
+        map_panel.setLayout(new java.awt.BorderLayout());
+        ViewLocation.add(map_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 1100, 490));
+
+        txtSLocation.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtSLocation.setForeground(new java.awt.Color(2, 2, 69));
+        txtSLocation.setToolTipText("");
+        ViewLocation.add(txtSLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 610, 410, 30));
+
+        jLabel126.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel126.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel126.setText("Location Latlng:");
+        jLabel126.setToolTipText("");
+        ViewLocation.add(jLabel126, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 610, -1, 30));
+
+        btnSLocationConfirm.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        btnSLocationConfirm.setForeground(new java.awt.Color(58, 83, 155));
+        btnSLocationConfirm.setText("Back");
+        btnSLocationConfirm.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        btnSLocationConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSLocationConfirmActionPerformed(evt);
+            }
+        });
+        ViewLocation.add(btnSLocationConfirm, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 740, 200, 40));
+
+        ContentPanel.add(ViewLocation, "card6");
+
+        ManageComplaint.setBackground(new java.awt.Color(255, 255, 255));
+        ManageComplaint.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtViewReceiver1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        txtViewReceiver1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtViewReceiver1ActionPerformed(evt);
+            }
+        });
+        ManageComplaint.add(txtViewReceiver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
+
+        jLabel73.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel73.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel73.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel73.setText("Complaint Received");
+        ManageComplaint.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
+
+        btnViewComplaint1.setBackground(new java.awt.Color(255, 255, 255));
+        btnViewComplaint1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnViewComplaint1.setForeground(new java.awt.Color(58, 83, 155));
+        btnViewComplaint1.setText("View");
+        btnViewComplaint1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        btnViewComplaint1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnViewComplaint1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewComplaint1ActionPerformed(evt);
+            }
+        });
+        ManageComplaint.add(btnViewComplaint1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 360, 120, 30));
+
+        ComplaintJPanel.setBackground(new java.awt.Color(255, 255, 255));
+        ComplaintJPanel.setLayout(new java.awt.CardLayout());
+
+        ComplaintNull.setBackground(new java.awt.Color(255, 255, 255));
+        ComplaintNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        ComplaintJPanel.add(ComplaintNull, "card5");
+
+        ComplaintInformation.setBackground(new java.awt.Color(255, 255, 255));
+        ComplaintInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel95.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel95.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel95.setText("The detail information of Complaint");
+        ComplaintInformation.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
+
+        jLabel96.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel96.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel96.setText("Complaint Reason:");
+        ComplaintInformation.add(jLabel96, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, 30));
+
+        jLabel100.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel100.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel100.setText("Description:");
+        jLabel100.setToolTipText("");
+        ComplaintInformation.add(jLabel100, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, 30));
+
+        txtComplaintDesc1.setColumns(20);
+        txtComplaintDesc1.setRows(5);
+        jScrollPane10.setViewportView(txtComplaintDesc1);
+
+        ComplaintInformation.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 530, 200));
+
+        jLabel102.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel102.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel102.setText("Addresser:");
+        jLabel102.setToolTipText("");
+        ComplaintInformation.add(jLabel102, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, -1, 30));
+
+        sentMessageToAddresser1.setBackground(new java.awt.Color(255, 255, 255));
+        sentMessageToAddresser1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        sentMessageToAddresser1.setForeground(new java.awt.Color(58, 83, 155));
+        sentMessageToAddresser1.setText("Sent Message");
+        sentMessageToAddresser1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        sentMessageToAddresser1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        sentMessageToAddresser1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sentMessageToAddresser1ActionPerformed(evt);
+            }
+        });
+        ComplaintInformation.add(sentMessageToAddresser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 100, 170, 30));
+
+        txtComplaintReason1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtComplaintReason1.setToolTipText("");
+        ComplaintInformation.add(txtComplaintReason1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 170, 30));
+
+        txtComAddresser1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtComAddresser1.setToolTipText("");
+        ComplaintInformation.add(txtComAddresser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 170, 30));
+
+        ComplaintJPanel.add(ComplaintInformation, "card5");
+
+        ManageComplaint.add(ComplaintJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+
+        TableComplaint.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Complaint Reson", "Addresser"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        TableComplaint.setFocusable(false);
+        TableComplaint.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        TableComplaint.setRowHeight(30);
+        TableComplaint.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        TableComplaint.setShowVerticalLines(false);
+        TableComplaint.getTableHeader().setReorderingAllowed(false);
+        jScrollPane11.setViewportView(TableComplaint);
+
+        ManageComplaint.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 80, 740, 270));
+
+        ContentPanel.add(ManageComplaint, "card4");
+
+        ManageInformation.setBackground(new java.awt.Color(255, 255, 255));
+        ManageInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        image.setForeground(new java.awt.Color(58, 83, 155));
+        image.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile photo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 14), new java.awt.Color(58, 83, 155))); // NOI18N
+        ManageInformation.add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 210, 270));
+
+        btnphotoUpload.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnphotoUpload.setForeground(new java.awt.Color(58, 83, 155));
+        btnphotoUpload.setText("Upload");
+        btnphotoUpload.setEnabled(false);
+        btnphotoUpload.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnphotoUploadActionPerformed(evt);
+            }
+        });
+        ManageInformation.add(btnphotoUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 580, 110, 40));
+
+        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
+        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(58, 83, 155));
+        btnUpdate.setText("UPDATE");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+        ManageInformation.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 560, 200, 40));
+
+        btnSave.setBackground(new java.awt.Color(255, 255, 255));
+        btnSave.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(58, 83, 155));
+        btnSave.setText("SAVE");
+        btnSave.setEnabled(false);
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        ManageInformation.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 560, 200, 40));
+
+        jLabel71.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel71.setText(" Name:");
+        jLabel71.setToolTipText("");
+        ManageInformation.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, -1, 30));
+
+        txtName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtName.setForeground(new java.awt.Color(58, 83, 155));
+        txtName.setToolTipText("");
+        txtName.setEnabled(false);
+        ManageInformation.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 180, 30));
+
+        txtEmail.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(58, 83, 155));
+        txtEmail.setToolTipText("");
+        txtEmail.setEnabled(false);
+        ManageInformation.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, 180, 30));
+
+        jLabel72.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel72.setText("E-mails:");
+        jLabel72.setToolTipText("");
+        ManageInformation.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 90, 30));
+
+        jLabel74.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel74.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel74.setText("Position:");
+        jLabel74.setToolTipText("");
+        ManageInformation.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 70, 30));
+
+        jLabel75.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel75.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel75.setText("Password:");
+        jLabel75.setToolTipText("");
+        ManageInformation.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 440, 90, 30));
+
+        txtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(58, 83, 155));
+        txtPassword.setToolTipText("");
+        txtPassword.setEnabled(false);
+        ManageInformation.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 440, 180, 30));
+
+        jLabel76.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel76.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel76.setText("User Account:");
+        jLabel76.setToolTipText("");
+        ManageInformation.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 120, 30));
+
+        txtUserAccount.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtUserAccount.setForeground(new java.awt.Color(58, 83, 155));
+        txtUserAccount.setToolTipText("");
+        txtUserAccount.setEnabled(false);
+        ManageInformation.add(txtUserAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, 180, 30));
+
+        txtPosition.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtPosition.setForeground(new java.awt.Color(58, 83, 155));
+        txtPosition.setToolTipText("");
+        txtPosition.setEnabled(false);
+        ManageInformation.add(txtPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, 180, 30));
+
+        txtPhoneNumber.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        txtPhoneNumber.setForeground(new java.awt.Color(58, 83, 155));
+        txtPhoneNumber.setToolTipText("");
+        txtPhoneNumber.setEnabled(false);
+        ManageInformation.add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 180, 30));
+
+        jLabel83.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel83.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel83.setText("Phone Number:");
+        jLabel83.setToolTipText("");
+        ManageInformation.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, 140, 30));
+
+        jLabel85.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel85.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-profile.png"))); // NOI18N
+        ManageInformation.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 680, 670));
+
+        jLabel86.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel86.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel86.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel86.setText("Manage Information");
+        ManageInformation.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, -1));
+
+        ContentPanel.add(ManageInformation, "card8");
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -531,571 +1122,7 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
 
         ContentPanel.add(Dashboard, "card5");
 
-        RequestList.setBackground(new java.awt.Color(255, 255, 255));
-        RequestList.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewRequest.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewRequest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewRequestActionPerformed(evt);
-            }
-        });
-        RequestList.add(txtViewRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        jLabel52.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel52.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel52.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel52.setText("Request List");
-        RequestList.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
-
-        btnViewRequest.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewRequest.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewRequest.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewRequest.setText("View");
-        btnViewRequest.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewRequest.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewRequest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewRequestActionPerformed(evt);
-            }
-        });
-        RequestList.add(btnViewRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        RequestJpanel.setBackground(new java.awt.Color(255, 255, 255));
-        RequestJpanel.setLayout(new java.awt.CardLayout());
-
-        RequestNull.setBackground(new java.awt.Color(255, 255, 255));
-        RequestNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel81.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel81.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        RequestNull.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 590, 470));
-
-        RequestJpanel.add(RequestNull, "card5");
-
-        AppSecurity.setBackground(new java.awt.Color(255, 255, 255));
-        AppSecurity.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel40.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel40.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel40.setText("Maintenance Application Detailed Information");
-        AppSecurity.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
-
-        jLabel78.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel78.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel78.setText("Location:");
-        AppSecurity.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, 30));
-
-        jLabel79.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel79.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel79.setText("Incident Type:");
-        AppSecurity.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, -1));
-
-        jLabel80.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel80.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel80.setText("Urgency Level:");
-        AppSecurity.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
-
-        txtSUrgency.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtSUrgency.setEnabled(false);
-        txtSUrgency.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSUrgencyActionPerformed(evt);
-            }
-        });
-        AppSecurity.add(txtSUrgency, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
-
-        txtRequestTypeS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtRequestTypeS.setEnabled(false);
-        txtRequestTypeS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRequestTypeSActionPerformed(evt);
-            }
-        });
-        AppSecurity.add(txtRequestTypeS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
-
-        txtRequestLocationS.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtRequestLocationS.setEnabled(false);
-        txtRequestLocationS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRequestLocationSActionPerformed(evt);
-            }
-        });
-        AppSecurity.add(txtRequestLocationS, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
-
-        txtSecurityDesc.setColumns(20);
-        txtSecurityDesc.setRows(5);
-        jScrollPane12.setViewportView(txtSecurityDesc);
-
-        AppSecurity.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 530, 190));
-
-        jLabel84.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel84.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel84.setText("Description of Incident:");
-        jLabel84.setToolTipText("");
-        AppSecurity.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, 30));
-
-        btnFinish.setBackground(new java.awt.Color(255, 255, 255));
-        btnFinish.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnFinish.setForeground(new java.awt.Color(58, 83, 155));
-        btnFinish.setText("Finish");
-        btnFinish.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnFinish.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnFinish.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFinishActionPerformed(evt);
-            }
-        });
-        AppSecurity.add(btnFinish, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 140, 30));
-
-        jLabel82.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        AppSecurity.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 590, 470));
-
-        RequestJpanel.add(AppSecurity, "card7");
-
-        RequestList.add(RequestJpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableRequest.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Request ID", "Incident Type", "Urgency Level", "Resident Name", "Request Date"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableRequest.setFocusable(false);
-        TableRequest.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableRequest.setRowHeight(30);
-        TableRequest.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableRequest.setShowVerticalLines(false);
-        TableRequest.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(TableRequest);
-        if (TableRequest.getColumnModel().getColumnCount() > 0) {
-            TableRequest.getColumnModel().getColumn(0).setResizable(false);
-            TableRequest.getColumnModel().getColumn(1).setResizable(false);
-            TableRequest.getColumnModel().getColumn(2).setResizable(false);
-            TableRequest.getColumnModel().getColumn(3).setResizable(false);
-            TableRequest.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        RequestList.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 690, 260));
-
-        ContentPanel.add(RequestList, "card4");
-
-        RequestHistory.setBackground(new java.awt.Color(255, 255, 255));
-        RequestHistory.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewRequest1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewRequest1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewRequest1ActionPerformed(evt);
-            }
-        });
-        RequestHistory.add(txtViewRequest1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        jLabel53.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel53.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel53.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel53.setText("Request List");
-        RequestHistory.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 20, -1, -1));
-
-        btnViewRequest1.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewRequest1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewRequest1.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewRequest1.setText("View");
-        btnViewRequest1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewRequest1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewRequest1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewRequest1ActionPerformed(evt);
-            }
-        });
-        RequestHistory.add(btnViewRequest1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        RequestJpanel1.setBackground(new java.awt.Color(255, 255, 255));
-        RequestJpanel1.setLayout(new java.awt.CardLayout());
-
-        RequestNull1.setBackground(new java.awt.Color(255, 255, 255));
-        RequestNull1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel87.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel87.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        RequestNull1.add(jLabel87, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 590, 470));
-
-        RequestJpanel1.add(RequestNull1, "card5");
-
-        AppSecurity1.setBackground(new java.awt.Color(255, 255, 255));
-        AppSecurity1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel41.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel41.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel41.setText("Maintenance Application Detailed Information");
-        AppSecurity1.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
-
-        jLabel88.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel88.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel88.setText("Location:");
-        AppSecurity1.add(jLabel88, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 80, -1, 30));
-
-        jLabel89.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel89.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel89.setText("Incident Type:");
-        AppSecurity1.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 130, -1, -1));
-
-        jLabel90.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel90.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel90.setText("Urgency Level:");
-        AppSecurity1.add(jLabel90, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
-
-        txtSUrgency1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtSUrgency1.setEnabled(false);
-        txtSUrgency1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSUrgency1ActionPerformed(evt);
-            }
-        });
-        AppSecurity1.add(txtSUrgency1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
-
-        txtRequestTypeS1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtRequestTypeS1.setEnabled(false);
-        txtRequestTypeS1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRequestTypeS1ActionPerformed(evt);
-            }
-        });
-        AppSecurity1.add(txtRequestTypeS1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
-
-        txtRequestLocationS1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        txtRequestLocationS1.setEnabled(false);
-        txtRequestLocationS1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRequestLocationS1ActionPerformed(evt);
-            }
-        });
-        AppSecurity1.add(txtRequestLocationS1, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
-
-        txtSecurityDesc1.setColumns(20);
-        txtSecurityDesc1.setRows(5);
-        jScrollPane13.setViewportView(txtSecurityDesc1);
-
-        AppSecurity1.add(jScrollPane13, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 60, 160, 190));
-
-        jLabel91.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel91.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel91.setText("Description of Incident:");
-        jLabel91.setToolTipText("");
-        AppSecurity1.add(jLabel91, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, 30));
-
-        jLabel92.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel92.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard 2.png"))); // NOI18N
-        AppSecurity1.add(jLabel92, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 590, 470));
-
-        RequestJpanel1.add(AppSecurity1, "card7");
-
-        RequestHistory.add(RequestJpanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableRequestH.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Request ID", "Resident Name", "Status", "Request Date", "Resolve Date"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableRequestH.setFocusable(false);
-        TableRequestH.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableRequestH.setRowHeight(30);
-        TableRequestH.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableRequestH.setShowVerticalLines(false);
-        TableRequestH.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(TableRequestH);
-        if (TableRequestH.getColumnModel().getColumnCount() > 0) {
-            TableRequestH.getColumnModel().getColumn(0).setResizable(false);
-            TableRequestH.getColumnModel().getColumn(1).setResizable(false);
-            TableRequestH.getColumnModel().getColumn(2).setResizable(false);
-            TableRequestH.getColumnModel().getColumn(3).setResizable(false);
-            TableRequestH.getColumnModel().getColumn(4).setResizable(false);
-        }
-
-        RequestHistory.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 690, 260));
-
-        ContentPanel.add(RequestHistory, "card4");
-
-        ManageComplaint.setBackground(new java.awt.Color(255, 255, 255));
-        ManageComplaint.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewReceiver1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewReceiver1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewReceiver1ActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(txtViewReceiver1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        jLabel73.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel73.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel73.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel73.setText("Complaint Received");
-        ManageComplaint.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
-
-        btnViewComplaint1.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewComplaint1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewComplaint1.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewComplaint1.setText("View");
-        btnViewComplaint1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewComplaint1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewComplaint1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewComplaint1ActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(btnViewComplaint1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        ComplaintJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintJPanel.setLayout(new java.awt.CardLayout());
-
-        ComplaintNull.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        ComplaintJPanel.add(ComplaintNull, "card5");
-
-        ComplaintInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel95.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel95.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel95.setText("The detail information of Complaint");
-        ComplaintInformation.add(jLabel95, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
-
-        jLabel96.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel96.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel96.setText("Complaint Reason:");
-        ComplaintInformation.add(jLabel96, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, 30));
-
-        jLabel100.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel100.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel100.setText("Description:");
-        jLabel100.setToolTipText("");
-        ComplaintInformation.add(jLabel100, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, 30));
-
-        txtComplaintDesc1.setColumns(20);
-        txtComplaintDesc1.setRows(5);
-        jScrollPane10.setViewportView(txtComplaintDesc1);
-
-        ComplaintInformation.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 290, 530, 200));
-
-        jLabel102.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel102.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel102.setText("Addresser:");
-        jLabel102.setToolTipText("");
-        ComplaintInformation.add(jLabel102, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, -1, 30));
-
-        sentMessageToAddresser1.setBackground(new java.awt.Color(255, 255, 255));
-        sentMessageToAddresser1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        sentMessageToAddresser1.setForeground(new java.awt.Color(58, 83, 155));
-        sentMessageToAddresser1.setText("Sent Message");
-        sentMessageToAddresser1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        sentMessageToAddresser1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sentMessageToAddresser1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sentMessageToAddresser1ActionPerformed(evt);
-            }
-        });
-        ComplaintInformation.add(sentMessageToAddresser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 100, 170, 30));
-
-        txtComplaintReason1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComplaintReason1.setToolTipText("");
-        ComplaintInformation.add(txtComplaintReason1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 170, 30));
-
-        txtComAddresser1.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComAddresser1.setToolTipText("");
-        ComplaintInformation.add(txtComAddresser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, 170, 30));
-
-        ComplaintJPanel.add(ComplaintInformation, "card5");
-
-        ManageComplaint.add(ComplaintJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableComplaint.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
-            },
-            new String [] {
-                "Complaint Reson", "Addresser"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableComplaint.setFocusable(false);
-        TableComplaint.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableComplaint.setRowHeight(30);
-        TableComplaint.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableComplaint.setShowVerticalLines(false);
-        TableComplaint.getTableHeader().setReorderingAllowed(false);
-        jScrollPane11.setViewportView(TableComplaint);
-
-        ManageComplaint.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 630, 270));
-
-        ContentPanel.add(ManageComplaint, "card4");
-
-        ManageInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        image.setForeground(new java.awt.Color(58, 83, 155));
-        image.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile photo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 14), new java.awt.Color(58, 83, 155))); // NOI18N
-        ManageInformation.add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 210, 270));
-
-        btnphotoUpload.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnphotoUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnphotoUpload.setText("Upload");
-        btnphotoUpload.setEnabled(false);
-        btnphotoUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnphotoUploadActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnphotoUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 580, 110, 40));
-
-        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(58, 83, 155));
-        btnUpdate.setText("UPDATE");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 560, 200, 40));
-
-        btnSave.setBackground(new java.awt.Color(255, 255, 255));
-        btnSave.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnSave.setText("SAVE");
-        btnSave.setEnabled(false);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 560, 200, 40));
-
-        jLabel71.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel71.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel71.setText(" Name:");
-        jLabel71.setToolTipText("");
-        ManageInformation.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, -1, 30));
-
-        txtName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtName.setForeground(new java.awt.Color(58, 83, 155));
-        txtName.setToolTipText("");
-        txtName.setEnabled(false);
-        ManageInformation.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 70, 180, 30));
-
-        txtEmail.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtEmail.setForeground(new java.awt.Color(58, 83, 155));
-        txtEmail.setToolTipText("");
-        txtEmail.setEnabled(false);
-        ManageInformation.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, 180, 30));
-
-        jLabel72.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel72.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel72.setText("E-mails:");
-        jLabel72.setToolTipText("");
-        ManageInformation.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 140, 90, 30));
-
-        jLabel74.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel74.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel74.setText("Position:");
-        jLabel74.setToolTipText("");
-        ManageInformation.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 290, 70, 30));
-
-        jLabel75.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel75.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel75.setText("Password:");
-        jLabel75.setToolTipText("");
-        ManageInformation.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 440, 90, 30));
-
-        txtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(58, 83, 155));
-        txtPassword.setToolTipText("");
-        txtPassword.setEnabled(false);
-        ManageInformation.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 440, 180, 30));
-
-        jLabel76.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel76.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel76.setText("User Account:");
-        jLabel76.setToolTipText("");
-        ManageInformation.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 120, 30));
-
-        txtUserAccount.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtUserAccount.setForeground(new java.awt.Color(58, 83, 155));
-        txtUserAccount.setToolTipText("");
-        txtUserAccount.setEnabled(false);
-        ManageInformation.add(txtUserAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 360, 180, 30));
-
-        txtPosition.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPosition.setForeground(new java.awt.Color(58, 83, 155));
-        txtPosition.setToolTipText("");
-        txtPosition.setEnabled(false);
-        ManageInformation.add(txtPosition, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, 180, 30));
-
-        txtPhoneNumber.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPhoneNumber.setForeground(new java.awt.Color(58, 83, 155));
-        txtPhoneNumber.setToolTipText("");
-        txtPhoneNumber.setEnabled(false);
-        ManageInformation.add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 220, 180, 30));
-
-        jLabel83.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel83.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel83.setText("Phone Number:");
-        jLabel83.setToolTipText("");
-        ManageInformation.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 220, 140, 30));
-
-        jLabel85.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel85.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-profile.png"))); // NOI18N
-        ManageInformation.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 680, 670));
-
-        jLabel86.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel86.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel86.setText("Manage Information");
-        ManageInformation.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 40, -1, -1));
-
-        ContentPanel.add(ManageInformation, "card8");
-
-        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 128, -1, 954));
+        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 128, 1460, 1080));
 
         btnComplaint.setBackground(new java.awt.Color(58, 83, 155));
         btnComplaint.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -1181,10 +1208,6 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnComplaintActionPerformed
-
-    private void txtViewRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewRequestActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewRequestActionPerformed
 
     private void btnViewRequestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRequestActionPerformed
         // TODO add your handling code here:
@@ -1333,10 +1356,6 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         }
     }//GEN-LAST:event_btnFinishActionPerformed
 
-    private void txtViewRequest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewRequest1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewRequest1ActionPerformed
-
     private void btnViewRequest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewRequest1ActionPerformed
         // TODO add your handling code here:
         int selectedRow = TableRequestH.getSelectedRow();
@@ -1396,6 +1415,37 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
         }
     }//GEN-LAST:event_btnMarkreadActionPerformed
 
+    private void txtViewRequest1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewRequest1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtViewRequest1ActionPerformed
+
+    private void btnSLocationConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSLocationConfirmActionPerformed
+        // TODO add your handling code here:
+        Dashboard.setVisible(false);
+        RequestList.setVisible(true);
+        ManageComplaint.setVisible(false);
+        ManageInformation.setVisible(false);
+        RequestHistory.setVisible(false);
+        ViewLocation.setVisible(false);
+    }//GEN-LAST:event_btnSLocationConfirmActionPerformed
+
+    private void ViewLocationinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewLocationinActionPerformed
+        // TODO add your handling code here:
+        Dashboard.setVisible(false);
+        RequestList.setVisible(false);
+        ManageComplaint.setVisible(false);
+        ManageInformation.setVisible(false);
+        RequestHistory.setVisible(false);
+        ViewLocation.setVisible(true);
+        txtSLocation.setText(txtRequestLocationS.getText());
+        BrowserUtil.setVersion(Version.V6_22);
+        Browser browser = new Browser();
+        BrowserView view = new BrowserView(browser);
+
+        map_panel.add(view, BorderLayout.CENTER);
+        browser.loadURL("file:///Users/edmond/Desktop/test.html");
+    }//GEN-LAST:event_ViewLocationinActionPerformed
+
     @Override
     public void run() {
         while (true) {
@@ -1431,6 +1481,8 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JTable TableNotification;
     private javax.swing.JTable TableRequest;
     private javax.swing.JTable TableRequestH;
+    private javax.swing.JPanel ViewLocation;
+    private javax.swing.JButton ViewLocationin;
     private javax.swing.JButton btnComplaint;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnFinish;
@@ -1438,6 +1490,7 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JButton btnMarkread;
     private javax.swing.JButton btnRquestList;
     private javax.swing.JButton btnRquestList1;
+    private javax.swing.JButton btnSLocationConfirm;
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnViewComplaint1;
@@ -1449,6 +1502,8 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel124;
+    private javax.swing.JLabel jLabel126;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -1471,13 +1526,11 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JLabel jLabel78;
     private javax.swing.JLabel jLabel79;
     private javax.swing.JLabel jLabel80;
-    private javax.swing.JLabel jLabel81;
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
     private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
-    private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
     private javax.swing.JLabel jLabel89;
     private javax.swing.JLabel jLabel90;
@@ -1500,6 +1553,7 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JLabel labelDoctorNum1;
     private javax.swing.JLabel labelName;
     private javax.swing.JLabel labelPatientNum1;
+    private javax.swing.JPanel map_panel;
     private javax.swing.JButton sentMessageToAddresser1;
     private javax.swing.JTextField txtComAddresser1;
     private javax.swing.JTextArea txtComplaintDesc1;
@@ -1513,13 +1567,13 @@ public class SecurityWorkJPanel extends javax.swing.JPanel implements Runnable {
     private javax.swing.JTextField txtRequestLocationS1;
     private javax.swing.JTextField txtRequestTypeS;
     private javax.swing.JTextField txtRequestTypeS1;
+    private javax.swing.JTextField txtSLocation;
     private javax.swing.JTextField txtSUrgency;
     private javax.swing.JTextField txtSUrgency1;
     private javax.swing.JTextArea txtSecurityDesc;
     private javax.swing.JTextArea txtSecurityDesc1;
     private javax.swing.JTextField txtUserAccount;
     private javax.swing.JTextField txtViewReceiver1;
-    private javax.swing.JTextField txtViewRequest;
     private javax.swing.JTextField txtViewRequest1;
     // End of variables declaration//GEN-END:variables
 }

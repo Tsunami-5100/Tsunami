@@ -13,6 +13,7 @@ import Business.Organization.Organization;
 import Business.Resident.ResidentDirectory;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -38,7 +39,9 @@ public class MainJFrame extends javax.swing.JFrame{
         initComponents();
         ecoSystem = dB4OUtil.retrieveSystem();
         this.setLocationRelativeTo(null);
-        this.setSize(1407, 1100);
+        this.setSize(1800, 1200);
+        Container.setPreferredSize(new Dimension(1800, 1200));
+        JPanel.setPreferredSize(new Dimension(1800, 1200));
 //        Thread t = new Thread(this);
 //        t.start();
         scaleImage();
@@ -70,6 +73,7 @@ public class MainJFrame extends javax.swing.JFrame{
         labelImage = new javax.swing.JLabel();
         fieldPassword = new javax.swing.JPasswordField();
         labToRegister = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(58, 83, 155));
@@ -85,14 +89,14 @@ public class MainJFrame extends javax.swing.JFrame{
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(2, 2, 69));
         jLabel2.setText("Login ID");
-        JPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 434, -1, -1));
+        JPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, -1, -1));
 
         txtLoginId.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        JPanel.add(txtLoginId, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 479, 374, 49));
+        JPanel.add(txtLoginId, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 580, 374, 49));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 22)); // NOI18N
         jLabel3.setText("Password");
-        JPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 592, -1, -1));
+        JPanel.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 690, -1, -1));
 
         btnLogIn.setBackground(new java.awt.Color(58, 83, 155));
         btnLogIn.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
@@ -104,12 +108,12 @@ public class MainJFrame extends javax.swing.JFrame{
                 btnLogInActionPerformed(evt);
             }
         });
-        JPanel.add(btnLogIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 770, 128, 40));
+        JPanel.add(btnLogIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(769, 883, 128, 40));
 
         labelImage.setBackground(new java.awt.Color(58, 83, 155));
         labelImage.setFont(new java.awt.Font("宋体", 0, 36)); // NOI18N
         labelImage.setText("Image");
-        JPanel.add(labelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1350, 320));
+        JPanel.add(labelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(116, 130, 1350, 320));
 
         fieldPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         fieldPassword.addActionListener(new java.awt.event.ActionListener() {
@@ -117,7 +121,7 @@ public class MainJFrame extends javax.swing.JFrame{
                 fieldPasswordActionPerformed(evt);
             }
         });
-        JPanel.add(fieldPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(485, 637, 374, 49));
+        JPanel.add(fieldPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 730, 374, 49));
 
         labToRegister.setBackground(new java.awt.Color(58, 83, 155));
         labToRegister.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -129,11 +133,14 @@ public class MainJFrame extends javax.swing.JFrame{
                 labToRegisterMouseClicked(evt);
             }
         });
-        JPanel.add(labToRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 540, -1, -1));
+        JPanel.add(labToRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 970, -1, -1));
+
+        jLabel1.setText("jLabel1");
+        JPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 470, 720, 590));
 
         Container.add(JPanel, "card2");
 
-        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1350, 1050));
+        getContentPane().add(Container, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1800, 1200));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -141,7 +148,6 @@ public class MainJFrame extends javax.swing.JFrame{
     private void btnLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogInActionPerformed
         // TODO add your handling code here:
         String userName = txtLoginId.getText();
-        // Get Password
         char[] passwordCharArray = fieldPassword.getPassword();
         String password = String.valueOf(passwordCharArray);
 
@@ -186,6 +192,7 @@ public class MainJFrame extends javax.swing.JFrame{
         }
         
         if (userAccount == null) {
+//            System.out.println("UserInterface.MainJFrame.btnLogInActionPerformed() 189. " + ecoSystem.getResidentDirectory().getResidentAccountList());
             for (UserAccount ua : ecoSystem.getResidentDirectory().getResidentAccountList()) {
                 if (ua.getUsername().equals(userName) && ua.getPassword().equals(password)){
                     userAccount = ua;
@@ -263,6 +270,7 @@ public class MainJFrame extends javax.swing.JFrame{
     private javax.swing.JPanel JPanel;
     private javax.swing.JButton btnLogIn;
     private javax.swing.JPasswordField fieldPassword;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel labToRegister;

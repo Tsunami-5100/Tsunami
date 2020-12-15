@@ -52,7 +52,7 @@ public class MerchandiseOrder extends WorkRequest {
         merchandiseList.remove(merchandise);
     }
     
-    public Merchandise addMerchandise(String name, int price ,int quantity){
+    public Merchandise addMerchandise(String name, Double price ,int quantity){
         Merchandise merchandise = new Merchandise();
         merchandise.setName(name);
         merchandise.setQuantity(quantity);

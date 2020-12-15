@@ -5,9 +5,6 @@
  */
 package UserInterface.TeacherRole;
 
-//import UserInterface.Doctor.*;
-//import UserInterface.SupermarkAdmin.*;
-//import UserInterface.HospitalAdmin.*;
 import Business.DB4OUtil.DB4OUtil;
 import Business.EcoSystem;
 import Business.Enterprise.Enterprise;
@@ -18,26 +15,15 @@ import Business.Organization.Organization;
 import Business.Organization.TeacherOrganization;
 import Business.UserAccount.UserAccount;
 import Business.KClass.KClass;
+import Business.KindergartenStudent.KindergartenStudent;
 import java.awt.CardLayout;
-//import Business.Hospital.Ambulance;
-//import Business.Hospital.Doctor;
-//import Business.Hospital.Hospital;
-//import Business.Hospital.Patient;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.io.File;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -67,7 +53,7 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         this.teacherOrganization = (TeacherOrganization) organization;
         this.kindergartenEnterprise = (KindergartenEnterprise) enterprise;
         this.network = network;
-        System.out.println("UserInterface.TeacherRole.TeacherWorkJPanel.<init>() 70. " + ecoSystem);
+        labWelcome.setText("Welcome, " + userAccount.getUsername() + "!");
 
         Thread t = new Thread(this);
         t.start();
@@ -79,15 +65,16 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
 
         if (userAccount.getClassList() != null) {
             for (KClass kc : userAccount.getClassList()) {
-                Object[] row = new Object[8];
+                Object[] row = new Object[9];
                 row[0] = kc;
                 row[1] = kc.getClassType();
                 row[2] = userAccount.getEmployee().getName();
                 row[3] = kc.getCapacity();
-                row[4] = kc.getDeadline();
-                row[5] = kc.getStartDate();
-                row[6] = kc.getEndDate();
-                row[7] = kc.getStudentNum();
+                row[4] = kc.getRemainPlaces();
+                row[5] = kc.getDeadline();
+                row[6] = kc.getStartDate();
+                row[7] = kc.getEndDate();
+                row[8] = kc.getStudentNum();
                 model.addRow(row);
             }
         }
@@ -97,21 +84,59 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         DefaultTableModel model = (DefaultTableModel) tabApplication.getModel();
 
         model.setRowCount(0);
-        System.out.println("UserInterface.TeacherRole.TeacherWorkJPanel.populateKApplicaitonTable() 100. " + ecoSystem);
-        System.out.println("UserInterface.TeacherRole.TeacherWorkJPanel.populateKApplicaitonTable() 101. " + ecoSystem.getkAppicationDirectory().getkApplicationList());
-        if (ecoSystem.getkAppicationDirectory().getkApplicationList() !=null) {
             for (KApplication ka : ecoSystem.getkAppicationDirectory().getkApplicationList()) {
-                Object[] row = new Object[7];
-                row[0] = ka.getSender();
-                row[1] = ka.getKidName();
-                row[2] = ka.getKidAge();
-                row[3] = ka.getClassName();
-                row[4] = ka.getRequestDate();
-                row[5] = ka.getStatus();
-                model.addRow(row);
+                if (userAccount.getUsername().equals(ka.getReceiver())) {
+                    Object[] row = new Object[8];
+                    row[0] = ka;
+                    row[1] = ka.getClassName();
+                    row[2] = ka.getKidName();
+                    row[3] = ka.getKidAge();
+                    row[4] = ka.getSender();
+                    row[5] = ka.getEmail();
+                    row[6] = ka.getStatus();
+                    row[7] = ka.getRequestDate();
+                    
+                    model.addRow(row);
+                }
             }
-        }
     }
+    
+    public void populateAllStudentDirectory() {
+        DefaultTableModel model = (DefaultTableModel) tabStudentDirectory.getModel();
+
+        model.setRowCount(0);
+            for (KindergartenStudent ks : userAccount.getKindergartenStudentDirectory().getKindergartenStudentList()) {               
+                    Object[] row = new Object[7];
+                    row[0] = ks;
+                    row[1] = ks.getStudentAge();
+                    row[2] = ks.getStudentId();
+                    row[3] = ks.getGuardian();               
+                    row[4] = ks.getClassName();
+                    row[5] = ks.getEmail();
+                    row[6] = ks.getPhoneNum();
+                    model.addRow(row);
+            }
+    }
+    
+    public void populateSelectedClassStudent() {
+        DefaultTableModel model = (DefaultTableModel) tabStudentDirectory.getModel();
+
+        model.setRowCount(0);
+            for (KindergartenStudent ks : userAccount.getKindergartenStudentDirectory().getKindergartenStudentList()) {
+                if (ks.getClassName().equals(SDComboClassList.getSelectedItem())) {
+                    Object[] row = new Object[7];
+                    row[0] = ks;
+                    row[1] = ks.getStudentAge();
+                    row[2] = ks.getStudentId();
+                    row[3] = ks.getGuardian();               
+                    row[4] = ks.getClassName();
+                    row[5] = ks.getEmail();
+                    row[6] = ks.getPhoneNum();
+                    model.addRow(row);
+                }
+            }
+    }
+        
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -119,26 +144,17 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
 
         labTime = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        labWelcome = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JButton();
         btnMyStudent = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         ContentPanel = new javax.swing.JPanel();
         DashboardPanel = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        labelComplaintNum = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        labelPatientNum = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        labelDoctorNum = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableNotification = new javax.swing.JTable();
-        jLabel26 = new javax.swing.JLabel();
         btnMarkread = new javax.swing.JButton();
         jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         MyClassPanel = new javax.swing.JPanel();
         jLabel73 = new javax.swing.JLabel();
@@ -157,42 +173,32 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         MCTxtSdate = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         MCTxtEDate = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
         MyStudnetPanel = new javax.swing.JPanel();
-        txtViewStudent = new javax.swing.JTextField();
         jLabel50 = new javax.swing.JLabel();
-        btnViewBus1 = new javax.swing.JButton();
-        StudentJPanel = new javax.swing.JPanel();
-        StudentNull = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        StudentDetails = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jLabel51 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TableCommnuity = new javax.swing.JTable();
+        tabStudentDirectory = new javax.swing.JTable();
+        SDComboClassList = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         ManageApplication = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
         MABtnAccept = new javax.swing.JButton();
         jScrollPane19 = new javax.swing.JScrollPane();
         tabApplication = new javax.swing.JTable();
+        jLabel19 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnMyClass = new javax.swing.JButton();
         btnManageApplication = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 83, 155));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         labTime.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
         labTime.setForeground(new java.awt.Color(255, 255, 255));
         labTime.setText("Time");
+        add(labTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 1016, 291, 45));
 
         jButton6.setBackground(new java.awt.Color(58, 83, 155));
         jButton6.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -206,10 +212,12 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 jButton6ActionPerformed(evt);
             }
         });
+        add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1650, 80, 140, 40));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Hi,*** ");
+        labWelcome.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        labWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        labWelcome.setText("Hi,*** ");
+        add(labWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 48, 250, 40));
 
         btnDashboard.setBackground(new java.awt.Color(58, 83, 155));
         btnDashboard.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -222,6 +230,7 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 btnDashboardActionPerformed(evt);
             }
         });
+        add(btnDashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 220, 240, 40));
 
         btnMyStudent.setBackground(new java.awt.Color(58, 83, 155));
         btnMyStudent.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -234,93 +243,21 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 btnMyStudentActionPerformed(evt);
             }
         });
+        add(btnMyStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(88, 361, 240, 40));
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-dashboard.png"))); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-class.png"))); // NOI18N
+        add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, 60));
 
         jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-registration.png"))); // NOI18N
+        add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 416, -1, 60));
 
         ContentPanel.setBackground(new java.awt.Color(255, 255, 255));
         ContentPanel.setLayout(new java.awt.CardLayout());
 
         DashboardPanel.setBackground(new java.awt.Color(255, 255, 255));
         DashboardPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel7.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelComplaintNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelComplaintNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelComplaintNum.setText("0");
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
-                .addComponent(labelComplaintNum, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(labelComplaintNum)
-                .addGap(30, 30, 30))
-        );
-
-        DashboardPanel.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, 160, -1));
-
-        jPanel8.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelPatientNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelPatientNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelPatientNum.setText("0");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(labelPatientNum, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(labelPatientNum)
-                .addGap(30, 30, 30))
-        );
-
-        DashboardPanel.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 160, -1));
-
-        jPanel9.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelDoctorNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelDoctorNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelDoctorNum.setText("$200");
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(labelDoctorNum, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(labelDoctorNum)
-                .addGap(29, 29, 29))
-        );
-
-        DashboardPanel.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 160, -1));
 
         TableNotification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -349,12 +286,7 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         TableNotification.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableNotification);
 
-        DashboardPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, 630, 280));
-
-        jLabel26.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel26.setText("Complaint Received");
-        DashboardPanel.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 150, 170, 30));
+        DashboardPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 630, 280));
 
         btnMarkread.setBackground(new java.awt.Color(255, 255, 255));
         btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -367,51 +299,43 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 btnMarkreadActionPerformed(evt);
             }
         });
-        DashboardPanel.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 750, 170, 40));
+        DashboardPanel.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 500, 170, 40));
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(58, 83, 155));
         jLabel27.setText("You have * new Notifications:");
-        DashboardPanel.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 410, 330, 30));
-
-        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel28.setText("Payments ");
-        DashboardPanel.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 90, 30));
-
-        jLabel33.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel33.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel33.setText("Students Amount");
-        DashboardPanel.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 150, 30));
+        DashboardPanel.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 330, 30));
 
         jLabel35.setBackground(new java.awt.Color(58, 83, 155));
         jLabel35.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(58, 83, 155));
         jLabel35.setText("DASHBOARD");
-        DashboardPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, -1));
+        DashboardPanel.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 50, -1, -1));
 
         ContentPanel.add(DashboardPanel, "card5");
 
         MyClassPanel.setBackground(new java.awt.Color(255, 255, 255));
+        MyClassPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel73.setBackground(new java.awt.Color(58, 83, 155));
         jLabel73.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel73.setForeground(new java.awt.Color(58, 83, 155));
         jLabel73.setText("My Class");
+        MyClassPanel.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(708, 40, -1, -1));
 
         tabKClass.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Class Name", "Class Type", "Teacher", "Capacity", "Deadline", "Start Date", "End Date", "Studnet Number"
+                "Class Name", "Class Type", "Teacher", "Capacity", "Remaining Places", "Deadline", "Start Date", "End Date", "Studnet Number"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, false, true, true, true, true
+                false, true, true, false, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -430,28 +354,35 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
             tabKClass.getColumnModel().getColumn(2).setPreferredWidth(40);
             tabKClass.getColumnModel().getColumn(3).setResizable(false);
             tabKClass.getColumnModel().getColumn(3).setPreferredWidth(50);
-            tabKClass.getColumnModel().getColumn(4).setPreferredWidth(50);
-            tabKClass.getColumnModel().getColumn(6).setPreferredWidth(50);
-            tabKClass.getColumnModel().getColumn(7).setPreferredWidth(120);
+            tabKClass.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tabKClass.getColumnModel().getColumn(7).setPreferredWidth(50);
+            tabKClass.getColumnModel().getColumn(8).setPreferredWidth(120);
         }
+
+        MyClassPanel.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(162, 105, 1203, 250));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(58, 83, 155));
         jLabel15.setText("Class Type:");
+        MyClassPanel.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(532, 518, -1, 41));
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(58, 83, 155));
         jLabel16.setText("Capacity:");
+        MyClassPanel.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 577, -1, 41));
 
         MCTxtCapacity.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCTxtCapacity.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MyClassPanel.add(MCTxtCapacity, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 584, 182, -1));
 
         jLabel18.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(58, 83, 155));
         jLabel18.setText("Deadline:");
+        MyClassPanel.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(549, 624, -1, 41));
 
         MCTxtDeadline.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCTxtDeadline.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MyClassPanel.add(MCTxtDeadline, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 631, 182, -1));
 
         MCBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
         MCBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -464,279 +395,124 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 MCBtnSubmitActionPerformed(evt);
             }
         });
+        MyClassPanel.add(MCBtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(674, 856, 132, 42));
 
         MCComboClassType.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCComboClassType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DayCare", "Pre-School", "Pre-Kindergarten" }));
-        MCComboClassType.setBorder(null);
         MCComboClassType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MCComboClassTypeActionPerformed(evt);
             }
         });
+        MyClassPanel.add(MCComboClassType, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 526, 182, -1));
 
         jLabel20.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(58, 83, 155));
         jLabel20.setText("Class Name:");
+        MyClassPanel.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(522, 465, -1, 41));
 
         MCTxtClassName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCTxtClassName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MyClassPanel.add(MCTxtClassName, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 472, 182, -1));
 
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(58, 83, 155));
         jLabel21.setText("Start Date:");
+        MyClassPanel.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(537, 671, -1, 41));
 
         MCTxtSdate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCTxtSdate.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MyClassPanel.add(MCTxtSdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 678, 182, -1));
 
         jLabel22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(58, 83, 155));
         jLabel22.setText("End Date:");
+        MyClassPanel.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 718, -1, 41));
 
         MCTxtEDate.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         MCTxtEDate.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        MyClassPanel.add(MCTxtEDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(766, 725, 182, -1));
 
-        javax.swing.GroupLayout MyClassPanelLayout = new javax.swing.GroupLayout(MyClassPanel);
-        MyClassPanel.setLayout(MyClassPanelLayout);
-        MyClassPanelLayout.setHorizontalGroup(
-            MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MyClassPanelLayout.createSequentialGroup()
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(MyClassPanelLayout.createSequentialGroup()
-                        .addGap(470, 470, 470)
-                        .addComponent(jLabel73))
-                    .addGroup(MyClassPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 1098, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(MyClassPanelLayout.createSequentialGroup()
-                        .addGap(351, 351, 351)
-                        .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, MyClassPanelLayout.createSequentialGroup()
-                                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jLabel16)
-                                    .addComponent(jLabel20))
-                                .addGap(133, 133, 133)
-                                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(MCTxtCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(MCComboClassType, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(MCTxtClassName, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, MyClassPanelLayout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(MCTxtDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, MyClassPanelLayout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel22)
-                                    .addComponent(jLabel21))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(MCTxtSdate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(MCTxtEDate, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MyClassPanelLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(MCBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(489, 489, 489))
-        );
-        MyClassPanelLayout.setVerticalGroup(
-            MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MyClassPanelLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel73)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(97, 97, 97)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCTxtClassName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCComboClassType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCTxtCapacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCTxtDeadline, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCTxtSdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(MyClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MCTxtEDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
-                .addComponent(MCBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
-        );
+        jLabel29.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-classroom.png"))); // NOI18N
+        MyClassPanel.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 590, 470));
 
         ContentPanel.add(MyClassPanel, "card3");
 
         MyStudnetPanel.setBackground(new java.awt.Color(255, 255, 255));
         MyStudnetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtViewStudent.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewStudentActionPerformed(evt);
-            }
-        });
-        MyStudnetPanel.add(txtViewStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 390, 160, 30));
-
         jLabel50.setBackground(new java.awt.Color(58, 83, 155));
         jLabel50.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel50.setForeground(new java.awt.Color(58, 83, 155));
         jLabel50.setText("Student Directory");
-        MyStudnetPanel.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
+        MyStudnetPanel.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, -1, -1));
 
-        btnViewBus1.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewBus1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewBus1.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewBus1.setText("View");
-        btnViewBus1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewBus1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewBus1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewBus1ActionPerformed(evt);
-            }
-        });
-        MyStudnetPanel.add(btnViewBus1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 390, 120, 30));
-
-        StudentJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        StudentJPanel.setLayout(new java.awt.CardLayout());
-
-        StudentNull.setBackground(new java.awt.Color(255, 255, 255));
-        StudentNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-boy 3.png"))); // NOI18N
-        StudentNull.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, -10, 660, 550));
-
-        StudentJPanel.add(StudentNull, "card5");
-
-        StudentDetails.setBackground(new java.awt.Color(255, 255, 255));
-        StudentDetails.setForeground(new java.awt.Color(255, 255, 255));
-        StudentDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jTextField1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-        StudentDetails.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 210, 30));
-
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel1.setText("Name:");
-        StudentDetails.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 130, 80, 30));
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel2.setText("Sent Message to Guardian:");
-        StudentDetails.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 330, 270, 30));
-
-        jTextField3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
-        StudentDetails.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, 370, 30));
-
-        jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel4.setText("Guardian:");
-        StudentDetails.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 110, 30));
-
-        jTextField4.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
-            }
-        });
-        StudentDetails.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 190, 210, 30));
-
-        jButton1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(58, 83, 155));
-        jButton1.setText("Sent");
-        StudentDetails.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 370, 130, 30));
-
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel5.setText("Address:");
-        StudentDetails.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, 110, 30));
-
-        jTextField5.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
-        StudentDetails.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, 210, 30));
-
-        jButton2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(58, 83, 155));
-        jButton2.setText("View Location");
-        StudentDetails.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 250, 140, 30));
-
-        jLabel51.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel51.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel51.setText("Student Details Information");
-        StudentDetails.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, -1, -1));
-
-        jLabel10.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-boy 3.png"))); // NOI18N
-        StudentDetails.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, -10, 660, 550));
-
-        StudentJPanel.add(StudentDetails, "card3");
-
-        MyStudnetPanel.add(StudentJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableCommnuity.setModel(new javax.swing.table.DefaultTableModel(
+        tabStudentDirectory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Student Name", "Student ID", "Class", "Status"
+                "Student Name", "Age", "Student Id", "Guardian ", "Class", "Email", "Contact Number"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, true, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        TableCommnuity.setFocusable(false);
-        TableCommnuity.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableCommnuity.setRowHeight(30);
-        TableCommnuity.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableCommnuity.setShowVerticalLines(false);
-        TableCommnuity.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(TableCommnuity);
+        tabStudentDirectory.setFocusable(false);
+        tabStudentDirectory.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabStudentDirectory.setRowHeight(30);
+        tabStudentDirectory.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        tabStudentDirectory.setShowVerticalLines(false);
+        tabStudentDirectory.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabStudentDirectory);
+        if (tabStudentDirectory.getColumnModel().getColumnCount() > 0) {
+            tabStudentDirectory.getColumnModel().getColumn(1).setPreferredWidth(50);
+        }
 
-        MyStudnetPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 630, 280));
+        MyStudnetPanel.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 990, 430));
+
+        SDComboClassList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        SDComboClassList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SDComboClassListMouseClicked(evt);
+            }
+        });
+        SDComboClassList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SDComboClassListActionPerformed(evt);
+            }
+        });
+        MyStudnetPanel.add(SDComboClassList, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 210, -1));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel7.setText("Class:");
+        jLabel7.setToolTipText("");
+        MyStudnetPanel.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, -1, -1));
+
+        jLabel30.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-boy 3.png"))); // NOI18N
+        MyStudnetPanel.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 570, 600, 510));
 
         ContentPanel.add(MyStudnetPanel, "card4");
 
         ManageApplication.setBackground(new java.awt.Color(255, 255, 255));
+        ManageApplication.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel36.setBackground(new java.awt.Color(58, 83, 155));
         jLabel36.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(58, 83, 155));
         jLabel36.setText("MANAGE APPLICATION");
+        ManageApplication.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(507, 61, -1, -1));
 
         MABtnAccept.setBackground(new java.awt.Color(255, 255, 255));
         MABtnAccept.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
@@ -749,20 +525,21 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 MABtnAcceptActionPerformed(evt);
             }
         });
+        ManageApplication.add(MABtnAccept, new org.netbeans.lib.awtextra.AbsoluteConstraints(553, 604, 140, 40));
 
         tabApplication.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Applicant", "Kid Name", "Age", "Class", "Application Date", "Status"
+                "Kindergarten", "Class Name", "Kid Name", "Age", "Guardian", "Email", "Status", "Request Date"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, true, false
+                true, false, false, false, true, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -777,44 +554,24 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         tabApplication.getTableHeader().setReorderingAllowed(false);
         jScrollPane19.setViewportView(tabApplication);
         if (tabApplication.getColumnModel().getColumnCount() > 0) {
-            tabApplication.getColumnModel().getColumn(2).setPreferredWidth(20);
-            tabApplication.getColumnModel().getColumn(4).setPreferredWidth(150);
+            tabApplication.getColumnModel().getColumn(0).setPreferredWidth(70);
+            tabApplication.getColumnModel().getColumn(3).setPreferredWidth(20);
+            tabApplication.getColumnModel().getColumn(7).setPreferredWidth(150);
         }
 
-        javax.swing.GroupLayout ManageApplicationLayout = new javax.swing.GroupLayout(ManageApplication);
-        ManageApplication.setLayout(ManageApplicationLayout);
-        ManageApplicationLayout.setHorizontalGroup(
-            ManageApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ManageApplicationLayout.createSequentialGroup()
-                .addGroup(ManageApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(ManageApplicationLayout.createSequentialGroup()
-                        .addGap(438, 438, 438)
-                        .addComponent(jLabel36))
-                    .addGroup(ManageApplicationLayout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 950, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(194, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ManageApplicationLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(MABtnAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(558, 558, 558))
-        );
-        ManageApplicationLayout.setVerticalGroup(
-            ManageApplicationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ManageApplicationLayout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel36)
-                .addGap(76, 76, 76)
-                .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129)
-                .addComponent(MABtnAccept, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(472, Short.MAX_VALUE))
-        );
+        ManageApplication.add(jScrollPane19, new org.netbeans.lib.awtextra.AbsoluteConstraints(153, 136, 1148, -1));
+
+        jLabel19.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-list 2.png"))); // NOI18N
+        ManageApplication.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 530, 660, 550));
 
         ContentPanel.add(ManageApplication, "card7");
 
+        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(348, 128, 1460, 1080));
+
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-student_male.png"))); // NOI18N
+        add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 351, -1, -1));
 
         btnMyClass.setBackground(new java.awt.Color(58, 83, 155));
         btnMyClass.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -827,6 +584,7 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 btnMyClassActionPerformed(evt);
             }
         });
+        add(btnMyClass, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 289, 240, 40));
 
         btnManageApplication.setBackground(new java.awt.Color(58, 83, 155));
         btnManageApplication.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -839,78 +597,11 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
                 btnManageApplicationActionPerformed(evt);
             }
         });
+        add(btnManageApplication, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 436, 240, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(179, 179, 179)
-                .addComponent(jLabel6))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel17)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnMyStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(20, 20, 20))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(btnManageApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(7, 7, 7)
-                                        .addComponent(jLabel12)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnMyClass, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel6)))
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19)
-                        .addComponent(btnMyClass, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnMyStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnManageApplication, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(540, 540, 540)
-                        .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 954, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-dashboard.png"))); // NOI18N
+        add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
@@ -926,6 +617,14 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         ManageApplication.setVisible(false);
         DashboardPanel.setVisible(false);      
         MyClassPanel.setVisible(false);
+        
+        SDComboClassList.removeAllItems();
+        SDComboClassList.addItem("All");
+        for(KClass kc : userAccount.getClassList()) {               
+                SDComboClassList.addItem(kc.getClassName());
+        }
+        populateAllStudentDirectory();
+        
     }//GEN-LAST:event_btnMyStudentActionPerformed
 
    
@@ -935,53 +634,6 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         // TODO add your handling code here:
        
     }//GEN-LAST:event_btnMarkreadActionPerformed
-
-    private void txtViewStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewStudentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewStudentActionPerformed
-
-    private void btnViewBus1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBus1ActionPerformed
-        // TODO add your handling code here:
-        /*int selectedRow = TableDriver.getSelectedRow();
-
-        if (selectedRow >= 0)
-        {
-            SchoolBus s = (SchoolBus) TablePatient.getValueAt(selectedRow, 0);
-            //setvisable
-            PatientNull.setVisible(false);
-            SchoolBusAdd.setVisible(false);
-            PatientViewInformation.setVisible(true);
-
-            //txt
-            vPatientName.setText(s.getLicense());
-            vPatientPhone.setText(s.getModelNum());
-            vPatientTypeofillness.setText(s.getPersonCapacity());
-            vYear.setText(s.getManfacturedYear());
-
-            //
-            schoolBus = s;
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Please select a school bus.");
-        }*/
-    }//GEN-LAST:event_btnViewBus1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
 
     private void btnMyClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMyClassActionPerformed
         // TODO add your handling code here:
@@ -999,49 +651,30 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
         String classType = String.valueOf(MCComboClassType.getSelectedItem());
         int capacity = Integer.parseInt(MCTxtCapacity.getText());
         String teacherName = userAccount.getEmployee().getName();
+        int teacherId = userAccount.getEmployee().getId();
         String startDate = MCTxtSdate.getText();
         String endDate = MCTxtEDate.getText();
         String deadline = MCTxtDeadline.getText();
         kc.setClassName(className);
         kc.setTeacherName(teacherName);
+        kc.setTeacherId(teacherId);
         kc.setClassType(classType);
         kc.setCapacity(capacity);
+        kc.setRemainPlaces(capacity);
         kc.setStartDate(startDate);
         kc.setEndDate(endDate);
         kc.setDeadline(deadline);
+        kc.setTeacherUserName(userAccount.getUsername());
+        System.out.println("UserInterface.TeacherRole.TeacherWorkJPanel.MCBtnSubmitActionPerformed() 1013. username" + kc.getTeacherUserName());
+
         userAccount.getClassList().add(kc);
         kindergartenEnterprise.getAllClassList().add(kc);
-        JOptionPane.showMessageDialog(null, "Class created successfully!");
         populateClassTable();
         MCTxtClassName.setText("");
         MCTxtCapacity.setText("");
         MCTxtDeadline.setText("");
         MCTxtEDate.setText("");
         MCTxtSdate.setText("");
-        
-//        CoachClass cc = new CoachClass();
-//        if (!(nameJTextField2.getText().equals("") || nameJTextField1.getText().equals(""))) {
-//            if (Integer.parseInt(nameJTextField1.getText()) < 200 && Integer.parseInt(nameJTextField1.getText()) > 0) {
-//                cc.setClassname(nameJTextField2.getText());
-//                cc.setCapacity(Integer.parseInt(nameJTextField1.getText()));
-//                cc.setCoach(userAccount.getUsername());
-////        cc.setTime(time);
-//                userAccount.getClasslist().add(cc);
-//                enterprise.getAllClassList().add(cc);
-//                JOptionPane.showMessageDialog(null, "KClass  created successfully !");
-//
-//                container.remove(this);
-//                CardLayout layout = (CardLayout) container.getLayout();
-//                layout.previous(container);
-//                
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Capacity  must between 1-200 !");
-//
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(null, "please fill all items !");
-//
-//        }
         
     }//GEN-LAST:event_MCBtnSubmitActionPerformed
 
@@ -1087,11 +720,65 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
 
     private void MABtnAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MABtnAcceptActionPerformed
         // TODO add your handling code here:
-        //        String name = NTxtNetwork.getText();
-        //        Network network = ecoSystem.createAndAddNetwork();
-        //        network.setName(name);
-        //        populateNetworkTable();
+        int row = tabApplication.getSelectedRow();
+        
+        if(row >=0){
+            int selectionResult = JOptionPane.showConfirmDialog(null, "Do you confirm the application?","Confirmation",JOptionPane.YES_NO_OPTION);
+            if(selectionResult == JOptionPane.YES_OPTION){
+            KApplication ka = (KApplication) tabApplication.getValueAt(row, 0);
+            SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy  KK:mm:ss a");
+            Date dNow = new Date();
+            ka.setResolveDate(dateformat.format(dNow));
+            ka.setStatus("Accepted");
+            
+            for (KClass kcl : userAccount.getClassList()) {
+                if (kcl.getClassName().equals(ka.getClassName())) {
+                    kcl.setStudentNum(kcl.getStudentNum()+1);
+                    kcl.setRemainPlaces(kcl.getRemainPlaces()-1);
+                    System.out.println("UserInterface.TeacherRole.TeacherWorkJPanel.MABtnAcceptActionPerformed() 1080. sNum: " + kcl.getStudentNum());
+                }
+            }
+            
+            KindergartenStudent ks = new KindergartenStudent();
+            ks.setClassName(ka.getClassName());
+            ks.setGuardian(ka.getSender());
+            ks.setEmail(ka.getEmail());
+            ks.setPhoneNum(ka.getPhoneNum());
+            ks.setStudentId(kindergartenEnterprise.getKindergartenStudentDirectory().getKindergartenStudentList().size()+1);
+            ks.setStudentName(ka.getKidName());
+            ks.setStudentAge(ka.getKidAge());
+            ks.setTeacherUserName(ka.getReceiver());
+            userAccount.getKindergartenStudentDirectory().getKindergartenStudentList().add(ks);
+            kindergartenEnterprise.getKindergartenStudentDirectory().getKindergartenStudentList().add(ks);
+            
+            populateClassTable();
+            populateKApplicaitonTable();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Please select a row!!", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_MABtnAcceptActionPerformed
+
+    private void SDComboClassListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SDComboClassListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SDComboClassListActionPerformed
+
+    private void SDComboClassListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SDComboClassListMouseClicked
+        // TODO add your handling code here:
+        SDComboClassList.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                Object selectedItem = event.getItem();
+                if (selectedItem == SDComboClassList.getSelectedItem()) {
+                    populateSelectedClassStudent();
+                }
+                
+                if (selectedItem.equals("All")) {
+                    populateAllStudentDirectory();
+                }
+            }
+        });
+    }//GEN-LAST:event_SDComboClassListMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ContentPanel;
@@ -1107,62 +794,41 @@ public class TeacherWorkJPanel extends javax.swing.JPanel implements Runnable{
     private javax.swing.JPanel ManageApplication;
     private javax.swing.JPanel MyClassPanel;
     private javax.swing.JPanel MyStudnetPanel;
-    private javax.swing.JPanel StudentDetails;
-    private javax.swing.JPanel StudentJPanel;
-    private javax.swing.JPanel StudentNull;
-    private javax.swing.JTable TableCommnuity;
+    private javax.swing.JComboBox SDComboClassList;
     private javax.swing.JTable TableNotification;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnManageApplication;
     private javax.swing.JButton btnMarkread;
     private javax.swing.JButton btnMyClass;
     private javax.swing.JButton btnMyStudent;
-    private javax.swing.JButton btnViewBus1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel73;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane19;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JLabel labTime;
-    private javax.swing.JLabel labelComplaintNum;
-    private javax.swing.JLabel labelDoctorNum;
-    private javax.swing.JLabel labelPatientNum;
+    private javax.swing.JLabel labWelcome;
     private javax.swing.JTable tabApplication;
     private javax.swing.JTable tabKClass;
-    private javax.swing.JTextField txtViewStudent;
+    private javax.swing.JTable tabStudentDirectory;
     // End of variables declaration//GEN-END:variables
 }

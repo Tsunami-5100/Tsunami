@@ -57,10 +57,9 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
     private Merchandise merchandise;
     private UserAccount deliveryaccount;
-    private String imagePath;
     private MerchandiseOrder selectMerchandiseOrder;
 
-    public MarketAdminWorkJPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise, Network network, EcoSystem ecoSystem) {
+    public MarketAdminWorkJPanel(JPanel userProcessContainer, UserAccount userAccount, Organization organization, Enterprise enterprise, Network network, EcoSystem ecoSystem) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
         this.ecoSystem = ecoSystem;
@@ -70,7 +69,9 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         this.managementOrganization = (MarketManagementOrganization) organization;
         this.marketEnterprise = (MarketEnterprise) enterprise;
         this.network = network;
-        //jLabel6.setText("HI! " + userAccount.getEmployee().getName());
+        labWelcome.setText("Welcome, " +userAccount.getUsername() + "!");
+        
+        
         populateMessageTable();
         jLabel30.setText("You have " + TableNotification.getRowCount()+  " new Notifications:");
         Thread t = new Thread(this);
@@ -166,27 +167,14 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
 
         labTime = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        labWelcome = new javax.swing.JLabel();
         btnDashboard = new javax.swing.JButton();
         btnOrder = new javax.swing.JButton();
         btnMerchandise = new javax.swing.JButton();
         btnDeliveryman = new javax.swing.JButton();
-        btnComplaint = new javax.swing.JButton();
-        btnInformation = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
         ContentPanel = new javax.swing.JPanel();
         Dashboard = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        labelComplaintNum = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        labelPatientNum = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        labelDoctorNum = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableNotification = new javax.swing.JTable();
@@ -195,12 +183,9 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         Order = new javax.swing.JPanel();
         jScrollPane10 = new javax.swing.JScrollPane();
         TableOrder = new javax.swing.JTable();
-        txtStudentView1 = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         btnViewOrder = new javax.swing.JButton();
         OrderListJPanel = new javax.swing.JPanel();
-        RequestListNull = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         RequestListView = new javax.swing.JPanel();
         jLabel38 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -223,8 +208,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         btnViewMerchandise = new javax.swing.JButton();
         btnMerchandiseAdd = new javax.swing.JButton();
         MerchandiseJPanel = new javax.swing.JPanel();
-        MerchandiseNull = new javax.swing.JPanel();
-        jLabel24 = new javax.swing.JLabel();
         MerchandiseAdd = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
@@ -245,7 +228,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         vMerchandiseUpload = new javax.swing.JButton();
         btnMerchandiseSave = new javax.swing.JButton();
         jLabel43 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
         btnDelMerchandise = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         tableMerchandise = new javax.swing.JTable();
@@ -254,8 +237,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         jLabel46 = new javax.swing.JLabel();
         btnViewDelivery = new javax.swing.JButton();
         DeliverymanJPanel = new javax.swing.JPanel();
-        DeliveryManNull = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
         DeliveryManAdd = new javax.swing.JPanel();
         jLabel49 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -281,52 +262,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         TableDelivery = new javax.swing.JTable();
         btnDAdd = new javax.swing.JButton();
         btnDeliveryDelete = new javax.swing.JButton();
-        ManageComplaint = new javax.swing.JPanel();
-        txtViewReceiver = new javax.swing.JTextField();
-        jLabel70 = new javax.swing.JLabel();
-        btnViewComplaint = new javax.swing.JButton();
-        ComplaintJPanel = new javax.swing.JPanel();
-        ComplaintNull = new javax.swing.JPanel();
-        ComplaintInformation = new javax.swing.JPanel();
-        jLabel93 = new javax.swing.JLabel();
-        jLabel94 = new javax.swing.JLabel();
-        txtComplaintEmployee = new javax.swing.JTextField();
-        jLabel99 = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        txtComplaintDesc = new javax.swing.JTextArea();
-        jLabel100 = new javax.swing.JLabel();
-        sentMessageToAddresser = new javax.swing.JButton();
-        jLabel101 = new javax.swing.JLabel();
-        sentMessageToReceiver = new javax.swing.JButton();
-        txtComplaintReason = new javax.swing.JTextField();
-        txtComAddresser = new javax.swing.JTextField();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        TableComplaint = new javax.swing.JTable();
-        ManageInformation = new javax.swing.JPanel();
-        image = new javax.swing.JLabel();
-        btnphotoUpload = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
-        jLabel71 = new javax.swing.JLabel();
-        txtEntName = new javax.swing.JTextField();
-        txtEntLocation = new javax.swing.JTextField();
-        jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
-        txtPhoneNumber = new javax.swing.JTextField();
-        jLabel74 = new javax.swing.JLabel();
-        jLabel75 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
-        jLabel76 = new javax.swing.JLabel();
-        txtUserAccount = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
-        comboxClosedTime = new javax.swing.JComboBox<>();
-        jLabel77 = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
-        comboxOpenTime = new javax.swing.JComboBox<>();
-        jLabel83 = new javax.swing.JLabel();
-        jLabel84 = new javax.swing.JLabel();
-        jLabel85 = new javax.swing.JLabel();
-        jLabel86 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -353,10 +288,10 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         });
         add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(32, 35, 140, 40));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Hi,*** ");
-        add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 48, -1, -1));
+        labWelcome.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        labWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        labWelcome.setText("Hi,*** ");
+        add(labWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 48, 310, -1));
 
         btnDashboard.setBackground(new java.awt.Color(58, 83, 155));
         btnDashboard.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -410,43 +345,9 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         });
         add(btnDeliveryman, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 430, 240, 40));
 
-        btnComplaint.setBackground(new java.awt.Color(58, 83, 155));
-        btnComplaint.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnComplaint.setForeground(new java.awt.Color(255, 255, 255));
-        btnComplaint.setText("Manage Complaint");
-        btnComplaint.setBorder(null);
-        btnComplaint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnComplaint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnComplaintActionPerformed(evt);
-            }
-        });
-        add(btnComplaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 500, 240, 40));
-
-        btnInformation.setBackground(new java.awt.Color(58, 83, 155));
-        btnInformation.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnInformation.setForeground(new java.awt.Color(255, 255, 255));
-        btnInformation.setText("Manage Information");
-        btnInformation.setBorder(null);
-        btnInformation.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInformation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformationActionPerformed(evt);
-            }
-        });
-        add(btnInformation, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 570, 240, 40));
-
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-dashboard.png"))); // NOI18N
         add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 60, -1));
-
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-strike.png"))); // NOI18N
-        add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 490, -1, 60));
-
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-registration.png"))); // NOI18N
-        add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 560, 50, 60));
 
         ContentPanel.setBackground(new java.awt.Color(255, 255, 255));
         ContentPanel.setLayout(new java.awt.CardLayout());
@@ -454,101 +355,11 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel7.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelComplaintNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelComplaintNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelComplaintNum.setText("0");
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
-                .addComponent(labelComplaintNum, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(labelComplaintNum)
-                .addGap(30, 30, 30))
-        );
-
-        Dashboard.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, 160, -1));
-
-        jPanel8.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelPatientNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelPatientNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelPatientNum.setText("0");
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
-                .addComponent(labelPatientNum, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
-                .addComponent(labelPatientNum)
-                .addGap(30, 30, 30))
-        );
-
-        Dashboard.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 160, -1));
-
-        jPanel9.setBackground(new java.awt.Color(58, 83, 155));
-
-        labelDoctorNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
-        labelDoctorNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelDoctorNum.setText("$200");
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(labelDoctorNum, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
-                .addComponent(labelDoctorNum)
-                .addGap(29, 29, 29))
-        );
-
-        Dashboard.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 160, -1));
-
-        jLabel26.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel26.setText("Complaint Received");
-        Dashboard.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 150, 170, 30));
-
-        jLabel28.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel28.setText("Amount of Orders");
-        Dashboard.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 170, 30));
-
-        jLabel33.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel33.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel33.setText("Revenue");
-        Dashboard.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 80, 30));
-
         jLabel35.setBackground(new java.awt.Color(58, 83, 155));
         jLabel35.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(58, 83, 155));
         jLabel35.setText("DASHBOARD");
-        Dashboard.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 20, -1, -1));
+        Dashboard.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, -1, -1));
 
         TableNotification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -577,15 +388,15 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         TableNotification.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableNotification);
 
-        Dashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 560, 630, 280));
+        Dashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, 630, 280));
 
-        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel30.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(58, 83, 155));
         jLabel30.setText("You have * new Notifications:");
-        Dashboard.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, 330, 30));
+        Dashboard.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 330, 30));
 
         btnMarkread.setBackground(new java.awt.Color(255, 255, 255));
-        btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
+        btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnMarkread.setForeground(new java.awt.Color(58, 83, 155));
         btnMarkread.setText("Markread");
         btnMarkread.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -595,7 +406,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnMarkreadActionPerformed(evt);
             }
         });
-        Dashboard.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 210, 40));
+        Dashboard.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 500, 190, 40));
 
         ContentPanel.add(Dashboard, "card5");
 
@@ -635,24 +446,16 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
             TableOrder.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        Order.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 720, 230));
-
-        txtStudentView1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtStudentView1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudentView1ActionPerformed(evt);
-            }
-        });
-        Order.add(txtStudentView1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
+        Order.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 870, 230));
 
         jLabel21.setBackground(new java.awt.Color(58, 83, 155));
         jLabel21.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(58, 83, 155));
         jLabel21.setText("Request List");
-        Order.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, -1, -1));
+        Order.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 70, -1, -1));
 
         btnViewOrder.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewOrder.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        btnViewOrder.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnViewOrder.setForeground(new java.awt.Color(58, 83, 155));
         btnViewOrder.setText("View");
         btnViewOrder.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
@@ -662,19 +465,10 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnViewOrderActionPerformed(evt);
             }
         });
-        Order.add(btnViewOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
+        Order.add(btnViewOrder, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 350, 120, 30));
 
         OrderListJPanel.setBackground(new java.awt.Color(255, 255, 255));
         OrderListJPanel.setLayout(new java.awt.CardLayout());
-
-        RequestListNull.setBackground(new java.awt.Color(255, 255, 255));
-        RequestListNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-money.png"))); // NOI18N
-        RequestListNull.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 690, 470));
-
-        OrderListJPanel.add(RequestListNull, "card5");
 
         RequestListView.setBackground(new java.awt.Color(255, 255, 255));
         RequestListView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -683,39 +477,41 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         jLabel38.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel38.setForeground(new java.awt.Color(58, 83, 155));
         jLabel38.setText("Order Detailed Information");
-        RequestListView.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, -1, -1));
+        RequestListView.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, -1, -1));
 
-        jLabel10.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(58, 83, 155));
         jLabel10.setText("Location:");
-        RequestListView.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 130, -1, -1));
+        RequestListView.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, -1, -1));
 
-        jLabel13.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(58, 83, 155));
         jLabel13.setText("Customer Name:");
-        RequestListView.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 80, -1, 30));
+        RequestListView.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 80, -1, 30));
 
-        txtRequestLocation.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestLocation.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtRequestLocation.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtRequestLocation.setEnabled(false);
         txtRequestLocation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRequestLocationActionPerformed(evt);
             }
         });
-        RequestListView.add(txtRequestLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 140, -1));
+        RequestListView.add(txtRequestLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 140, -1));
 
-        txtRequestCustomer.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestCustomer.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtRequestCustomer.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtRequestCustomer.setEnabled(false);
         txtRequestCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRequestCustomerActionPerformed(evt);
             }
         });
-        RequestListView.add(txtRequestCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 140, -1));
+        RequestListView.add(txtRequestCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 140, -1));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-user_location.png"))); // NOI18N
         jButton2.setBorder(null);
-        RequestListView.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 150, 80, 30));
+        RequestListView.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 130, 80, 30));
 
         tableRequestDetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -742,9 +538,9 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
             tableRequestDetails.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        RequestListView.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 120, 160));
+        RequestListView.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 530, 250));
 
-        btnRequestAssign.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        btnRequestAssign.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnRequestAssign.setForeground(new java.awt.Color(58, 83, 155));
         btnRequestAssign.setText("Assign");
         btnRequestAssign.addActionListener(new java.awt.event.ActionListener() {
@@ -752,46 +548,48 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnRequestAssignActionPerformed(evt);
             }
         });
-        RequestListView.add(btnRequestAssign, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 140, 40));
+        RequestListView.add(btnRequestAssign, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 590, 140, 30));
 
-        comboDeliveryman.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        RequestListView.add(comboDeliveryman, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 150, 40));
+        comboDeliveryman.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        RequestListView.add(comboDeliveryman, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 550, 170, 30));
 
-        txtRequestPhone.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestPhone.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtRequestPhone.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtRequestPhone.setEnabled(false);
         txtRequestPhone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRequestPhoneActionPerformed(evt);
             }
         });
-        RequestListView.add(txtRequestPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 180, 140, -1));
+        RequestListView.add(txtRequestPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 140, -1));
 
-        jLabel23.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(58, 83, 155));
         jLabel23.setText("Phone Number:");
-        RequestListView.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
+        RequestListView.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, -1, -1));
 
-        txtRequestD.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        txtRequestD.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtRequestD.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         txtRequestD.setEnabled(false);
         txtRequestD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtRequestDActionPerformed(evt);
             }
         });
-        RequestListView.add(txtRequestD, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 120, 140, -1));
+        RequestListView.add(txtRequestD, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 140, -1));
 
-        jLabel25.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel25.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(58, 83, 155));
         jLabel25.setText("Deliveryman:");
-        RequestListView.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, -1, -1));
+        RequestListView.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, -1, -1));
 
         jLabel22.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-money.png"))); // NOI18N
-        RequestListView.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 690, 470));
+        RequestListView.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 690, 470));
 
         OrderListJPanel.add(RequestListView, "card4");
 
-        Order.add(OrderListJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        Order.add(OrderListJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 440, 870, 640));
 
         ContentPanel.add(Order, "card4");
 
@@ -804,13 +602,13 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 txtStudentViewActionPerformed(evt);
             }
         });
-        Merchandise.add(txtStudentView, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
+        Merchandise.add(txtStudentView, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 410, 160, 30));
 
         jLabel19.setBackground(new java.awt.Color(58, 83, 155));
         jLabel19.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(58, 83, 155));
         jLabel19.setText("Manage Merchandise Catalog");
-        Merchandise.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
+        Merchandise.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 40, -1, -1));
 
         btnViewMerchandise.setBackground(new java.awt.Color(255, 255, 255));
         btnViewMerchandise.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -823,7 +621,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnViewMerchandiseActionPerformed(evt);
             }
         });
-        Merchandise.add(btnViewMerchandise, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
+        Merchandise.add(btnViewMerchandise, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 410, 120, 30));
 
         btnMerchandiseAdd.setBackground(new java.awt.Color(255, 255, 255));
         btnMerchandiseAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -836,143 +634,134 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnMerchandiseAddActionPerformed(evt);
             }
         });
-        Merchandise.add(btnMerchandiseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 370, 110, 30));
+        Merchandise.add(btnMerchandiseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 410, 110, 30));
 
         MerchandiseJPanel.setBackground(new java.awt.Color(255, 255, 255));
         MerchandiseJPanel.setLayout(new java.awt.CardLayout());
 
-        MerchandiseNull.setBackground(new java.awt.Color(255, 255, 255));
-        MerchandiseNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel24.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-shopping_bag.png"))); // NOI18N
-        MerchandiseNull.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 590, 470));
-
-        MerchandiseJPanel.add(MerchandiseNull, "card5");
-
         MerchandiseAdd.setBackground(new java.awt.Color(255, 255, 255));
         MerchandiseAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(58, 83, 155));
         jLabel3.setText("Name:");
-        MerchandiseAdd.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, -1, 30));
+        MerchandiseAdd.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, -1, 30));
 
-        jLabel29.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel29.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(58, 83, 155));
         jLabel29.setText("Price:");
         jLabel29.setToolTipText("");
-        MerchandiseAdd.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, 80, 30));
+        MerchandiseAdd.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 80, 30));
 
         aMerchandiseQuantity.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aMerchandiseQuantity.setToolTipText("");
-        MerchandiseAdd.add(aMerchandiseQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 180, 30));
+        MerchandiseAdd.add(aMerchandiseQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 270, 180, 30));
 
-        jLabel31.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel31.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(58, 83, 155));
         jLabel31.setText("Quantity:");
         jLabel31.setToolTipText("");
-        MerchandiseAdd.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, -1, 30));
+        MerchandiseAdd.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 260, -1, 30));
 
         aMerchandiseName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aMerchandiseName.setToolTipText("");
-        MerchandiseAdd.add(aMerchandiseName, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 180, 30));
+        MerchandiseAdd.add(aMerchandiseName, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 140, 180, 30));
 
         aMerchandisePrice.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aMerchandisePrice.setToolTipText("");
-        MerchandiseAdd.add(aMerchandisePrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 70, 180, 30));
+        MerchandiseAdd.add(aMerchandisePrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 180, 30));
 
-        aMerchandiseAdd.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        aMerchandiseAdd.setFont(new java.awt.Font("Lucida Grande", 1, 20)); // NOI18N
         aMerchandiseAdd.setForeground(new java.awt.Color(58, 83, 155));
-        aMerchandiseAdd.setText("ADD");
+        aMerchandiseAdd.setText("Add");
         aMerchandiseAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aMerchandiseAddActionPerformed(evt);
             }
         });
-        MerchandiseAdd.add(aMerchandiseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 130, 40));
+        MerchandiseAdd.add(aMerchandiseAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 130, 40));
 
         jLabel39.setBackground(new java.awt.Color(58, 83, 155));
         jLabel39.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel39.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel39.setText("Input  Detailed Information to Add a New Merchandise");
-        MerchandiseAdd.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, -1, -1));
+        jLabel39.setText("Input information to add new merchandise:");
+        MerchandiseAdd.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, -1, -1));
 
         jLabel32.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-shopping_bag.png"))); // NOI18N
-        MerchandiseAdd.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 590, 470));
+        MerchandiseAdd.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 590, 500));
 
         MerchandiseJPanel.add(MerchandiseAdd, "card3");
 
         MerchandiseView.setBackground(new java.awt.Color(255, 255, 255));
         MerchandiseView.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel40.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel40.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel40.setForeground(new java.awt.Color(58, 83, 155));
         jLabel40.setText("Name:");
-        MerchandiseView.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 120, -1, 30));
+        MerchandiseView.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 160, -1, 30));
 
-        jLabel41.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(58, 83, 155));
         jLabel41.setText("Price:");
         jLabel41.setToolTipText("");
-        MerchandiseView.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 180, 80, 30));
+        MerchandiseView.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, 80, 30));
 
         vMerchandiseQuantity.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vMerchandiseQuantity.setToolTipText("");
         vMerchandiseQuantity.setEnabled(false);
-        MerchandiseView.add(vMerchandiseQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 140, 180, 30));
+        MerchandiseView.add(vMerchandiseQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 280, 180, 30));
 
-        jLabel42.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel42.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel42.setForeground(new java.awt.Color(58, 83, 155));
         jLabel42.setText("Quantity:");
         jLabel42.setToolTipText("");
-        MerchandiseView.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, 30));
+        MerchandiseView.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, 30));
 
         vMerchandiseName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vMerchandiseName.setToolTipText("");
         vMerchandiseName.setEnabled(false);
-        MerchandiseView.add(vMerchandiseName, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 20, 180, 30));
+        MerchandiseView.add(vMerchandiseName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 160, 180, 30));
 
         vMerchandisePrice.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vMerchandisePrice.setToolTipText("");
         vMerchandisePrice.setEnabled(false);
-        MerchandiseView.add(vMerchandisePrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 80, 180, 30));
+        MerchandiseView.add(vMerchandisePrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 220, 180, 30));
 
-        vMerchandiseUpload.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        vMerchandiseUpload.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         vMerchandiseUpload.setForeground(new java.awt.Color(58, 83, 155));
-        vMerchandiseUpload.setText("UPLOAD");
+        vMerchandiseUpload.setText("Upload");
         vMerchandiseUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 vMerchandiseUploadActionPerformed(evt);
             }
         });
-        MerchandiseView.add(vMerchandiseUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 70, 130, 40));
+        MerchandiseView.add(vMerchandiseUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 380, 130, 40));
 
-        btnMerchandiseSave.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnMerchandiseSave.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnMerchandiseSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnMerchandiseSave.setText("SAVE");
+        btnMerchandiseSave.setText("Save");
         btnMerchandiseSave.setEnabled(false);
         btnMerchandiseSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMerchandiseSaveActionPerformed(evt);
             }
         });
-        MerchandiseView.add(btnMerchandiseSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 70, 130, 40));
+        MerchandiseView.add(btnMerchandiseSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 380, 130, 40));
 
         jLabel43.setBackground(new java.awt.Color(58, 83, 155));
         jLabel43.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(58, 83, 155));
         jLabel43.setText("Merchandise Detailed Information");
-        MerchandiseView.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 30, -1, -1));
+        MerchandiseView.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-shopping_bag.png"))); // NOI18N
-        MerchandiseView.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, 590, 470));
+        jLabel33.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-shopping_bag.png"))); // NOI18N
+        MerchandiseView.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 590, 500));
 
         MerchandiseJPanel.add(MerchandiseView, "card4");
 
-        Merchandise.add(MerchandiseJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        Merchandise.add(MerchandiseJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 470, 870, 570));
 
         btnDelMerchandise.setBackground(new java.awt.Color(255, 255, 255));
         btnDelMerchandise.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -985,7 +774,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnDelMerchandiseActionPerformed(evt);
             }
         });
-        Merchandise.add(btnDelMerchandise, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 110, 30));
+        Merchandise.add(btnDelMerchandise, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 110, 30));
 
         tableMerchandise.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1016,7 +805,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
             tableMerchandise.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        Merchandise.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 590, 230));
+        Merchandise.add(jScrollPane11, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 100, 850, 300));
 
         ContentPanel.add(Merchandise, "card4");
 
@@ -1029,13 +818,13 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 txtViewBusActionPerformed(evt);
             }
         });
-        Deliveryman.add(txtViewBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 330, 160, 30));
+        Deliveryman.add(txtViewBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 430, 160, 30));
 
         jLabel46.setBackground(new java.awt.Color(58, 83, 155));
         jLabel46.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel46.setForeground(new java.awt.Color(58, 83, 155));
         jLabel46.setText("Deliveryman Directory");
-        Deliveryman.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 20, -1, -1));
+        Deliveryman.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
 
         btnViewDelivery.setBackground(new java.awt.Color(255, 255, 255));
         btnViewDelivery.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -1048,19 +837,10 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnViewDeliveryActionPerformed(evt);
             }
         });
-        Deliveryman.add(btnViewDelivery, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 330, 120, 30));
+        Deliveryman.add(btnViewDelivery, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 430, 120, 30));
 
         DeliverymanJPanel.setBackground(new java.awt.Color(255, 255, 255));
         DeliverymanJPanel.setLayout(new java.awt.CardLayout());
-
-        DeliveryManNull.setBackground(new java.awt.Color(255, 255, 255));
-        DeliveryManNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel20.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-deliveryman.png"))); // NOI18N
-        DeliveryManNull.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 590, 470));
-
-        DeliverymanJPanel.add(DeliveryManNull, "card5");
 
         DeliveryManAdd.setBackground(new java.awt.Color(255, 255, 255));
         DeliveryManAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1069,18 +849,18 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         jLabel49.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel49.setForeground(new java.awt.Color(58, 83, 155));
         jLabel49.setText("Input Detailed Information to add a new DeliveryMan");
-        DeliveryManAdd.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 20, -1, -1));
+        DeliveryManAdd.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(58, 83, 155));
         jLabel4.setText("Name:");
-        DeliveryManAdd.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, -1, 30));
+        DeliveryManAdd.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 140, -1, 30));
 
         aDeliverymanName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aDeliverymanName.setToolTipText("");
-        DeliveryManAdd.add(aDeliverymanName, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 50, 180, 30));
+        DeliveryManAdd.add(aDeliverymanName, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 180, 30));
 
-        btnSubmitDelivery.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnSubmitDelivery.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnSubmitDelivery.setForeground(new java.awt.Color(58, 83, 155));
         btnSubmitDelivery.setText("Submit");
         btnSubmitDelivery.addActionListener(new java.awt.event.ActionListener() {
@@ -1088,31 +868,31 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnSubmitDeliveryActionPerformed(evt);
             }
         });
-        DeliveryManAdd.add(btnSubmitDelivery, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 130, 40));
+        DeliveryManAdd.add(btnSubmitDelivery, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 340, 130, 40));
 
         jLabel55.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel55.setForeground(new java.awt.Color(58, 83, 155));
         jLabel55.setText("Password:");
         jLabel55.setToolTipText("");
-        DeliveryManAdd.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, -1, 30));
+        DeliveryManAdd.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, -1, 30));
 
         jLabel63.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel63.setForeground(new java.awt.Color(58, 83, 155));
         jLabel63.setText("UserName:");
         jLabel63.setToolTipText("");
-        DeliveryManAdd.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, -1, 40));
+        DeliveryManAdd.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, -1, 40));
 
         aDeliverymanUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aDeliverymanUserName.setToolTipText("");
-        DeliveryManAdd.add(aDeliverymanUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 100, 180, 30));
+        DeliveryManAdd.add(aDeliverymanUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 210, 180, 30));
 
         aDeliverymanPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         aDeliverymanPassword.setToolTipText("");
-        DeliveryManAdd.add(aDeliverymanPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, 180, 30));
+        DeliveryManAdd.add(aDeliverymanPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 180, 30));
 
         jLabel36.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-deliveryman.png"))); // NOI18N
-        DeliveryManAdd.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 590, 470));
+        DeliveryManAdd.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 590, 560));
 
         DeliverymanJPanel.add(DeliveryManAdd, "card3");
 
@@ -1123,68 +903,68 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         jLabel48.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel48.setForeground(new java.awt.Color(58, 83, 155));
         jLabel48.setText("Deliveryman Detailed Information");
-        DeliveryManView.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, -1, -1));
+        DeliveryManView.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 80, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(58, 83, 155));
         jLabel7.setText("Name:");
-        DeliveryManView.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, -1, 30));
+        DeliveryManView.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, -1, 30));
 
         vDeliveryManName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vDeliveryManName.setToolTipText("");
         vDeliveryManName.setEnabled(false);
-        DeliveryManView.add(vDeliveryManName, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, 180, 30));
+        DeliveryManView.add(vDeliveryManName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 180, 180, 30));
 
-        btnDeliveryUpload.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnDeliveryUpload.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnDeliveryUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnDeliveryUpload.setText("UPLOAD");
+        btnDeliveryUpload.setText("Upload");
         btnDeliveryUpload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeliveryUploadActionPerformed(evt);
             }
         });
-        DeliveryManView.add(btnDeliveryUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 130, 40));
+        DeliveryManView.add(btnDeliveryUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 390, 130, 40));
 
-        btnDeliverSave.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        btnDeliverSave.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         btnDeliverSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnDeliverSave.setText("SAVE");
+        btnDeliverSave.setText("Save");
         btnDeliverSave.setEnabled(false);
         btnDeliverSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeliverSaveActionPerformed(evt);
             }
         });
-        DeliveryManView.add(btnDeliverSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 130, 40));
+        DeliveryManView.add(btnDeliverSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 130, 40));
 
         vDeliveryManUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vDeliveryManUserName.setToolTipText("");
         vDeliveryManUserName.setEnabled(false);
-        DeliveryManView.add(vDeliveryManUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 90, 180, 30));
+        DeliveryManView.add(vDeliveryManUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 250, 180, 30));
 
         vDeliveryManPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         vDeliveryManPassword.setToolTipText("");
         vDeliveryManPassword.setEnabled(false);
-        DeliveryManView.add(vDeliveryManPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, 180, 30));
+        DeliveryManView.add(vDeliveryManPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 180, 30));
 
         jLabel56.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel56.setForeground(new java.awt.Color(58, 83, 155));
         jLabel56.setText("Password:");
         jLabel56.setToolTipText("");
-        DeliveryManView.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 300, -1, 30));
+        DeliveryManView.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 310, -1, 30));
 
         jLabel64.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel64.setForeground(new java.awt.Color(58, 83, 155));
         jLabel64.setText("UserName:");
         jLabel64.setToolTipText("");
-        DeliveryManView.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, -1, 40));
+        DeliveryManView.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, 40));
 
         jLabel47.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
         jLabel47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-deliveryman.png"))); // NOI18N
-        DeliveryManView.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 590, 470));
+        DeliveryManView.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, 590, 470));
 
         DeliverymanJPanel.add(DeliveryManView, "card4");
 
-        Deliveryman.add(DeliverymanJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
+        Deliveryman.add(DeliverymanJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 490, 830, 580));
 
         TableDelivery.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1218,7 +998,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
             TableDelivery.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        Deliveryman.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 70, 590, 250));
+        Deliveryman.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 70, 720, 350));
 
         btnDAdd.setBackground(new java.awt.Color(255, 255, 255));
         btnDAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -1231,7 +1011,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnDAddActionPerformed(evt);
             }
         });
-        Deliveryman.add(btnDAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 330, 110, 30));
+        Deliveryman.add(btnDAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 110, 30));
 
         btnDeliveryDelete.setBackground(new java.awt.Color(255, 255, 255));
         btnDeliveryDelete.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
@@ -1244,323 +1024,11 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                 btnDeliveryDeleteActionPerformed(evt);
             }
         });
-        Deliveryman.add(btnDeliveryDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 110, 30));
+        Deliveryman.add(btnDeliveryDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 430, 110, 30));
 
         ContentPanel.add(Deliveryman, "card4");
 
-        ManageComplaint.setBackground(new java.awt.Color(255, 255, 255));
-        ManageComplaint.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewReceiver.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewReceiver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewReceiverActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(txtViewReceiver, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        jLabel70.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel70.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel70.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel70.setText("Manage Complaint");
-        ManageComplaint.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
-
-        btnViewComplaint.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewComplaint.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewComplaint.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewComplaint.setText("View");
-        btnViewComplaint.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewComplaint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewComplaint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewComplaintActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(btnViewComplaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        ComplaintJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintJPanel.setLayout(new java.awt.CardLayout());
-
-        ComplaintNull.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        ComplaintJPanel.add(ComplaintNull, "card5");
-
-        ComplaintInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel93.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel93.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel93.setText("The detail information of Complaint");
-        ComplaintInformation.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
-
-        jLabel94.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel94.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel94.setText("Complaint Reason:");
-        ComplaintInformation.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, 30));
-
-        txtComplaintEmployee.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComplaintEmployee.setToolTipText("");
-        ComplaintInformation.add(txtComplaintEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 170, 30));
-
-        jLabel99.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel99.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel99.setText("Description:");
-        jLabel99.setToolTipText("");
-        ComplaintInformation.add(jLabel99, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, 30));
-
-        txtComplaintDesc.setColumns(20);
-        txtComplaintDesc.setRows(5);
-        jScrollPane9.setViewportView(txtComplaintDesc);
-
-        ComplaintInformation.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, 530, 200));
-
-        jLabel100.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel100.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel100.setText("Employee:");
-        jLabel100.setToolTipText("");
-        ComplaintInformation.add(jLabel100, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, -1, 30));
-
-        sentMessageToAddresser.setBackground(new java.awt.Color(255, 255, 255));
-        sentMessageToAddresser.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        sentMessageToAddresser.setForeground(new java.awt.Color(58, 83, 155));
-        sentMessageToAddresser.setText("Sent Message");
-        sentMessageToAddresser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        sentMessageToAddresser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sentMessageToAddresser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sentMessageToAddresserActionPerformed(evt);
-            }
-        });
-        ComplaintInformation.add(sentMessageToAddresser, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 150, 170, 30));
-
-        jLabel101.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel101.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel101.setText("Addresser:");
-        jLabel101.setToolTipText("");
-        ComplaintInformation.add(jLabel101, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 100, -1, 30));
-
-        sentMessageToReceiver.setBackground(new java.awt.Color(255, 255, 255));
-        sentMessageToReceiver.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        sentMessageToReceiver.setForeground(new java.awt.Color(58, 83, 155));
-        sentMessageToReceiver.setText("Sent Message");
-        sentMessageToReceiver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        sentMessageToReceiver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sentMessageToReceiver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sentMessageToReceiverActionPerformed(evt);
-            }
-        });
-        ComplaintInformation.add(sentMessageToReceiver, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 170, 30));
-
-        txtComplaintReason.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComplaintReason.setToolTipText("");
-        ComplaintInformation.add(txtComplaintReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 170, 30));
-
-        txtComAddresser.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComAddresser.setToolTipText("");
-        ComplaintInformation.add(txtComAddresser, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 170, 30));
-
-        ComplaintJPanel.add(ComplaintInformation, "card5");
-
-        ManageComplaint.add(ComplaintJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableComplaint.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Complaint Reson", "Addresser", "Receiver"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableComplaint.setFocusable(false);
-        TableComplaint.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableComplaint.setRowHeight(30);
-        TableComplaint.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableComplaint.setShowVerticalLines(false);
-        TableComplaint.getTableHeader().setReorderingAllowed(false);
-        jScrollPane8.setViewportView(TableComplaint);
-        if (TableComplaint.getColumnModel().getColumnCount() > 0) {
-            TableComplaint.getColumnModel().getColumn(0).setResizable(false);
-            TableComplaint.getColumnModel().getColumn(1).setResizable(false);
-            TableComplaint.getColumnModel().getColumn(2).setResizable(false);
-        }
-
-        ManageComplaint.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 630, 250));
-
-        ContentPanel.add(ManageComplaint, "card4");
-
-        ManageInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        image.setForeground(new java.awt.Color(58, 83, 155));
-        image.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile photo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 14), new java.awt.Color(58, 83, 155))); // NOI18N
-        ManageInformation.add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 210, 270));
-
-        btnphotoUpload.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnphotoUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnphotoUpload.setText("Upload");
-        btnphotoUpload.setEnabled(false);
-        btnphotoUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnphotoUploadActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnphotoUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 580, 110, 40));
-
-        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(58, 83, 155));
-        btnUpdate.setText("UPDATE");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 810, 200, 40));
-
-        btnSave.setBackground(new java.awt.Color(255, 255, 255));
-        btnSave.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnSave.setText("SAVE");
-        btnSave.setEnabled(false);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 810, 200, 40));
-
-        jLabel71.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel71.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel71.setText("Enterprise Name:");
-        jLabel71.setToolTipText("");
-        ManageInformation.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, -1, 30));
-
-        txtEntName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtEntName.setForeground(new java.awt.Color(58, 83, 155));
-        txtEntName.setToolTipText("");
-        txtEntName.setEnabled(false);
-        ManageInformation.add(txtEntName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 180, 30));
-
-        txtEntLocation.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtEntLocation.setForeground(new java.awt.Color(58, 83, 155));
-        txtEntLocation.setToolTipText("");
-        txtEntLocation.setEnabled(false);
-        ManageInformation.add(txtEntLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 230, 180, 30));
-
-        jLabel72.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel72.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel72.setText("Location:");
-        jLabel72.setToolTipText("");
-        ManageInformation.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 90, 30));
-
-        jLabel73.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel73.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel73.setText("PM");
-        jLabel73.setToolTipText("");
-        ManageInformation.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, 60, 30));
-
-        txtPhoneNumber.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPhoneNumber.setForeground(new java.awt.Color(58, 83, 155));
-        txtPhoneNumber.setToolTipText("");
-        txtPhoneNumber.setEnabled(false);
-        ManageInformation.add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 310, 180, 30));
-
-        jLabel74.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel74.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel74.setText("Work Time:");
-        jLabel74.setToolTipText("");
-        ManageInformation.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, 90, 30));
-
-        jLabel75.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel75.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel75.setText("Password:");
-        jLabel75.setToolTipText("");
-        ManageInformation.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 90, 30));
-
-        txtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(58, 83, 155));
-        txtPassword.setToolTipText("");
-        txtPassword.setEnabled(false);
-        ManageInformation.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 600, 180, 30));
-
-        jLabel76.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel76.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel76.setText("User Account:");
-        jLabel76.setToolTipText("");
-        ManageInformation.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, 120, 30));
-
-        txtUserAccount.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtUserAccount.setForeground(new java.awt.Color(58, 83, 155));
-        txtUserAccount.setToolTipText("");
-        txtUserAccount.setEnabled(false);
-        ManageInformation.add(txtUserAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 530, 180, 30));
-
-        jButton9.setForeground(new java.awt.Color(58, 83, 155));
-        jButton9.setText("SET LOCATION");
-        jButton9.setEnabled(false);
-        ManageInformation.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 230, -1, -1));
-
-        comboxClosedTime.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboxClosedTime.setForeground(new java.awt.Color(58, 83, 155));
-        comboxClosedTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", " " }));
-        comboxClosedTime.setEnabled(false);
-        ManageInformation.add(comboxClosedTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 60, 50));
-
-        jLabel77.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel77.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel77.setText("Status:");
-        jLabel77.setToolTipText("");
-        ManageInformation.add(jLabel77, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 390, 60, 30));
-
-        comboStatus.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboStatus.setForeground(new java.awt.Color(58, 83, 155));
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPEN", "CLOSED" }));
-        comboStatus.setEnabled(false);
-        ManageInformation.add(comboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, 180, 50));
-
-        comboxOpenTime.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboxOpenTime.setForeground(new java.awt.Color(58, 83, 155));
-        comboxOpenTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", " " }));
-        comboxOpenTime.setEnabled(false);
-        ManageInformation.add(comboxOpenTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 450, 60, 50));
-
-        jLabel83.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel83.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel83.setText("Phone Number:");
-        jLabel83.setToolTipText("");
-        ManageInformation.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 140, 30));
-
-        jLabel84.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel84.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel84.setText("AM - ");
-        jLabel84.setToolTipText("");
-        ManageInformation.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 460, 60, 30));
-
-        jLabel85.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel85.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-profile.png"))); // NOI18N
-        ManageInformation.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 680, 670));
-
-        jLabel86.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel86.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel86.setText("Manage Information");
-        ManageInformation.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
-
-        ContentPanel.add(ManageInformation, "card8");
-
-        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 128, -1, 954));
+        add(ContentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 128, 1450, 1080));
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-purchase_order.png"))); // NOI18N
@@ -1581,8 +1049,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         Merchandise.setVisible(false);
         Deliveryman.setVisible(false);
         Order.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
         populateMessageTable();
     }//GEN-LAST:event_btnDashboardActionPerformed
 
@@ -1592,10 +1058,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         Merchandise.setVisible(false);
         Deliveryman.setVisible(false);
         Order.setVisible(true);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
         RequestListView.setVisible(false);
-        RequestListNull.setVisible(true);
         populateOrderTable();
         /*
         //SubJPanel
@@ -1607,49 +1070,14 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         refreshStudentTable();*/
     }//GEN-LAST:event_btnOrderActionPerformed
 
-    /* public void refreshStudentTable(){
-        DefaultTableModel model = (DefaultTableModel) TableStudent.getModel();
-        model.setRowCount(0);
-        for(Student a: kindergarden.getStudentDirectory().getStudentList()){
-            Object row[] = new Object[3];
-            row[0] = a;
-            row[1] = a.getId();
-            row[2] = a.getClassname();
-            model.addRow(row);
-        }
-    }*/
-
-    private void btnInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformationActionPerformed
-        // TODO add your handling code here:
-        Dashboard.setVisible(false);
-        Merchandise.setVisible(false);
-
-        Deliveryman.setVisible(false);
-
-        Order.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(true);
-
-        /*txtEntName.setText(kindergarden.getName());
-        txtEntLocation.setText(kindergarden.getName());
-        txtPhoneNumber.setText(kindergarden.getName());
-        txtEntName.setText(kindergarden.getName());
-        comboStatus.setSelectedItem(kindergarden.getStatus());
-        comboxOpenTime.setSelectedItem(kindergarden.getOpenTime());
-        comboxClosedTime.setSelectedItem(kindergarden.getClosedTime());*/
-    }//GEN-LAST:event_btnInformationActionPerformed
-
     private void btnMerchandiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMerchandiseActionPerformed
         // TODO add your handling code here:
         Dashboard.setVisible(false);
         Merchandise.setVisible(true);
         Deliveryman.setVisible(false);
         Order.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
         populateMerchandiseTable();
 
-        MerchandiseNull.setVisible(true);
         MerchandiseAdd.setVisible(false);
         MerchandiseView.setVisible(false);
     }//GEN-LAST:event_btnMerchandiseActionPerformed
@@ -1661,29 +1089,10 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         Merchandise.setVisible(false);
         Deliveryman.setVisible(true);
         Order.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
 
-        DeliveryManNull.setVisible(true);
         DeliveryManAdd.setVisible(false);
         DeliveryManView.setVisible(false);
     }//GEN-LAST:event_btnDeliverymanActionPerformed
-
-    private void btnComplaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComplaintActionPerformed
-        // TODO add your handling code here:
-        Dashboard.setVisible(false);
-        Merchandise.setVisible(false);
-
-        Deliveryman.setVisible(false);
-
-        Order.setVisible(false);
-        ManageComplaint.setVisible(true);
-        ManageInformation.setVisible(false);
-
-        //Sub
-        ComplaintNull.setVisible(true);
-        ComplaintInformation.setVisible(false);
-    }//GEN-LAST:event_btnComplaintActionPerformed
 
     private void txtStudentViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentViewActionPerformed
         // TODO add your handling code here:
@@ -1691,7 +1100,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
 
     private void btnViewMerchandiseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewMerchandiseActionPerformed
         // TODO add your handling code here:
-        MerchandiseNull.setVisible(false);
         MerchandiseAdd.setVisible(false);
         MerchandiseView.setVisible(true);
 
@@ -1700,7 +1108,7 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         if (selectedRow >= 0) {
             Merchandise s = (Merchandise) tableMerchandise.getValueAt(selectedRow, 0);
             vMerchandiseName.setText(s.getName());
-            vMerchandisePrice.setText(Integer.toString(s.getPrice()));
+            vMerchandisePrice.setText(String.valueOf(s.getPrice()));
             vMerchandiseQuantity.setText(Integer.toString(s.getQuantity()));
             merchandise = s;
         } else {
@@ -1708,17 +1116,8 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         }
     }//GEN-LAST:event_btnViewMerchandiseActionPerformed
 
-    private void txtViewBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBusActionPerformed
-
-    private void txtViewReceiverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewReceiverActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewReceiverActionPerformed
-
     private void btnMerchandiseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMerchandiseAddActionPerformed
         // TODO add your handling code here:
-        MerchandiseNull.setVisible(false);
         MerchandiseAdd.setVisible(true);
         MerchandiseView.setVisible(false);
     }//GEN-LAST:event_btnMerchandiseAddActionPerformed
@@ -1727,7 +1126,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         // TODO add your handling code here:
         int selectedRow = TableDelivery.getSelectedRow();
         if (selectedRow >= 0) {
-            DeliveryManNull.setVisible(false);
             DeliveryManAdd.setVisible(false);
             DeliveryManView.setVisible(true);
             UserAccount s = (UserAccount) TableDelivery.getValueAt(selectedRow, 0);
@@ -1740,83 +1138,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         }
     }//GEN-LAST:event_btnViewDeliveryActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        txtEntName.setEnabled(true);
-        txtEntLocation.setEnabled(true);
-        txtPhoneNumber.setEnabled(true);
-        txtEntName.setEnabled(true);
-        comboStatus.setEnabled(true);
-        comboxOpenTime.setEnabled(true);
-        comboxClosedTime.setEnabled(true);
-        txtPassword.setEnabled(true);
-        btnUpdate.setEnabled(false);
-        btnSave.setEnabled(true);
-        btnphotoUpload.setEnabled(true);
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
-
-        /*txtEntName.setText(kindergarden.getName());
-        txtEntLocation.setText(kindergarden.getName());
-        txtPhoneNumber.setText(kindergarden.getName());
-        txtEntName.setText(kindergarden.getName());
-        comboStatus.setSelectedItem(kindergarden.getStatus());
-        comboxOpenTime.setSelectedItem(kindergarden.getOpenTime());
-        comboxClosedTime.setSelectedItem(kindergarden.getClosedTime());*/
-    }//GEN-LAST:event_btnSaveActionPerformed
-
-    private void btnphotoUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnphotoUploadActionPerformed
-        // TODO add your handling code here:
-        /*JFileChooser upload = new JFileChooser();
-       upload.showOpenDialog(null);
-       File file = upload.getSelectedFile();
-       String path = file.getAbsolutePath();
-       imagePath = path;
-       
-       Image im = Toolkit.getDefaultToolkit().createImage(path);
-       im = im.getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
-       ImageIcon ima = new ImageIcon(im);
-       kindergarden.setMyimage(ima);
-       image.setIcon(ima);*/
-    }//GEN-LAST:event_btnphotoUploadActionPerformed
-
-    private void sentMessageToAddresserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sentMessageToAddresserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sentMessageToAddresserActionPerformed
-
-    private void sentMessageToReceiverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sentMessageToReceiverActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sentMessageToReceiverActionPerformed
-
-    private void btnViewComplaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewComplaintActionPerformed
-        // TODO add your handling code here:
-        /*int selectedRow = TableComplaint.getSelectedRow();
-
-        if (selectedRow >= 0) 
-        {
-            Complaint s = (Complaint) TableComplaint.getValueAt(selectedRow, 0);
-            //setvisable
-            ComplaintNull.setVisible(false);
-            ComplaintInformation.setVisible(true);
-            
-            //txt
-            txtComAddresser.setText(s.getAddresser());
-            txtComplaintEmployee.setText(s.getReceiver());
-            txtComplaintReason.setText(s.getComplaintReason());
-            txtComplaintDesc.setText(s.getDesc());
-        } 
-        else 
-        {
-            JOptionPane.showMessageDialog(null, "Please select a school bus.");
-        }*/
-    }//GEN-LAST:event_btnViewComplaintActionPerformed
-
-    private void txtStudentView1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentView1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentView1ActionPerformed
-
     private void btnViewOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewOrderActionPerformed
         // TODO add your handling code here:
         int selectedRow = TableOrder.getSelectedRow();
@@ -1827,7 +1148,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                     comboDeliveryman.addItem(userAccount.getEmployee().getName());
                 }
             }
-            RequestListNull.setVisible(false);
             RequestListView.setVisible(true);
             selectMerchandiseOrder = (MerchandiseOrder) TableOrder.getValueAt(selectedRow, 0);
             if (selectMerchandiseOrder.getStatus().equalsIgnoreCase("Waiting for delivery")) {
@@ -1871,7 +1191,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
 
     private void btnDAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDAddActionPerformed
         // TODO add your handling code here:
-        DeliveryManNull.setVisible(false);
         DeliveryManAdd.setVisible(true);
         DeliveryManView.setVisible(false);
     }//GEN-LAST:event_btnDAddActionPerformed
@@ -1884,7 +1203,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         t.setQuantity(Integer.parseInt(aMerchandiseQuantity.getText()));
         marketEnterprise.getMerchandiseList().add(t);
         populateMerchandiseTable();
-        JOptionPane.showMessageDialog(null, "Add Successfully");
         aMerchandiseName.setText("");
         aMerchandisePrice.setText("");
         aMerchandiseQuantity.setText("");
@@ -1927,7 +1245,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         aDeliverymanPassword.setText("");
         aDeliverymanName.setText("");
         
-        DeliveryManNull.setVisible(true);
         DeliveryManAdd.setVisible(false);
         DeliveryManView.setVisible(false);
     }//GEN-LAST:event_btnSubmitDeliveryActionPerformed
@@ -2005,7 +1322,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
                         populateOrderTable();
                         JOptionPane.showMessageDialog(null, "Assign successfully!!");
                         RequestListView.setVisible(false);
-                        RequestListNull.setVisible(true);
                     }
                 }
             }
@@ -2034,6 +1350,10 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
         }
     }//GEN-LAST:event_btnMarkreadActionPerformed
 
+    private void txtViewBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtViewBusActionPerformed
+
     @Override
     public void run() {
         while (true) {
@@ -2050,28 +1370,19 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel ComplaintInformation;
-    private javax.swing.JPanel ComplaintJPanel;
-    private javax.swing.JPanel ComplaintNull;
     private javax.swing.JPanel ContentPanel;
     private javax.swing.JPanel Dashboard;
     private javax.swing.JPanel DeliveryManAdd;
-    private javax.swing.JPanel DeliveryManNull;
     private javax.swing.JPanel DeliveryManView;
     private javax.swing.JPanel Deliveryman;
     private javax.swing.JPanel DeliverymanJPanel;
-    private javax.swing.JPanel ManageComplaint;
-    private javax.swing.JPanel ManageInformation;
     private javax.swing.JPanel Merchandise;
     private javax.swing.JPanel MerchandiseAdd;
     private javax.swing.JPanel MerchandiseJPanel;
-    private javax.swing.JPanel MerchandiseNull;
     private javax.swing.JPanel MerchandiseView;
     private javax.swing.JPanel Order;
     private javax.swing.JPanel OrderListJPanel;
-    private javax.swing.JPanel RequestListNull;
     private javax.swing.JPanel RequestListView;
-    private javax.swing.JTable TableComplaint;
     private javax.swing.JTable TableDelivery;
     private javax.swing.JTable TableNotification;
     private javax.swing.JTable TableOrder;
@@ -2082,7 +1393,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     private javax.swing.JTextField aMerchandiseName;
     private javax.swing.JTextField aMerchandisePrice;
     private javax.swing.JTextField aMerchandiseQuantity;
-    private javax.swing.JButton btnComplaint;
     private javax.swing.JButton btnDAdd;
     private javax.swing.JButton btnDashboard;
     private javax.swing.JButton btnDelMerchandise;
@@ -2090,7 +1400,6 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     private javax.swing.JButton btnDeliveryDelete;
     private javax.swing.JButton btnDeliveryUpload;
     private javax.swing.JButton btnDeliveryman;
-    private javax.swing.JButton btnInformation;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMarkread;
     private javax.swing.JButton btnMerchandise;
@@ -2098,40 +1407,21 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     private javax.swing.JButton btnMerchandiseSave;
     private javax.swing.JButton btnOrder;
     private javax.swing.JButton btnRequestAssign;
-    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSubmitDelivery;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnViewComplaint;
     private javax.swing.JButton btnViewDelivery;
     private javax.swing.JButton btnViewMerchandise;
     private javax.swing.JButton btnViewOrder;
-    private javax.swing.JButton btnphotoUpload;
     private javax.swing.JComboBox comboDeliveryman;
-    private javax.swing.JComboBox<String> comboStatus;
-    private javax.swing.JComboBox<String> comboxClosedTime;
-    private javax.swing.JComboBox<String> comboxOpenTime;
-    private javax.swing.JLabel image;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel100;
-    private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
@@ -2153,62 +1443,26 @@ public class MarketAdminWorkJPanel extends javax.swing.JPanel implements Runnabl
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel63;
     private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
-    private javax.swing.JLabel jLabel76;
-    private javax.swing.JLabel jLabel77;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel83;
-    private javax.swing.JLabel jLabel84;
-    private javax.swing.JLabel jLabel85;
-    private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLabel93;
-    private javax.swing.JLabel jLabel94;
-    private javax.swing.JLabel jLabel99;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel labTime;
-    private javax.swing.JLabel labelComplaintNum;
-    private javax.swing.JLabel labelDoctorNum;
-    private javax.swing.JLabel labelPatientNum;
-    private javax.swing.JButton sentMessageToAddresser;
-    private javax.swing.JButton sentMessageToReceiver;
+    private javax.swing.JLabel labWelcome;
     private javax.swing.JTable tableMerchandise;
     private javax.swing.JTable tableRequestDetails;
-    private javax.swing.JTextField txtComAddresser;
-    private javax.swing.JTextArea txtComplaintDesc;
-    private javax.swing.JTextField txtComplaintEmployee;
-    private javax.swing.JTextField txtComplaintReason;
-    private javax.swing.JTextField txtEntLocation;
-    private javax.swing.JTextField txtEntName;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPhoneNumber;
     private javax.swing.JTextField txtRequestCustomer;
     private javax.swing.JTextField txtRequestD;
     private javax.swing.JTextField txtRequestLocation;
     private javax.swing.JTextField txtRequestPhone;
     private javax.swing.JTextField txtStudentView;
-    private javax.swing.JTextField txtStudentView1;
-    private javax.swing.JTextField txtUserAccount;
     private javax.swing.JTextField txtViewBus;
-    private javax.swing.JTextField txtViewReceiver;
     private javax.swing.JTextField vDeliveryManName;
     private javax.swing.JTextField vDeliveryManPassword;
     private javax.swing.JTextField vDeliveryManUserName;

@@ -10,12 +10,17 @@ import Business.EcoSystem;
 import Business.Employee.Employee;
 import Business.Enterprise.Enterprise;
 import Business.Enterprise.KindergartenEnterprise;
-import Business.Network.Network;
+import Business.KClass.KClass;
+import Business.KindergartenStudent.KindergartenStudent;
+import Business.Organization.TeacherOrganization;
 import Business.Organization.KindergartenManagementOrganization;
 import Business.Organization.Organization;
+import Business.Role.BusDriverRole;
 import Business.Role.TeacherRole;
 import Business.UserAccount.UserAccount;
 import java.awt.CardLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,19 +41,21 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
     KindergartenEnterprise kindergartenEnterprise;
     KindergartenManagementOrganization kindergartenManagementOrganization;
 //    Enterprise enterprise;
-//    UserAccount userAccount;
+    UserAccount userAccount;
     EcoSystem ecoSystem;
     private DB4OUtil dB4OUtil = DB4OUtil.getInstance();
-    public KindergardenWorkAdminJPanel(JPanel userProcessContainer, UserAccount account, Organization organization, Enterprise enterprise,EcoSystem ecoSystem) {
+    public KindergardenWorkAdminJPanel(JPanel userProcessContainer, UserAccount userAccount, Organization organization, Enterprise enterprise,EcoSystem ecoSystem) {
         initComponents();
         this.userProcessContainer = userProcessContainer;
 //        this.kindergartenManagementOrganization = kindergartenManagementOrganization;
 //        this.enterprise = enterprise;
-//        this.userAccount = userAccount;
+        this.userAccount = userAccount;
         this.ecoSystem = ecoSystem;
         ecoSystem = dB4OUtil.retrieveSystem();
         this.kindergartenEnterprise = (KindergartenEnterprise)enterprise;
+        System.out.println("UserInterface.KindergardenAdminRole.KindergardenWorkAdminJPanel.<init>() 51." + kindergartenEnterprise.getName());
         this.kindergartenManagementOrganization = (KindergartenManagementOrganization) organization;
+        txtWelcome.setText("Welcome, " + userAccount.getUsername() + "!");
         Thread t = new Thread(this);
         t.start();        
     }
@@ -56,18 +63,80 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
     public void populateTeacherTable() {
         DefaultTableModel model = (DefaultTableModel) tabTeacher.getModel();
         model.setRowCount(0);
-        for (UserAccount userAccount : kindergartenEnterprise.getUserAccountDirectory().getUserAccountList()) {
-            if (userAccount.getRole().toString().equals("Business.Role.TeacherRole")){
-            System.out.println("KinderWorkJpanel: 61." + userAccount.getRole().toString());
-            Object[] row = new Object[3];
-            row[0] = userAccount.getUsername();
-            row[1] = userAccount.getEmployee().getName();
-            row[2] = userAccount.getEmployee().getId();
+        System.out.println("UserInterface.KindergardenAdminRole.KindergardenWorkAdminJPanel.populateTeacherTable() 59. " + userAccount.getEmployee().getSubIdList());
+//      if (userAccount.getEmployee().getSubIdList() != null) {
+            for (int i=0; i<userAccount.getEmployee().getSubIdList().size(); i ++) {
+                System.out.println("UserInterface.KindergardenAdminRole.KindergardenWorkAdminJPanel.populateTeacherTable()" + "1111111");
+                for (UserAccount u : kindergartenEnterprise.getUserAccountDirectory().getUserAccountList()) {
+                    System.out.println("UserInterface.KindergardenAdminRole.KindergardenWorkAdminJPanel.populateTeacherTable()" + "222222");
+                    boolean a = userAccount.getEmployee().getSubIdList().get(i) == u.getEmployee().getId();
+                    boolean b = userAccount.getRole().toString().equals("Business.Role.TeacherRole");
+                    System.out.println("boolean a " + a);
+                    System.out.println("boolean b " + b);
+                    if (userAccount.getEmployee().getSubIdList().get(i) == u.getEmployee().getId() && u.getRole().toString().equals("Business.Role.TeacherRole")) {
+        //            System.out.println("UserInterface.KindergardenAdminRole.KindergardenWorkAdminJPanel.populateTeacherTable() 62. " + userAccount.getEmployee().getId() + "\n");
+                    Object[] row = new Object[3];
+                    row[0] = u;
+                    row[1] = u.getEmployee().getName();
+                    row[2] = u.getEmployee().getId();
 
-            model.addRow(row);
+                    model.addRow(row);
+                    }
+                }
+            }
+    }
+    
+    public void populateBusDriverTable(){
+        DefaultTableModel model = (DefaultTableModel) tabBusDriver.getModel();
+        model.setRowCount(0);
+        for (int i=0; i<userAccount.getEmployee().getSubIdList().size(); i ++) {
+            for (UserAccount u : kindergartenEnterprise.getUserAccountDirectory().getUserAccountList()) {
+                if (userAccount.getEmployee().getSubIdList().get(i) == u.getEmployee().getId() && u.getRole().toString().equals("Business.Role.BusDriverRole")) {
+                Object[] row = new Object[3];
+                row[0] = u;
+                row[1] = u.getEmployee().getName();
+                row[2] = u.getEmployee().getId();
+
+                model.addRow(row);
+                }
             }
         }
-        
+    }
+    
+    public void populateAllStudentDirectory() {
+        DefaultTableModel model = (DefaultTableModel) tabStudentDirectory.getModel();
+
+        model.setRowCount(0);
+            for (KindergartenStudent ks : kindergartenEnterprise.getKindergartenStudentDirectory().getKindergartenStudentList()) {
+                    Object[] row = new Object[7];
+                    row[0] = ks;
+                    row[1] = ks.getStudentAge();
+                    row[2] = ks.getStudentId();
+                    row[3] = ks.getGuardian();               
+                    row[4] = ks.getClassName();
+                    row[5] = ks.getEmail();
+                    row[6] = ks.getPhoneNum();
+                    model.addRow(row);
+            }
+    }
+    
+    public void populateSelectedClassStudent() {
+        DefaultTableModel model = (DefaultTableModel) tabStudentDirectory.getModel();
+
+        model.setRowCount(0);
+            for (KindergartenStudent ks : kindergartenEnterprise.getKindergartenStudentDirectory().getKindergartenStudentList()) {
+                if (ks.getClassName().equals(SDComboClassList.getSelectedItem())) {
+                    Object[] row = new Object[7];
+                    row[0] = ks;
+                    row[1] = ks.getStudentAge();
+                    row[2] = ks.getStudentId();
+                    row[3] = ks.getGuardian();               
+                    row[4] = ks.getClassName();
+                    row[5] = ks.getEmail();
+                    row[6] = ks.getPhoneNum();
+                    model.addRow(row);
+                }
+            }
     }
 
     /**
@@ -87,15 +156,42 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         btnTeacher = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnBus = new javax.swing.JButton();
-        jLabel14 = new javax.swing.JLabel();
-        btnSecurity = new javax.swing.JButton();
-        jLabel15 = new javax.swing.JLabel();
-        btnAmbulance = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
-        btnComplaint = new javax.swing.JButton();
-        jLabel17 = new javax.swing.JLabel();
-        btnInformation = new javax.swing.JButton();
         ContentPanel = new javax.swing.JPanel();
+        Student = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        SDComboClassList = new javax.swing.JComboBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabStudentDirectory = new javax.swing.JTable();
+        jLabel30 = new javax.swing.JLabel();
+        Teacher = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tabTeacher = new javax.swing.JTable();
+        jLabel39 = new javax.swing.JLabel();
+        TTxtTeacherName = new javax.swing.JTextField();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel41 = new javax.swing.JLabel();
+        TTxtUsername = new javax.swing.JTextField();
+        jLabel42 = new javax.swing.JLabel();
+        TTxtPassword = new javax.swing.JTextField();
+        TBtnSubmit = new javax.swing.JButton();
+        TBtnView = new javax.swing.JButton();
+        TBtnDel = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        BusDriver = new javax.swing.JPanel();
+        jLabel46 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tabBusDriver = new javax.swing.JTable();
+        jLabel40 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        BSDTxtUserName = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        BSDTxtPassword = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        BSDTxtName = new javax.swing.JTextField();
+        BSDBtnSubmit = new javax.swing.JButton();
+        jLabel32 = new javax.swing.JLabel();
         Dashboard = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         labelComplaintNum = new javax.swing.JLabel();
@@ -111,184 +207,8 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         jLabel28 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        Student = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        TableStudent = new javax.swing.JTable();
-        txtStudentView = new javax.swing.JTextField();
-        btnWaitlist = new javax.swing.JButton();
-        jLabel19 = new javax.swing.JLabel();
-        btnViewStudent = new javax.swing.JButton();
-        btnStudentDelete = new javax.swing.JButton();
-        studentJPanel = new javax.swing.JPanel();
-        StudentNull = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        StudentWaitList = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tableWaitList = new javax.swing.JTable();
-        btnRejectStudent = new javax.swing.JButton();
-        btnAcceptStudent = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        StudentInformation = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
-        txtStudentClass = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        txtStudentName = new javax.swing.JTextField();
-        jLabel35 = new javax.swing.JLabel();
-        txtGuardianPhone = new javax.swing.JTextField();
-        jLabel36 = new javax.swing.JLabel();
-        StudentHomeAddress = new javax.swing.JTextField();
-        jLabel37 = new javax.swing.JLabel();
-        txtGuardianName = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
-        btnStudentUpload = new javax.swing.JButton();
-        btnStudentSave = new javax.swing.JButton();
-        jLabel23 = new javax.swing.JLabel();
-        TeacherOfStudent = new javax.swing.JComboBox();
-        SchoolBusOfStudent = new javax.swing.JComboBox();
-        jLabel78 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        Teacher = new javax.swing.JPanel();
-        txtTeacherId = new javax.swing.JTextField();
-        jLabel29 = new javax.swing.JLabel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tabTeacher = new javax.swing.JTable();
-        jLabel39 = new javax.swing.JLabel();
-        TTxtTeacherName = new javax.swing.JTextField();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        TTxtUsername = new javax.swing.JTextField();
-        jLabel42 = new javax.swing.JLabel();
-        TTxtPassword = new javax.swing.JTextField();
-        TBtnSubmit = new javax.swing.JButton();
-        TBtnView = new javax.swing.JButton();
-        TBtnDel = new javax.swing.JButton();
-        Schoolbus = new javax.swing.JPanel();
-        txtViewBus = new javax.swing.JTextField();
-        btnAddBus = new javax.swing.JButton();
-        jLabel46 = new javax.swing.JLabel();
-        btnViewBus = new javax.swing.JButton();
-        btnBusDel = new javax.swing.JButton();
-        SchoolBusJPanel = new javax.swing.JPanel();
-        SchoolBusNull = new javax.swing.JPanel();
-        SchoolBusAdd = new javax.swing.JPanel();
-        jLabel62 = new javax.swing.JLabel();
-        jLabel64 = new javax.swing.JLabel();
-        jLabel65 = new javax.swing.JLabel();
-        jLabel66 = new javax.swing.JLabel();
-        btnBusAdd = new javax.swing.JButton();
-        jLabel67 = new javax.swing.JLabel();
-        jLabel68 = new javax.swing.JLabel();
-        aPassword = new javax.swing.JTextField();
-        aCapacity = new javax.swing.JTextField();
-        aModelNum = new javax.swing.JTextField();
-        aLiense = new javax.swing.JTextField();
-        jLabel69 = new javax.swing.JLabel();
-        aYear = new javax.swing.JTextField();
-        aUserName = new javax.swing.JTextField();
-        SchoolBusViewInformation = new javax.swing.JPanel();
-        jLabel50 = new javax.swing.JLabel();
-        jLabel51 = new javax.swing.JLabel();
-        jLabel52 = new javax.swing.JLabel();
-        jLabel53 = new javax.swing.JLabel();
-        BusUpload = new javax.swing.JButton();
-        jLabel54 = new javax.swing.JLabel();
-        jLabel55 = new javax.swing.JLabel();
-        vPassword = new javax.swing.JTextField();
-        vCapacity = new javax.swing.JTextField();
-        vModelNum = new javax.swing.JTextField();
-        vLicense = new javax.swing.JTextField();
-        jLabel63 = new javax.swing.JLabel();
-        vYear = new javax.swing.JTextField();
-        vUserName = new javax.swing.JTextField();
-        BusSave = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        TableBus = new javax.swing.JTable();
-        SecurityRequest = new javax.swing.JPanel();
-        jLabel30 = new javax.swing.JLabel();
-        txtSecurityType = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        txtSecurityLocation = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        txtSecurityDesc = new javax.swing.JTextArea();
-        jLabel44 = new javax.swing.JLabel();
-        ComboxGuard = new javax.swing.JComboBox<>();
-        jLabel79 = new javax.swing.JLabel();
-        comboxSecurityLevel = new javax.swing.JComboBox<>();
-        FindNearestGuard = new javax.swing.JButton();
-        btnSecuritySubmit = new javax.swing.JButton();
-        jLabel80 = new javax.swing.JLabel();
-        rbtnSecurityGuar = new javax.swing.JRadioButton();
-        jLabel81 = new javax.swing.JLabel();
-        AmbulanceRequest = new javax.swing.JPanel();
-        jLabel56 = new javax.swing.JLabel();
-        txtAmbulanceType = new javax.swing.JTextField();
-        jLabel57 = new javax.swing.JLabel();
-        txtAmbulanceRequest = new javax.swing.JTextField();
-        btnAmbulanceLocation = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        txtDescAmbulanceRequest = new javax.swing.JTextArea();
-        jLabel58 = new javax.swing.JLabel();
-        rbtnAmbulanceGua = new javax.swing.JRadioButton();
-        jLabel59 = new javax.swing.JLabel();
-        jLabel60 = new javax.swing.JLabel();
-        comboxUrgencyLevel = new javax.swing.JComboBox<>();
-        btnFindHospital = new javax.swing.JButton();
-        btnAmbulanceSumit = new javax.swing.JButton();
-        jLabel61 = new javax.swing.JLabel();
-        comboHispitalList = new javax.swing.JComboBox<>();
-        quantityInjured = new javax.swing.JSpinner();
-        jLabel82 = new javax.swing.JLabel();
-        ManageComplaint = new javax.swing.JPanel();
-        txtViewReceiver = new javax.swing.JTextField();
-        jLabel70 = new javax.swing.JLabel();
-        btnViewComplaint = new javax.swing.JButton();
-        ComplaintJPanel = new javax.swing.JPanel();
-        ComplaintNull = new javax.swing.JPanel();
-        ComplaintInformation = new javax.swing.JPanel();
-        jLabel93 = new javax.swing.JLabel();
-        jLabel94 = new javax.swing.JLabel();
-        txtComplaintEmployee = new javax.swing.JTextField();
-        jLabel99 = new javax.swing.JLabel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        txtComplaintDesc = new javax.swing.JTextArea();
-        jLabel100 = new javax.swing.JLabel();
-        sentMessageToAddresser = new javax.swing.JButton();
-        jLabel101 = new javax.swing.JLabel();
-        sentMessageToReceiver = new javax.swing.JButton();
-        txtComplaintReason = new javax.swing.JTextField();
-        txtComAddresser = new javax.swing.JTextField();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        TableComplaint = new javax.swing.JTable();
-        ManageInformation = new javax.swing.JPanel();
-        image = new javax.swing.JLabel();
-        btnphotoUpload = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnSave = new javax.swing.JButton();
-        jLabel71 = new javax.swing.JLabel();
-        txtEntName = new javax.swing.JTextField();
-        txtEntLocation = new javax.swing.JTextField();
-        jLabel72 = new javax.swing.JLabel();
-        jLabel73 = new javax.swing.JLabel();
-        txtPhoneNumber = new javax.swing.JTextField();
-        jLabel74 = new javax.swing.JLabel();
-        jLabel75 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
-        jLabel76 = new javax.swing.JLabel();
-        txtUserAccount = new javax.swing.JTextField();
-        jButton9 = new javax.swing.JButton();
-        comboxClosedTime = new javax.swing.JComboBox<>();
-        jLabel77 = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
-        comboxOpenTime = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jLabel83 = new javax.swing.JLabel();
-        jLabel84 = new javax.swing.JLabel();
-        jLabel85 = new javax.swing.JLabel();
-        jLabel86 = new javax.swing.JLabel();
         labTime = new javax.swing.JLabel();
+        txtWelcome = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(58, 83, 155));
 
@@ -310,7 +230,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         btnStudent.setBackground(new java.awt.Color(58, 83, 155));
         btnStudent.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnStudent.setForeground(new java.awt.Color(255, 255, 255));
-        btnStudent.setText("Student Directory");
+        btnStudent.setText("Student Directoy");
         btnStudent.setBorder(null);
         btnStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -338,7 +258,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         btnTeacher.setBackground(new java.awt.Color(58, 83, 155));
         btnTeacher.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnTeacher.setForeground(new java.awt.Color(255, 255, 255));
-        btnTeacher.setText("Teacher Direcory");
+        btnTeacher.setText("Teacher Directory");
         btnTeacher.setBorder(null);
         btnTeacher.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTeacher.addActionListener(new java.awt.event.ActionListener() {
@@ -353,7 +273,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         btnBus.setBackground(new java.awt.Color(58, 83, 155));
         btnBus.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
         btnBus.setForeground(new java.awt.Color(255, 255, 255));
-        btnBus.setText("SchoolBus Catalog");
+        btnBus.setText("Bus Driver Directory");
         btnBus.setBorder(null);
         btnBus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBus.addActionListener(new java.awt.event.ActionListener() {
@@ -362,68 +282,284 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
             }
         });
 
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-security_guard.png"))); // NOI18N
-
-        btnSecurity.setBackground(new java.awt.Color(58, 83, 155));
-        btnSecurity.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnSecurity.setForeground(new java.awt.Color(255, 255, 255));
-        btnSecurity.setText("Security Request");
-        btnSecurity.setBorder(null);
-        btnSecurity.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSecurity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSecurityActionPerformed(evt);
-            }
-        });
-
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-ambulance.png"))); // NOI18N
-
-        btnAmbulance.setBackground(new java.awt.Color(58, 83, 155));
-        btnAmbulance.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnAmbulance.setForeground(new java.awt.Color(255, 255, 255));
-        btnAmbulance.setText("Ambulance Request");
-        btnAmbulance.setBorder(null);
-        btnAmbulance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAmbulance.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAmbulanceActionPerformed(evt);
-            }
-        });
-
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-strike.png"))); // NOI18N
-
-        btnComplaint.setBackground(new java.awt.Color(58, 83, 155));
-        btnComplaint.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnComplaint.setForeground(new java.awt.Color(255, 255, 255));
-        btnComplaint.setText("Manage Complaint");
-        btnComplaint.setBorder(null);
-        btnComplaint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnComplaint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnComplaintActionPerformed(evt);
-            }
-        });
-
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-registration.png"))); // NOI18N
-
-        btnInformation.setBackground(new java.awt.Color(58, 83, 155));
-        btnInformation.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
-        btnInformation.setForeground(new java.awt.Color(255, 255, 255));
-        btnInformation.setText("Manage Information");
-        btnInformation.setBorder(null);
-        btnInformation.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnInformation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformationActionPerformed(evt);
-            }
-        });
-
         ContentPanel.setBackground(new java.awt.Color(255, 255, 255));
         ContentPanel.setLayout(new java.awt.CardLayout());
+
+        Student.setBackground(new java.awt.Color(255, 255, 255));
+        Student.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel19.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel19.setText("STUDENT DIRECTORY");
+        Student.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(596, 23, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel9.setText("Class:");
+        jLabel9.setToolTipText("");
+        Student.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, -1, -1));
+
+        SDComboClassList.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        SDComboClassList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SDComboClassListMouseClicked(evt);
+            }
+        });
+        SDComboClassList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SDComboClassListActionPerformed(evt);
+            }
+        });
+        Student.add(SDComboClassList, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 130, 180, -1));
+
+        tabStudentDirectory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Student Name", "Age", "Student Id", "Guardian ", "Class", "Email", "Contact Number"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabStudentDirectory.setFocusable(false);
+        tabStudentDirectory.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabStudentDirectory.setRowHeight(30);
+        tabStudentDirectory.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        tabStudentDirectory.setShowVerticalLines(false);
+        tabStudentDirectory.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabStudentDirectory);
+
+        Student.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, 720, 280));
+
+        jLabel30.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-boy 3.png"))); // NOI18N
+        Student.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 370, 600, 510));
+
+        ContentPanel.add(Student, "card4");
+
+        Teacher.setBackground(new java.awt.Color(255, 255, 255));
+        Teacher.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel29.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel29.setText("TEACHER DIRECTORY");
+        Teacher.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(599, 25, -1, -1));
+
+        tabTeacher.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "UserName", "Name", "Teacher Id"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabTeacher.setFocusable(false);
+        tabTeacher.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabTeacher.setRowHeight(30);
+        tabTeacher.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        tabTeacher.setShowVerticalLines(false);
+        tabTeacher.getTableHeader().setReorderingAllowed(false);
+        jScrollPane7.setViewportView(tabTeacher);
+
+        Teacher.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(378, 106, 700, 264));
+
+        jLabel39.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel39.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel39.setText("Name:");
+        Teacher.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(553, 719, -1, 30));
+
+        TTxtTeacherName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        TTxtTeacherName.setToolTipText("");
+        Teacher.add(TTxtTeacherName, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 720, 180, 30));
+
+        jLabel38.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel38.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel38.setText("Please input the teacher's Information:");
+        Teacher.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(378, 514, -1, -1));
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel41.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel41.setText("UserName:");
+        jLabel41.setToolTipText("");
+        Teacher.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(518, 571, -1, 30));
+
+        TTxtUsername.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        TTxtUsername.setToolTipText("");
+        Teacher.add(TTxtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 572, 180, 30));
+
+        jLabel42.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel42.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel42.setText("Password:");
+        jLabel42.setToolTipText("");
+        Teacher.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(524, 650, -1, 30));
+
+        TTxtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        TTxtPassword.setToolTipText("");
+        Teacher.add(TTxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 651, 180, 30));
+
+        TBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
+        TBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        TBtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
+        TBtnSubmit.setText("Submit");
+        TBtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        TBtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        TBtnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TBtnSubmitActionPerformed(evt);
+            }
+        });
+        Teacher.add(TBtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(687, 840, 132, 42));
+
+        TBtnView.setBackground(new java.awt.Color(255, 255, 255));
+        TBtnView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        TBtnView.setForeground(new java.awt.Color(58, 83, 155));
+        TBtnView.setText("View");
+        TBtnView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        TBtnView.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        TBtnView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TBtnViewActionPerformed(evt);
+            }
+        });
+        Teacher.add(TBtnView, new org.netbeans.lib.awtextra.AbsoluteConstraints(946, 398, 132, 36));
+
+        TBtnDel.setBackground(new java.awt.Color(255, 255, 255));
+        TBtnDel.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        TBtnDel.setForeground(new java.awt.Color(58, 83, 155));
+        TBtnDel.setText("Delete");
+        TBtnDel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        TBtnDel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        TBtnDel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TBtnDelActionPerformed(evt);
+            }
+        });
+        Teacher.add(TBtnDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(378, 398, 132, 36));
+
+        jLabel31.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-woman_teacher.png"))); // NOI18N
+        Teacher.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 430, 590, 470));
+
+        ContentPanel.add(Teacher, "card4");
+
+        BusDriver.setBackground(new java.awt.Color(255, 255, 255));
+        BusDriver.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel46.setBackground(new java.awt.Color(58, 83, 155));
+        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel46.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel46.setText("BUS DRIVER DIRECTOY");
+        BusDriver.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(598, 21, -1, -1));
+
+        tabBusDriver.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "User Name", "Driver name", "Driver Id"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabBusDriver.setFocusable(false);
+        tabBusDriver.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        tabBusDriver.setRowHeight(30);
+        tabBusDriver.setSelectionBackground(new java.awt.Color(68, 68, 147));
+        tabBusDriver.setShowVerticalLines(false);
+        tabBusDriver.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tabBusDriver);
+        if (tabBusDriver.getColumnModel().getColumnCount() > 0) {
+            tabBusDriver.getColumnModel().getColumn(2).setPreferredWidth(50);
+        }
+
+        BusDriver.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 104, 617, 248));
+
+        jLabel40.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel40.setText("Please input bus the driver's information:");
+        BusDriver.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(424, 398, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel15.setText("User Name:");
+        BusDriver.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(567, 466, -1, 41));
+
+        BSDTxtUserName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        BSDTxtUserName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        BusDriver.add(BSDTxtUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(765, 471, 182, -1));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel16.setText("Password:");
+        BusDriver.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(579, 542, -1, 41));
+
+        BSDTxtPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        BSDTxtPassword.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        BusDriver.add(BSDTxtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(765, 547, 182, -1));
+
+        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(58, 83, 155));
+        jLabel17.setText("Name:");
+        BusDriver.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(613, 611, -1, 41));
+
+        BSDTxtName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        BSDTxtName.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        BusDriver.add(BSDTxtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(765, 616, 182, -1));
+
+        BSDBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
+        BSDBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        BSDBtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
+        BSDBtnSubmit.setText("Submit");
+        BSDBtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
+        BSDBtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        BSDBtnSubmit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BSDBtnSubmitActionPerformed(evt);
+            }
+        });
+        BusDriver.add(BSDBtnSubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(699, 735, 132, 42));
+
+        jLabel32.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UserInterface/images/icons8-school_bus 2.png"))); // NOI18N
+        BusDriver.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 590, 500));
+
+        ContentPanel.add(BusDriver, "card4");
 
         Dashboard.setBackground(new java.awt.Color(255, 255, 255));
         Dashboard.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -451,7 +587,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
                 .addGap(30, 30, 30))
         );
 
-        Dashboard.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 180, 160, -1));
+        Dashboard.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 190, 160, -1));
 
         jPanel8.setBackground(new java.awt.Color(58, 83, 155));
 
@@ -476,32 +612,32 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
                 .addGap(30, 30, 30))
         );
 
-        Dashboard.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 160, -1));
+        Dashboard.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 190, 160, -1));
 
         jPanel9.setBackground(new java.awt.Color(58, 83, 155));
 
         labelStudentsNum.setFont(new java.awt.Font("Lucida Grande", 0, 36)); // NOI18N
         labelStudentsNum.setForeground(new java.awt.Color(255, 255, 255));
-        labelStudentsNum.setText("$200");
+        labelStudentsNum.setText("0");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
-                .addComponent(labelStudentsNum, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(labelStudentsNum)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
                 .addComponent(labelStudentsNum)
-                .addGap(29, 29, 29))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        Dashboard.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 160, -1));
+        Dashboard.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, 160, -1));
 
         TableNotification.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -530,12 +666,12 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         TableNotification.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(TableNotification);
 
-        Dashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 460, 630, 280));
+        Dashboard.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 470, 630, 280));
 
         jLabel26.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(58, 83, 155));
         jLabel26.setText("Complaint Received:");
-        Dashboard.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 140, 190, 30));
+        Dashboard.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 150, 190, 30));
 
         btnMarkread.setBackground(new java.awt.Color(255, 255, 255));
         btnMarkread.setFont(new java.awt.Font("Tahoma", 1, 19)); // NOI18N
@@ -543,1332 +679,51 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         btnMarkread.setText("Markread");
         btnMarkread.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
         btnMarkread.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        Dashboard.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 810, 170, 40));
+        Dashboard.add(btnMarkread, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 820, 170, 40));
 
         jLabel27.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(58, 83, 155));
         jLabel27.setText("You have * new Notifications:");
-        Dashboard.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 410, 330, 30));
+        Dashboard.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, 330, 30));
 
         jLabel28.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(58, 83, 155));
         jLabel28.setText("Number of Students:");
-        Dashboard.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 200, 30));
+        Dashboard.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 150, 200, 30));
 
         jLabel33.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel33.setForeground(new java.awt.Color(58, 83, 155));
         jLabel33.setText("Number of Teachers:");
-        Dashboard.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 200, 30));
+        Dashboard.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 150, 200, 30));
 
         jLabel4.setBackground(new java.awt.Color(58, 83, 155));
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(58, 83, 155));
         jLabel4.setText("DASHBOARD");
-        Dashboard.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, -1, -1));
+        Dashboard.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, -1, -1));
 
         ContentPanel.add(Dashboard, "card5");
-
-        Student.setBackground(new java.awt.Color(255, 255, 255));
-        Student.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        TableStudent.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Name", "ID", "Class"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableStudent.setFocusable(false);
-        TableStudent.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableStudent.setRowHeight(30);
-        TableStudent.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableStudent.setShowVerticalLines(false);
-        TableStudent.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(TableStudent);
-
-        Student.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 590, 230));
-
-        txtStudentView.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtStudentView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudentViewActionPerformed(evt);
-            }
-        });
-        Student.add(txtStudentView, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        btnWaitlist.setBackground(new java.awt.Color(255, 255, 255));
-        btnWaitlist.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnWaitlist.setForeground(new java.awt.Color(58, 83, 155));
-        btnWaitlist.setText("Waitlist");
-        btnWaitlist.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnWaitlist.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnWaitlist.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnWaitlistActionPerformed(evt);
-            }
-        });
-        Student.add(btnWaitlist, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 110, 30));
-
-        jLabel19.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel19.setText("Manage Student");
-        Student.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
-
-        btnViewStudent.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewStudent.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewStudent.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewStudent.setText("View");
-        btnViewStudent.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewStudentActionPerformed(evt);
-            }
-        });
-        Student.add(btnViewStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        btnStudentDelete.setBackground(new java.awt.Color(255, 255, 255));
-        btnStudentDelete.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnStudentDelete.setForeground(new java.awt.Color(58, 83, 155));
-        btnStudentDelete.setText("Delete");
-        btnStudentDelete.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnStudentDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnStudentDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentDeleteActionPerformed(evt);
-            }
-        });
-        Student.add(btnStudentDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 110, 30));
-
-        studentJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        studentJPanel.setLayout(new java.awt.CardLayout());
-
-        StudentNull.setBackground(new java.awt.Color(255, 255, 255));
-        StudentNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        StudentNull.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 660, 550));
-
-        studentJPanel.add(StudentNull, "card5");
-
-        StudentWaitList.setBackground(new java.awt.Color(255, 255, 255));
-        StudentWaitList.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel25.setText("Student Waitlist");
-        StudentWaitList.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, -1, -1));
-
-        tableWaitList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Name", "Age", "Home Address"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tableWaitList.setFocusable(false);
-        tableWaitList.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tableWaitList.setRowHeight(30);
-        tableWaitList.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        tableWaitList.setShowVerticalLines(false);
-        tableWaitList.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(tableWaitList);
-
-        StudentWaitList.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, 590, 270));
-
-        btnRejectStudent.setBackground(new java.awt.Color(255, 255, 255));
-        btnRejectStudent.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnRejectStudent.setForeground(new java.awt.Color(58, 83, 155));
-        btnRejectStudent.setText("Reject");
-        btnRejectStudent.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnRejectStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnRejectStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRejectStudentActionPerformed(evt);
-            }
-        });
-        StudentWaitList.add(btnRejectStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 390, 120, 30));
-
-        btnAcceptStudent.setBackground(new java.awt.Color(255, 255, 255));
-        btnAcceptStudent.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnAcceptStudent.setForeground(new java.awt.Color(58, 83, 155));
-        btnAcceptStudent.setText("Accept");
-        btnAcceptStudent.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnAcceptStudent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAcceptStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAcceptStudentActionPerformed(evt);
-            }
-        });
-        StudentWaitList.add(btnAcceptStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 390, 120, 30));
-
-        jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        StudentWaitList.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 660, 550));
-
-        studentJPanel.add(StudentWaitList, "card5");
-
-        StudentInformation.setBackground(new java.awt.Color(255, 255, 255));
-        StudentInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel20.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel20.setText("Student Detailed Information");
-        StudentInformation.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, -1, -1));
-
-        jLabel34.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel34.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel34.setText("Name:");
-        StudentInformation.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 90, -1, 30));
-
-        txtStudentClass.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtStudentClass.setToolTipText("");
-        txtStudentClass.setEnabled(false);
-        StudentInformation.add(txtStudentClass, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 140, 180, 30));
-
-        jLabel22.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel22.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel22.setText("Teacher:");
-        jLabel22.setToolTipText("");
-        StudentInformation.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 190, -1, 30));
-
-        txtStudentName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtStudentName.setToolTipText("");
-        txtStudentName.setEnabled(false);
-        StudentInformation.add(txtStudentName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 90, 180, 30));
-
-        jLabel35.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel35.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel35.setText("Guardian Phone Number:");
-        jLabel35.setToolTipText("");
-        StudentInformation.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, -1, 30));
-
-        txtGuardianPhone.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtGuardianPhone.setToolTipText("");
-        txtGuardianPhone.setEnabled(false);
-        StudentInformation.add(txtGuardianPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 290, 180, 30));
-
-        jLabel36.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel36.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel36.setText("SchoolBus:");
-        jLabel36.setToolTipText("");
-        StudentInformation.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, 30));
-
-        StudentHomeAddress.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        StudentHomeAddress.setToolTipText("");
-        StudentHomeAddress.setEnabled(false);
-        StudentHomeAddress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                StudentHomeAddressActionPerformed(evt);
-            }
-        });
-        StudentInformation.add(StudentHomeAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 340, 180, 30));
-
-        jLabel37.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel37.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel37.setText("Guardian Name:");
-        jLabel37.setToolTipText("");
-        StudentInformation.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, -1, 30));
-
-        txtGuardianName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtGuardianName.setToolTipText("");
-        txtGuardianName.setEnabled(false);
-        StudentInformation.add(txtGuardianName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 240, 180, 30));
-
-        jButton4.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jButton4.setBorder(null);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        StudentInformation.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 340, 50, 30));
-
-        btnStudentUpload.setBackground(new java.awt.Color(255, 255, 255));
-        btnStudentUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnStudentUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnStudentUpload.setText("Upload");
-        btnStudentUpload.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnStudentUpload.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnStudentUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentUploadActionPerformed(evt);
-            }
-        });
-        StudentInformation.add(btnStudentUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 150, 40));
-
-        btnStudentSave.setBackground(new java.awt.Color(255, 255, 255));
-        btnStudentSave.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnStudentSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnStudentSave.setText("Save");
-        btnStudentSave.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnStudentSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnStudentSave.setEnabled(false);
-        btnStudentSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStudentSaveActionPerformed(evt);
-            }
-        });
-        StudentInformation.add(btnStudentSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 440, 130, 40));
-
-        jLabel23.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel23.setText("Class:");
-        jLabel23.setToolTipText("");
-        StudentInformation.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 140, -1, 30));
-
-        TeacherOfStudent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        TeacherOfStudent.setEnabled(false);
-        StudentInformation.add(TeacherOfStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 190, 180, -1));
-
-        SchoolBusOfStudent.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        SchoolBusOfStudent.setEnabled(false);
-        SchoolBusOfStudent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SchoolBusOfStudentActionPerformed(evt);
-            }
-        });
-        StudentInformation.add(SchoolBusOfStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 390, 180, -1));
-
-        jLabel78.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel78.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel78.setText("Home Address:");
-        jLabel78.setToolTipText("");
-        StudentInformation.add(jLabel78, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, -1, 30));
-
-        jLabel6.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        StudentInformation.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 0, 660, 550));
-
-        studentJPanel.add(StudentInformation, "card5");
-
-        Student.add(studentJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        ContentPanel.add(Student, "card4");
-
-        Teacher.setBackground(new java.awt.Color(255, 255, 255));
-
-        txtTeacherId.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtTeacherId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTeacherIdActionPerformed(evt);
-            }
-        });
-
-        jLabel29.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel29.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel29.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel29.setText("Manage Teacher");
-
-        tabTeacher.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Name", "UserName", "Teacher Id"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tabTeacher.setFocusable(false);
-        tabTeacher.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        tabTeacher.setRowHeight(30);
-        tabTeacher.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        tabTeacher.setShowVerticalLines(false);
-        tabTeacher.getTableHeader().setReorderingAllowed(false);
-        jScrollPane7.setViewportView(tabTeacher);
-
-        jLabel39.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel39.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel39.setText("Name:");
-
-        TTxtTeacherName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        TTxtTeacherName.setToolTipText("");
-
-        jLabel38.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel38.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel38.setText("Teacher Detailed Information");
-
-        jLabel41.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel41.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel41.setText("UserName:");
-        jLabel41.setToolTipText("");
-
-        TTxtUsername.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        TTxtUsername.setToolTipText("");
-
-        jLabel42.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel42.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel42.setText("Password:");
-        jLabel42.setToolTipText("");
-
-        TTxtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        TTxtPassword.setToolTipText("");
-
-        TBtnSubmit.setBackground(new java.awt.Color(255, 255, 255));
-        TBtnSubmit.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        TBtnSubmit.setForeground(new java.awt.Color(58, 83, 155));
-        TBtnSubmit.setText("Submit");
-        TBtnSubmit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        TBtnSubmit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        TBtnSubmit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TBtnSubmitActionPerformed(evt);
-            }
-        });
-
-        TBtnView.setBackground(new java.awt.Color(255, 255, 255));
-        TBtnView.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        TBtnView.setForeground(new java.awt.Color(58, 83, 155));
-        TBtnView.setText("View");
-        TBtnView.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        TBtnView.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        TBtnView.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TBtnViewActionPerformed(evt);
-            }
-        });
-
-        TBtnDel.setBackground(new java.awt.Color(255, 255, 255));
-        TBtnDel.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        TBtnDel.setForeground(new java.awt.Color(58, 83, 155));
-        TBtnDel.setText("Delete");
-        TBtnDel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        TBtnDel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        TBtnDel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TBtnDelActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout TeacherLayout = new javax.swing.GroupLayout(Teacher);
-        Teacher.setLayout(TeacherLayout);
-        TeacherLayout.setHorizontalGroup(
-            TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TeacherLayout.createSequentialGroup()
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(TeacherLayout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel29))
-                    .addGroup(TeacherLayout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel38)
-                            .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(TeacherLayout.createSequentialGroup()
-                                    .addComponent(TBtnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(230, 230, 230)
-                                    .addComponent(txtTeacherId, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(TBtnView, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(176, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TeacherLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TeacherLayout.createSequentialGroup()
-                        .addComponent(TBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(438, 438, 438))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TeacherLayout.createSequentialGroup()
-                        .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(TeacherLayout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(jLabel39)
-                                .addGap(129, 129, 129)
-                                .addComponent(TTxtTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(TeacherLayout.createSequentialGroup()
-                                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel42)
-                                    .addComponent(jLabel41))
-                                .addGap(132, 132, 132)
-                                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(TTxtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(TTxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(305, 305, 305))))
-        );
-        TeacherLayout.setVerticalGroup(
-            TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TeacherLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel29)
-                .addGap(30, 30, 30)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TBtnView, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTeacherId, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TBtnDel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(78, 78, 78)
-                .addComponent(jLabel38)
-                .addGap(46, 46, 46)
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TTxtTeacherName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TTxtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34)
-                .addGroup(TeacherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TTxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(85, 85, 85)
-                .addComponent(TBtnSubmit, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
-        );
-
-        ContentPanel.add(Teacher, "card4");
-
-        Schoolbus.setBackground(new java.awt.Color(255, 255, 255));
-        Schoolbus.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewBus.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewBus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewBusActionPerformed(evt);
-            }
-        });
-        Schoolbus.add(txtViewBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        btnAddBus.setBackground(new java.awt.Color(255, 255, 255));
-        btnAddBus.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnAddBus.setForeground(new java.awt.Color(58, 83, 155));
-        btnAddBus.setText("Add");
-        btnAddBus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnAddBus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAddBus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddBusActionPerformed(evt);
-            }
-        });
-        Schoolbus.add(btnAddBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 370, 110, 30));
-
-        jLabel46.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel46.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel46.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel46.setText("Manage School Bus");
-        Schoolbus.add(jLabel46, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
-
-        btnViewBus.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewBus.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewBus.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewBus.setText("View");
-        btnViewBus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewBus.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewBus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewBusActionPerformed(evt);
-            }
-        });
-        Schoolbus.add(btnViewBus, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        btnBusDel.setBackground(new java.awt.Color(255, 255, 255));
-        btnBusDel.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnBusDel.setForeground(new java.awt.Color(58, 83, 155));
-        btnBusDel.setText("Delete");
-        btnBusDel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnBusDel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBusDel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBusDelActionPerformed(evt);
-            }
-        });
-        Schoolbus.add(btnBusDel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 110, 30));
-
-        SchoolBusJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        SchoolBusJPanel.setLayout(new java.awt.CardLayout());
-
-        SchoolBusNull.setBackground(new java.awt.Color(255, 255, 255));
-        SchoolBusNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        SchoolBusJPanel.add(SchoolBusNull, "card5");
-
-        SchoolBusAdd.setBackground(new java.awt.Color(255, 255, 255));
-        SchoolBusAdd.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel62.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel62.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel62.setText("Input detail information to add new SchoolBus");
-        SchoolBusAdd.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, -1, -1));
-
-        jLabel64.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel64.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel64.setText("License Plate:");
-        SchoolBusAdd.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 100, -1, 30));
-
-        jLabel65.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel65.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel65.setText("Model Number:");
-        jLabel65.setToolTipText("");
-        SchoolBusAdd.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 150, -1, 30));
-
-        jLabel66.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel66.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel66.setText("Persons Capacity:");
-        jLabel66.setToolTipText("");
-        SchoolBusAdd.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 140, 30));
-
-        btnBusAdd.setBackground(new java.awt.Color(255, 255, 255));
-        btnBusAdd.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnBusAdd.setForeground(new java.awt.Color(58, 83, 155));
-        btnBusAdd.setText("Add");
-        btnBusAdd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnBusAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnBusAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBusAddActionPerformed(evt);
-            }
-        });
-        SchoolBusAdd.add(btnBusAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 130, 40));
-
-        jLabel67.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel67.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel67.setText("Manufactured year:");
-        jLabel67.setToolTipText("");
-        SchoolBusAdd.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, -1, 30));
-
-        jLabel68.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel68.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel68.setText("Password:");
-        jLabel68.setToolTipText("");
-        SchoolBusAdd.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 370, -1, 30));
-
-        aPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aPassword.setToolTipText("");
-        SchoolBusAdd.add(aPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 370, 180, 30));
-
-        aCapacity.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aCapacity.setToolTipText("");
-        SchoolBusAdd.add(aCapacity, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 200, 180, 30));
-
-        aModelNum.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aModelNum.setToolTipText("");
-        aModelNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aModelNumActionPerformed(evt);
-            }
-        });
-        SchoolBusAdd.add(aModelNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 150, 180, 30));
-
-        aLiense.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aLiense.setToolTipText("");
-        SchoolBusAdd.add(aLiense, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 180, 30));
-
-        jLabel69.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel69.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel69.setText("UserName:");
-        jLabel69.setToolTipText("");
-        SchoolBusAdd.add(jLabel69, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, -1, 30));
-
-        aYear.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aYear.setToolTipText("");
-        SchoolBusAdd.add(aYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 250, 180, 30));
-
-        aUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        aUserName.setToolTipText("");
-        SchoolBusAdd.add(aUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 310, 180, 30));
-
-        SchoolBusJPanel.add(SchoolBusAdd, "card5");
-
-        SchoolBusViewInformation.setBackground(new java.awt.Color(255, 255, 255));
-        SchoolBusViewInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel50.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel50.setText("The detail information of SchoolBus");
-        SchoolBusViewInformation.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
-
-        jLabel51.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel51.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel51.setText("License Plate:");
-        SchoolBusViewInformation.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 110, -1, 30));
-
-        jLabel52.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel52.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel52.setText("Model Number:");
-        jLabel52.setToolTipText("");
-        SchoolBusViewInformation.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, 30));
-
-        jLabel53.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel53.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel53.setText("Persons Capacity:");
-        jLabel53.setToolTipText("");
-        SchoolBusViewInformation.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 240, 140, 30));
-
-        BusUpload.setBackground(new java.awt.Color(255, 255, 255));
-        BusUpload.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        BusUpload.setForeground(new java.awt.Color(58, 83, 155));
-        BusUpload.setText("Upload");
-        BusUpload.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        BusUpload.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BusUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BusUploadActionPerformed(evt);
-            }
-        });
-        SchoolBusViewInformation.add(BusUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 510, 130, 40));
-
-        jLabel54.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel54.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel54.setText("Manufactured year:");
-        jLabel54.setToolTipText("");
-        SchoolBusViewInformation.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, 30));
-
-        jLabel55.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel55.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel55.setText("Password:");
-        jLabel55.setToolTipText("");
-        SchoolBusViewInformation.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 420, -1, 30));
-
-        vPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vPassword.setToolTipText("");
-        vPassword.setEnabled(false);
-        SchoolBusViewInformation.add(vPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, 180, 30));
-
-        vCapacity.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vCapacity.setToolTipText("");
-        vCapacity.setEnabled(false);
-        SchoolBusViewInformation.add(vCapacity, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 180, 30));
-
-        vModelNum.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vModelNum.setToolTipText("");
-        vModelNum.setEnabled(false);
-        vModelNum.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vModelNumActionPerformed(evt);
-            }
-        });
-        SchoolBusViewInformation.add(vModelNum, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 180, 30));
-
-        vLicense.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vLicense.setToolTipText("");
-        vLicense.setEnabled(false);
-        SchoolBusViewInformation.add(vLicense, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, 180, 30));
-
-        jLabel63.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel63.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel63.setText("UserName:");
-        jLabel63.setToolTipText("");
-        SchoolBusViewInformation.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 360, -1, 30));
-
-        vYear.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vYear.setToolTipText("");
-        vYear.setEnabled(false);
-        SchoolBusViewInformation.add(vYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 300, 180, 30));
-
-        vUserName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        vUserName.setToolTipText("");
-        vUserName.setEnabled(false);
-        SchoolBusViewInformation.add(vUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 360, 180, 30));
-
-        BusSave.setBackground(new java.awt.Color(255, 255, 255));
-        BusSave.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        BusSave.setForeground(new java.awt.Color(58, 83, 155));
-        BusSave.setText("Save");
-        BusSave.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        BusSave.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        BusSave.setEnabled(false);
-        BusSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BusSaveActionPerformed(evt);
-            }
-        });
-        SchoolBusViewInformation.add(BusSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 510, 130, 40));
-
-        SchoolBusJPanel.add(SchoolBusViewInformation, "card5");
-
-        Schoolbus.add(SchoolBusJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableBus.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "License plate", "Persons capacity", "Driver name"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableBus.setFocusable(false);
-        TableBus.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableBus.setRowHeight(30);
-        TableBus.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableBus.setShowVerticalLines(false);
-        TableBus.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(TableBus);
-
-        Schoolbus.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 630, 250));
-
-        ContentPanel.add(Schoolbus, "card4");
-
-        SecurityRequest.setBackground(new java.awt.Color(255, 255, 255));
-        SecurityRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel30.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel30.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel30.setText("Incident type:");
-        jLabel30.setToolTipText("");
-        SecurityRequest.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, 30));
-
-        txtSecurityType.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtSecurityType.setForeground(new java.awt.Color(2, 2, 69));
-        txtSecurityType.setToolTipText("");
-        SecurityRequest.add(txtSecurityType, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 180, 30));
-
-        jLabel11.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel11.setText("Location:");
-        jLabel11.setToolTipText("");
-        SecurityRequest.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, -1, 30));
-
-        txtSecurityLocation.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtSecurityLocation.setForeground(new java.awt.Color(2, 2, 69));
-        txtSecurityLocation.setToolTipText("");
-        SecurityRequest.add(txtSecurityLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, 180, -1));
-
-        jButton1.setBorder(null);
-        SecurityRequest.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 200, 80, 30));
-
-        txtSecurityDesc.setColumns(20);
-        txtSecurityDesc.setRows(5);
-        jScrollPane6.setViewportView(txtSecurityDesc);
-
-        SecurityRequest.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 530, 190));
-
-        jLabel44.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel44.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel44.setText("Sent to");
-        jLabel44.setToolTipText("");
-        SecurityRequest.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 570, -1, 30));
-
-        ComboxGuard.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        ComboxGuard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboxGuardActionPerformed(evt);
-            }
-        });
-        SecurityRequest.add(ComboxGuard, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 200, -1));
-
-        jLabel79.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel79.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel79.setText("Description of Incident:");
-        jLabel79.setToolTipText("");
-        SecurityRequest.add(jLabel79, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, -1, 30));
-
-        comboxSecurityLevel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        comboxSecurityLevel.setForeground(new java.awt.Color(58, 83, 155));
-        comboxSecurityLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LOW", "MEDIUM", "HIGH" }));
-        comboxSecurityLevel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboxSecurityLevelActionPerformed(evt);
-            }
-        });
-        SecurityRequest.add(comboxSecurityLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 610, 200, -1));
-
-        FindNearestGuard.setForeground(new java.awt.Color(58, 83, 155));
-        FindNearestGuard.setText("FIND THE NEAREST GUARD");
-        SecurityRequest.add(FindNearestGuard, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 650, 200, -1));
-
-        btnSecuritySubmit.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        btnSecuritySubmit.setForeground(new java.awt.Color(58, 83, 155));
-        btnSecuritySubmit.setText("Submit");
-        SecurityRequest.add(btnSecuritySubmit, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 790, 200, 40));
-
-        jLabel80.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel80.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel80.setText("Urgency level");
-        jLabel80.setToolTipText("");
-        SecurityRequest.add(jLabel80, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 570, -1, 30));
-
-        rbtnSecurityGuar.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        rbtnSecurityGuar.setForeground(new java.awt.Color(58, 83, 155));
-        rbtnSecurityGuar.setText(" Guarantee the authenticity of the description");
-        rbtnSecurityGuar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnSecurityGuarActionPerformed(evt);
-            }
-        });
-        SecurityRequest.add(rbtnSecurityGuar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 760, 440, -1));
-
-        jLabel81.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel81.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel81.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel81.setText("Security Request");
-        SecurityRequest.add(jLabel81, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
-
-        ContentPanel.add(SecurityRequest, "card6");
-
-        AmbulanceRequest.setBackground(new java.awt.Color(255, 255, 255));
-        AmbulanceRequest.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel56.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel56.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel56.setText("Incident type:");
-        jLabel56.setToolTipText("");
-        AmbulanceRequest.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 160, -1, 30));
-
-        txtAmbulanceType.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtAmbulanceType.setForeground(new java.awt.Color(2, 2, 69));
-        txtAmbulanceType.setToolTipText("");
-        AmbulanceRequest.add(txtAmbulanceType, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 160, 30));
-
-        jLabel57.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel57.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel57.setText("Location:");
-        jLabel57.setToolTipText("");
-        AmbulanceRequest.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 160, -1, 30));
-
-        txtAmbulanceRequest.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtAmbulanceRequest.setForeground(new java.awt.Color(2, 2, 69));
-        txtAmbulanceRequest.setToolTipText("");
-        AmbulanceRequest.add(txtAmbulanceRequest, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, 180, -1));
-
-        btnAmbulanceLocation.setBorder(null);
-        AmbulanceRequest.add(btnAmbulanceLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 200, 80, 30));
-
-        txtDescAmbulanceRequest.setColumns(20);
-        txtDescAmbulanceRequest.setForeground(new java.awt.Color(58, 83, 155));
-        txtDescAmbulanceRequest.setRows(5);
-        jScrollPane5.setViewportView(txtDescAmbulanceRequest);
-
-        AmbulanceRequest.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 340, 550, 190));
-
-        jLabel58.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel58.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel58.setText("Sent to");
-        jLabel58.setToolTipText("");
-        AmbulanceRequest.add(jLabel58, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 570, -1, 30));
-
-        rbtnAmbulanceGua.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        rbtnAmbulanceGua.setForeground(new java.awt.Color(58, 83, 155));
-        rbtnAmbulanceGua.setText(" Guarantee the authenticity of the description");
-        rbtnAmbulanceGua.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtnAmbulanceGuaActionPerformed(evt);
-            }
-        });
-        AmbulanceRequest.add(rbtnAmbulanceGua, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 760, 440, -1));
-
-        jLabel59.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel59.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel59.setText("Description of Incident:");
-        jLabel59.setToolTipText("");
-        AmbulanceRequest.add(jLabel59, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 300, -1, 30));
-
-        jLabel60.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel60.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel60.setText("Urgency level");
-        jLabel60.setToolTipText("");
-        AmbulanceRequest.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 570, -1, 30));
-
-        comboxUrgencyLevel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        comboxUrgencyLevel.setForeground(new java.awt.Color(58, 83, 155));
-        comboxUrgencyLevel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LOW", "MEDIUM", "HIGH" }));
-        comboxUrgencyLevel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboxUrgencyLevelActionPerformed(evt);
-            }
-        });
-        AmbulanceRequest.add(comboxUrgencyLevel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 610, 200, -1));
-
-        btnFindHospital.setForeground(new java.awt.Color(58, 83, 155));
-        btnFindHospital.setText("FIND THE NEAREST HOSPITAL");
-        AmbulanceRequest.add(btnFindHospital, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 650, 220, -1));
-
-        btnAmbulanceSumit.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        btnAmbulanceSumit.setForeground(new java.awt.Color(58, 83, 155));
-        btnAmbulanceSumit.setText("SUBMIT");
-        AmbulanceRequest.add(btnAmbulanceSumit, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 800, 200, 40));
-
-        jLabel61.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel61.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel61.setText("Number of injured：");
-        jLabel61.setToolTipText("");
-        AmbulanceRequest.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, -1, 30));
-
-        comboHispitalList.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        comboHispitalList.setForeground(new java.awt.Color(58, 83, 155));
-        comboHispitalList.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboHispitalListActionPerformed(evt);
-            }
-        });
-        AmbulanceRequest.add(comboHispitalList, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 610, 210, -1));
-
-        quantityInjured.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        AmbulanceRequest.add(quantityInjured, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 60, 30));
-
-        jLabel82.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel82.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel82.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel82.setText("Ambulance Request");
-        AmbulanceRequest.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, -1, -1));
-
-        ContentPanel.add(AmbulanceRequest, "card7");
-
-        ManageComplaint.setBackground(new java.awt.Color(255, 255, 255));
-        ManageComplaint.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        txtViewReceiver.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        txtViewReceiver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtViewReceiverActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(txtViewReceiver, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 370, 160, 30));
-
-        jLabel70.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel70.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel70.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel70.setText("Manage Complaint");
-        ManageComplaint.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, -1, -1));
-
-        btnViewComplaint.setBackground(new java.awt.Color(255, 255, 255));
-        btnViewComplaint.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        btnViewComplaint.setForeground(new java.awt.Color(58, 83, 155));
-        btnViewComplaint.setText("View");
-        btnViewComplaint.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        btnViewComplaint.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnViewComplaint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewComplaintActionPerformed(evt);
-            }
-        });
-        ManageComplaint.add(btnViewComplaint, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 370, 120, 30));
-
-        ComplaintJPanel.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintJPanel.setLayout(new java.awt.CardLayout());
-
-        ComplaintNull.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintNull.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        ComplaintJPanel.add(ComplaintNull, "card5");
-
-        ComplaintInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ComplaintInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel93.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel93.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel93.setText("The detail information of Complaint");
-        ComplaintInformation.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, -1, -1));
-
-        jLabel94.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel94.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel94.setText("Complaint Reason:");
-        ComplaintInformation.add(jLabel94, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, -1, 30));
-
-        txtComplaintEmployee.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComplaintEmployee.setToolTipText("");
-        ComplaintInformation.add(txtComplaintEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 170, 30));
-
-        jLabel99.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel99.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel99.setText("Description:");
-        jLabel99.setToolTipText("");
-        ComplaintInformation.add(jLabel99, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, -1, 30));
-
-        txtComplaintDesc.setColumns(20);
-        txtComplaintDesc.setRows(5);
-        jScrollPane9.setViewportView(txtComplaintDesc);
-
-        ComplaintInformation.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, 530, 200));
-
-        jLabel100.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel100.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel100.setText("Employee:");
-        jLabel100.setToolTipText("");
-        ComplaintInformation.add(jLabel100, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, -1, 30));
-
-        sentMessageToAddresser.setBackground(new java.awt.Color(255, 255, 255));
-        sentMessageToAddresser.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        sentMessageToAddresser.setForeground(new java.awt.Color(58, 83, 155));
-        sentMessageToAddresser.setText("Sent Message");
-        sentMessageToAddresser.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        sentMessageToAddresser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sentMessageToAddresser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sentMessageToAddresserActionPerformed(evt);
-            }
-        });
-        ComplaintInformation.add(sentMessageToAddresser, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 150, 170, 30));
-
-        jLabel101.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel101.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel101.setText("Addresser:");
-        jLabel101.setToolTipText("");
-        ComplaintInformation.add(jLabel101, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 100, -1, 30));
-
-        sentMessageToReceiver.setBackground(new java.awt.Color(255, 255, 255));
-        sentMessageToReceiver.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        sentMessageToReceiver.setForeground(new java.awt.Color(58, 83, 155));
-        sentMessageToReceiver.setText("Sent Message");
-        sentMessageToReceiver.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(58, 83, 155)));
-        sentMessageToReceiver.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        sentMessageToReceiver.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sentMessageToReceiverActionPerformed(evt);
-            }
-        });
-        ComplaintInformation.add(sentMessageToReceiver, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 170, 30));
-
-        txtComplaintReason.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComplaintReason.setToolTipText("");
-        ComplaintInformation.add(txtComplaintReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 170, 30));
-
-        txtComAddresser.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtComAddresser.setToolTipText("");
-        ComplaintInformation.add(txtComAddresser, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 170, 30));
-
-        ComplaintJPanel.add(ComplaintInformation, "card5");
-
-        ManageComplaint.add(ComplaintJPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 440, 940, 510));
-
-        TableComplaint.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Complaint Reson", "Addresser", "Receiver"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        TableComplaint.setFocusable(false);
-        TableComplaint.setIntercellSpacing(new java.awt.Dimension(0, 0));
-        TableComplaint.setRowHeight(30);
-        TableComplaint.setSelectionBackground(new java.awt.Color(68, 68, 147));
-        TableComplaint.setShowVerticalLines(false);
-        TableComplaint.getTableHeader().setReorderingAllowed(false);
-        jScrollPane8.setViewportView(TableComplaint);
-
-        ManageComplaint.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 80, 630, 250));
-
-        ContentPanel.add(ManageComplaint, "card4");
-
-        ManageInformation.setBackground(new java.awt.Color(255, 255, 255));
-        ManageInformation.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        image.setForeground(new java.awt.Color(58, 83, 155));
-        image.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Profile photo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 0, 14))); // NOI18N
-        ManageInformation.add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 210, 270));
-
-        btnphotoUpload.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnphotoUpload.setForeground(new java.awt.Color(58, 83, 155));
-        btnphotoUpload.setText("Upload");
-        btnphotoUpload.setEnabled(false);
-        btnphotoUpload.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnphotoUploadActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnphotoUpload, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 580, 110, 40));
-
-        btnUpdate.setBackground(new java.awt.Color(255, 255, 255));
-        btnUpdate.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(58, 83, 155));
-        btnUpdate.setText("UPDATE");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 810, 200, 40));
-
-        btnSave.setBackground(new java.awt.Color(255, 255, 255));
-        btnSave.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        btnSave.setForeground(new java.awt.Color(58, 83, 155));
-        btnSave.setText("SAVE");
-        btnSave.setEnabled(false);
-        btnSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveActionPerformed(evt);
-            }
-        });
-        ManageInformation.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 810, 200, 40));
-
-        jLabel71.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel71.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel71.setText("Enterprise Name:");
-        jLabel71.setToolTipText("");
-        ManageInformation.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 160, -1, 30));
-
-        txtEntName.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtEntName.setForeground(new java.awt.Color(58, 83, 155));
-        txtEntName.setToolTipText("");
-        txtEntName.setEnabled(false);
-        ManageInformation.add(txtEntName, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 160, 180, 30));
-
-        txtEntLocation.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtEntLocation.setForeground(new java.awt.Color(58, 83, 155));
-        txtEntLocation.setToolTipText("");
-        txtEntLocation.setEnabled(false);
-        ManageInformation.add(txtEntLocation, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 230, 180, 30));
-
-        jLabel72.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel72.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel72.setText("Location:");
-        jLabel72.setToolTipText("");
-        ManageInformation.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 90, 30));
-
-        jLabel73.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel73.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel73.setText("PM");
-        jLabel73.setToolTipText("");
-        ManageInformation.add(jLabel73, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 460, 60, 30));
-
-        txtPhoneNumber.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPhoneNumber.setForeground(new java.awt.Color(58, 83, 155));
-        txtPhoneNumber.setToolTipText("");
-        txtPhoneNumber.setEnabled(false);
-        ManageInformation.add(txtPhoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 310, 180, 30));
-
-        jLabel74.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel74.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel74.setText("Work Time:");
-        jLabel74.setToolTipText("");
-        ManageInformation.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, 90, 30));
-
-        jLabel75.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel75.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel75.setText("Password:");
-        jLabel75.setToolTipText("");
-        ManageInformation.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 600, 90, 30));
-
-        txtPassword.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(58, 83, 155));
-        txtPassword.setToolTipText("");
-        txtPassword.setEnabled(false);
-        ManageInformation.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 600, 180, 30));
-
-        jLabel76.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel76.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel76.setText("User Account:");
-        jLabel76.setToolTipText("");
-        ManageInformation.add(jLabel76, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, 120, 30));
-
-        txtUserAccount.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        txtUserAccount.setForeground(new java.awt.Color(58, 83, 155));
-        txtUserAccount.setToolTipText("");
-        txtUserAccount.setEnabled(false);
-        ManageInformation.add(txtUserAccount, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 530, 180, 30));
-
-        jButton9.setForeground(new java.awt.Color(58, 83, 155));
-        jButton9.setText("SET LOCATION");
-        jButton9.setEnabled(false);
-        ManageInformation.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 230, -1, -1));
-
-        comboxClosedTime.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboxClosedTime.setForeground(new java.awt.Color(58, 83, 155));
-        comboxClosedTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", " " }));
-        comboxClosedTime.setEnabled(false);
-        ManageInformation.add(comboxClosedTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 450, 60, 50));
-
-        jLabel77.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel77.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel77.setText("Status:");
-        jLabel77.setToolTipText("");
-        ManageInformation.add(jLabel77, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 390, 60, 30));
-
-        comboStatus.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboStatus.setForeground(new java.awt.Color(58, 83, 155));
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPEN", "CLOSED" }));
-        comboStatus.setEnabled(false);
-        ManageInformation.add(comboStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, 180, 50));
-
-        comboxOpenTime.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        comboxOpenTime.setForeground(new java.awt.Color(58, 83, 155));
-        comboxOpenTime.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", " " }));
-        comboxOpenTime.setEnabled(false);
-        ManageInformation.add(comboxOpenTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 450, 60, 50));
-
-        jComboBox3.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "OPEN", "CLOSED" }));
-        ManageInformation.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, 180, 50));
-
-        jLabel83.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel83.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel83.setText("Phone Number:");
-        jLabel83.setToolTipText("");
-        ManageInformation.add(jLabel83, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 310, 140, 30));
-
-        jLabel84.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        jLabel84.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel84.setText("AM - ");
-        jLabel84.setToolTipText("");
-        ManageInformation.add(jLabel84, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 460, 60, 30));
-
-        jLabel85.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
-        ManageInformation.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 680, 670));
-
-        jLabel86.setBackground(new java.awt.Color(58, 83, 155));
-        jLabel86.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel86.setForeground(new java.awt.Color(58, 83, 155));
-        jLabel86.setText("Manage Information");
-        ManageInformation.add(jLabel86, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
-
-        ContentPanel.add(ManageInformation, "card8");
 
         labTime.setFont(new java.awt.Font("Arial", 1, 22)); // NOI18N
         labTime.setForeground(new java.awt.Color(255, 255, 255));
         labTime.setText("Time");
 
+        txtWelcome.setFont(new java.awt.Font("Tahoma", 1, 22)); // NOI18N
+        txtWelcome.setForeground(new java.awt.Color(255, 255, 255));
+        txtWelcome.setText("Welcome, XXX! ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1887,83 +742,44 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(btnStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAmbulance, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel14)
-                        .addGap(7, 7, 7)
-                        .addComponent(btnSecurity, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(11, 11, 11)
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnComplaint, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1026, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(77, 77, 77)
+                        .addComponent(txtWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1462, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(168, 168, 168)
-                .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(btnStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(20, 20, 20)
-                                        .addComponent(btnBus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel2)))
-                                .addGap(30, 30, 30)
-                                .addComponent(btnSecurity, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel14))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
-                                .addComponent(btnAmbulance, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel15)))
-                        .addGap(30, 30, 30)
-                        .addComponent(btnComplaint, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(btnInformation, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29)
+                        .addComponent(btnLogout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(250, 250, 250)
-                .addComponent(labTime, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(ContentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 960, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(btnStudent, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(btnBus, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel2)))
+                        .addContainerGap())
+                    .addComponent(ContentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1972,11 +788,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         Dashboard.setVisible(true);
         Student.setVisible(false);
         Teacher.setVisible(false);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
+        BusDriver.setVisible(false);
 
     }//GEN-LAST:event_btnDashboardActionPerformed
 
@@ -1985,19 +797,14 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         Dashboard.setVisible(false);
         Student.setVisible(true);
         Teacher.setVisible(false);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
-
-        //SubJPanel
-        StudentNull.setVisible(true);
-        StudentWaitList.setVisible(false);
-        StudentInformation.setVisible(false);
-
-        //first-in
-        //        refreshStudentTable();
+        BusDriver.setVisible(false);
+        
+        SDComboClassList.removeAllItems();
+        SDComboClassList.addItem("All");
+        for (KClass kc : kindergartenEnterprise.getAllClassList()) {
+            SDComboClassList.addItem(kc.getClassName());
+        }
+        populateAllStudentDirectory();
     }//GEN-LAST:event_btnStudentActionPerformed
 
     private void btnTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTeacherActionPerformed
@@ -2005,11 +812,7 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         Dashboard.setVisible(false);
         Student.setVisible(false);
         Teacher.setVisible(true);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
+        BusDriver.setVisible(false);
         populateTeacherTable();
     }//GEN-LAST:event_btnTeacherActionPerformed
 
@@ -2018,418 +821,9 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         Dashboard.setVisible(false);
         Student.setVisible(false);
         Teacher.setVisible(false);
-        Schoolbus.setVisible(true);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
-//
-//        //SubJPanel
-//        SchoolBusNull.setVisible(true);
-//        SchoolBusAdd.setVisible(false);
-//        SchoolBusViewInformation.setVisible(false);
+        BusDriver.setVisible(true);
+        populateBusDriverTable();
     }//GEN-LAST:event_btnBusActionPerformed
-
-    private void btnSecurityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSecurityActionPerformed
-        // TODO add your handling code here:
-        Dashboard.setVisible(false);
-        Student.setVisible(false);
-        Teacher.setVisible(false);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(true);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
-    }//GEN-LAST:event_btnSecurityActionPerformed
-
-    private void btnAmbulanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAmbulanceActionPerformed
-        // TODO add your handling code here:
-        Dashboard.setVisible(false);
-        Student.setVisible(false);
-        Teacher.setVisible(false);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(true);
-        ManageComplaint.setVisible(false);
-        ManageInformation.setVisible(false);
-    }//GEN-LAST:event_btnAmbulanceActionPerformed
-
-    private void btnComplaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComplaintActionPerformed
-        // TODO add your handling code here:
-        Dashboard.setVisible(false);
-        Student.setVisible(false);
-        Teacher.setVisible(false);
-        Schoolbus.setVisible(false);
-        SecurityRequest.setVisible(false);
-        AmbulanceRequest.setVisible(false);
-        ManageComplaint.setVisible(true);
-        ManageInformation.setVisible(false);
-//
-//        //Sub
-//        ComplaintNull.setVisible(true);
-//        ComplaintInformation.setVisible(false);
-    }//GEN-LAST:event_btnComplaintActionPerformed
-
-    private void btnInformationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformationActionPerformed
-        // TODO add your handling code here:
-                Dashboard.setVisible(false);
-                Student.setVisible(false);
-                Teacher.setVisible(true);
-                Schoolbus.setVisible(false);
-                SecurityRequest.setVisible(false);
-                AmbulanceRequest.setVisible(false);
-                ManageComplaint.setVisible(false);
-                ManageInformation.setVisible(false);
-        
-//                txtEntName.setText(kindergarden.getName());
-//                txtEntLocation.setText(kindergarden.getName());
-//                txtPhoneNumber.setText(kindergarden.getName());
-//                txtEntName.setText(kindergarden.getName());
-//                comboStatus.setSelectedItem(kindergarden.getStatus());
-//                comboxOpenTime.setSelectedItem(kindergarden.getOpenTime());
-//                comboxClosedTime.setSelectedItem(kindergarden.getClosedTime());
-    }//GEN-LAST:event_btnInformationActionPerformed
-
-    private void txtStudentViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentViewActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentViewActionPerformed
-
-    private void btnWaitlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWaitlistActionPerformed
-        // TODO add your handling code here:
-        StudentNull.setVisible(false);
-        StudentWaitList.setVisible(true);
-        StudentInformation.setVisible(false);
-        //        refreshStudentWaitList();
-    }//GEN-LAST:event_btnWaitlistActionPerformed
-
-    private void btnViewStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewStudentActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = TableStudent.getSelectedRow();
-        //
-        //        if (selectedRow >= 0)
-        //        {
-            //            Student s = (Student) TableStudent.getValueAt(selectedRow, 0);
-            //            //setvisable
-            //            StudentNull.setVisible(false);
-            //            StudentWaitList.setVisible(false);
-            //            StudentInformation.setVisible(true);
-            //
-            //            //combox
-            //            TeacherOfStudent.removeAllItems();;
-            //            for (Teacher a : kindergarden.getTeacherDirectory().getTeacherList()) {
-                //                TeacherOfStudent.addItem(a);
-                //            }
-            //            SchoolBusOfStudent.removeAllItems();;
-            //            SchoolBusOfStudent.addItem("null");//some students may not ask for school bus service
-            //            for (SchoolBus a : kindergarden.getSchoolBusDirectory().getBusList()) {
-                //                SchoolBusOfStudent.addItem(a);
-                //            }
-            //            //txt
-            //            txtStudentName.setText(s.getName());
-            //            txtStudentClass.setText(s.getClassname());
-            //            txtGuardianName.setText(s.getGuardianName());
-            //            txtGuardianPhone.setText(s.getGuardianPhoneNumber());
-            //            StudentHomeAddress.setText(s.getHomeAddress());
-            //            this.student = s ;
-            //        }
-        //        else
-        //        {
-            //            JOptionPane.showMessageDialog(null, "Please select a student.");
-            //        }
-    }//GEN-LAST:event_btnViewStudentActionPerformed
-
-    private void btnStudentDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentDeleteActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = TableStudent.getSelectedRow();
-        //        if(selectedRow>=0) {
-            //            int selectionButton = JOptionPane.YES_NO_OPTION;
-            //            int selectionResult = JOptionPane.showConfirmDialog(null, "Are you sure to remove??","Warning",selectionButton);
-            //            if(selectionResult == JOptionPane.YES_OPTION){
-                //                Student s = (Student) TableStudent.getValueAt(selectedRow, 0);
-                //                kindergarden.getStudentDirectory().removeStudent(s);
-                //                refreshStudentTable();
-                //            }
-            //        }else{
-            //            JOptionPane.showMessageDialog(null, "Please select a Student!!");
-            //        }
-    }//GEN-LAST:event_btnStudentDeleteActionPerformed
-
-    private void btnRejectStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectStudentActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = tableWaitList.getSelectedRow();
-        //        if(selectedRow>=0) {
-            //            int selectionButton = JOptionPane.YES_NO_OPTION;
-            //            int selectionResult = JOptionPane.showConfirmDialog(null, "Are you sure to Reject??","Warning",selectionButton);
-            //            if(selectionResult == JOptionPane.YES_OPTION){
-                //                Student s = (Student) tableWaitList.getValueAt(selectedRow, 0);
-                //                kindergarden.getStudentWaitList().removeStudent(s);
-                //                refreshStudentWaitList();
-                //            }
-            //        }else{
-            //            JOptionPane.showMessageDialog(null, "Please select a Student!!");
-            //        }
-    }//GEN-LAST:event_btnRejectStudentActionPerformed
-
-    private void btnAcceptStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcceptStudentActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = tableWaitList.getSelectedRow();
-        //        if(selectedRow>=0) {
-            //            int selectionButton = JOptionPane.YES_NO_OPTION;
-            //            int selectionResult = JOptionPane.showConfirmDialog(null, "Are you sure to Accept??","Message",selectionButton);
-            //            if(selectionResult == JOptionPane.YES_OPTION){
-                //                Student s = (Student) tableWaitList.getValueAt(selectedRow, 0);
-                //                kindergarden.getStudentWaitList().removeStudent(s);
-                //                kindergarden.getStudentDirectory().addStudent(s);
-                //                refreshStudentWaitList();
-                //            }
-            //        }else{
-            //            JOptionPane.showMessageDialog(null, "Please select a Student!!");
-            //        }
-
-    }//GEN-LAST:event_btnAcceptStudentActionPerformed
-
-    private void StudentHomeAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StudentHomeAddressActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StudentHomeAddressActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void btnStudentUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentUploadActionPerformed
-        // TODO add your handling code here:
-        btnStudentSave.setEnabled(true);
-        btnStudentUpload.setEnabled(false);
-        txtStudentClass.setEnabled(true);
-    }//GEN-LAST:event_btnStudentUploadActionPerformed
-
-    private void btnStudentSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStudentSaveActionPerformed
-        // TODO add your handling code here:
-        btnStudentSave.setEnabled(true);
-        btnStudentUpload.setEnabled(false);
-        txtStudentClass.setEnabled(true);
-        //       student.setClassname(txtStudentClass.getText());// this student is the student in the btnViewStudentActionPerformed
-    }//GEN-LAST:event_btnStudentSaveActionPerformed
-
-    private void SchoolBusOfStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SchoolBusOfStudentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SchoolBusOfStudentActionPerformed
-
-    private void txtTeacherIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTeacherIdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTeacherIdActionPerformed
-
-    private void txtViewBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewBusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewBusActionPerformed
-
-    private void btnAddBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBusActionPerformed
-        // TODO add your handling code here:
-        SchoolBusNull.setVisible(false);
-        SchoolBusAdd.setVisible(true);
-        SchoolBusViewInformation.setVisible(false);
-    }//GEN-LAST:event_btnAddBusActionPerformed
-
-    private void btnViewBusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewBusActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = TableTeacher.getSelectedRow();
-        //
-        //        if (selectedRow >= 0)
-        //        {
-            //            SchoolBus s = (SchoolBus) TableBus.getValueAt(selectedRow, 0);
-            //            //setvisable
-            //            SchoolBusNull.setVisible(false);
-            //            SchoolBusAdd.setVisible(false);
-            //            SchoolBusViewInformation.setVisible(true);
-            //
-            //            //txt
-            //            vLicense.setText(s.getLicense());
-            //            vModelNum.setText(s.getModelNum());
-            //            vCapacity.setText(s.getPersonCapacity());
-            //            vYear.setText(s.getManfacturedYear());
-            //
-            //            //
-            //            schoolBus = s;
-            //        }
-        //        else
-        //        {
-            //            JOptionPane.showMessageDialog(null, "Please select a school bus.");
-            //        }
-    }//GEN-LAST:event_btnViewBusActionPerformed
-
-    private void btnBusDelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusDelActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = TableBus.getSelectedRow();
-        //        if(selectedRow>=0) {
-            //            int selectionButton = JOptionPane.YES_NO_OPTION;
-            //            int selectionResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete??","Warning",selectionButton);
-            //            if(selectionResult == JOptionPane.YES_OPTION){
-                //                SchoolBus s = (SchoolBus) TableBus.getValueAt(selectedRow, 0);
-                //                kindergarden.getSchoolBusDirectory().removeBus(s);
-                //                refreshBusTable();
-                //            }
-            //        }else{
-            //            JOptionPane.showMessageDialog(null, "Please select a SchoolBus!!");
-            //        }
-    }//GEN-LAST:event_btnBusDelActionPerformed
-
-    private void btnBusAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusAddActionPerformed
-        // TODO add your handling code here:
-        //        SchoolBus sb = kindergarden.getSchoolBusDirectory().createBus();
-        //        sb.setLicense(aLiense.getText());
-        //        sb.setModelNum(aModelNum.getText());
-        //        sb.setPersonCapacity(aCapacity.getText());
-        //        sb.setManfacturedYear(aYear.getText());
-        //        refreshBusTable();
-        //
-        //        JOptionPane.showMessageDialog(null, "Add Successfully");
-        //
-        //        vLicense.setText("");
-        //        vModelNum.setText("");
-        //        vCapacity.setText("");
-        //        vYear.setText("");
-        //        vUserName.setText("");
-        //        vPassword.setText("");
-    }//GEN-LAST:event_btnBusAddActionPerformed
-
-    private void aModelNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aModelNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aModelNumActionPerformed
-
-    private void BusUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BusUploadActionPerformed
-        // TODO add your handling code here:
-        vLicense.setEnabled(true);
-        vModelNum.setEnabled(true);
-        vCapacity.setEnabled(true);
-        vYear.setEnabled(true);
-        vUserName.setEnabled(true);
-        vPassword.setEnabled(true);
-        BusSave.setEnabled(true);
-        BusUpload.setEnabled(false);
-    }//GEN-LAST:event_BusUploadActionPerformed
-
-    private void vModelNumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vModelNumActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vModelNumActionPerformed
-
-    private void BusSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BusSaveActionPerformed
-        // TODO add your handling code here:
-        //        schoolBus.setLicense(aLiense.getText());
-        //        schoolBus.setModelNum(aModelNum.getText());
-        //        schoolBus.setPersonCapacity(aCapacity.getText());
-        //        schoolBus.setManfacturedYear(aYear.getText());
-        //        refreshBusTable();
-        //
-        //        vLicense.setEnabled(false);
-        //        vModelNum.setEnabled(false);
-        //        vCapacity.setEnabled(false);
-        //        vYear.setEnabled(false);
-        //        vUserName.setEnabled(false);
-        //        vPassword.setEnabled(false);
-        //        BusSave.setEnabled(false);
-        //        BusUpload.setEnabled(true);
-    }//GEN-LAST:event_BusSaveActionPerformed
-
-    private void ComboxGuardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboxGuardActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboxGuardActionPerformed
-
-    private void comboxSecurityLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxSecurityLevelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboxSecurityLevelActionPerformed
-
-    private void rbtnSecurityGuarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnSecurityGuarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbtnSecurityGuarActionPerformed
-
-    private void rbtnAmbulanceGuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnAmbulanceGuaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbtnAmbulanceGuaActionPerformed
-
-    private void comboxUrgencyLevelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxUrgencyLevelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboxUrgencyLevelActionPerformed
-
-    private void comboHispitalListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboHispitalListActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboHispitalListActionPerformed
-
-    private void txtViewReceiverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtViewReceiverActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtViewReceiverActionPerformed
-
-    private void btnViewComplaintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewComplaintActionPerformed
-        // TODO add your handling code here:
-        //        int selectedRow = TableComplaint.getSelectedRow();
-        //
-        //        if (selectedRow >= 0)
-        //        {
-            //            Complaint s = (Complaint) TableComplaint.getValueAt(selectedRow, 0);
-            //            //setvisable
-            //            ComplaintNull.setVisible(false);
-            //            ComplaintInformation.setVisible(true);
-            //
-            //            //txt
-            //            txtComAddresser.setText(s.getAddresser());
-            //            txtComplaintEmployee.setText(s.getReceiver());
-            //            txtComplaintReason.setText(s.getComplaintReason());
-            //            txtComplaintDesc.setText(s.getDesc());
-            //        }
-        //        else
-        //        {
-            //            JOptionPane.showMessageDialog(null, "Please select a school bus.");
-            //        }
-    }//GEN-LAST:event_btnViewComplaintActionPerformed
-
-    private void sentMessageToAddresserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sentMessageToAddresserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sentMessageToAddresserActionPerformed
-
-    private void sentMessageToReceiverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sentMessageToReceiverActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sentMessageToReceiverActionPerformed
-
-    private void btnphotoUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnphotoUploadActionPerformed
-        // TODO add your handling code here:
-        //       JFileChooser upload = new JFileChooser();
-        //       upload.showOpenDialog(null);
-        //       File file = upload.getSelectedFile();
-        //       String path = file.getAbsolutePath();
-        //       imagePath = path;
-        //
-        //       Image im = Toolkit.getDefaultToolkit().createImage(path);
-        //       im = im.getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH);
-        //       ImageIcon ima = new ImageIcon(im);
-        //       kindergarden.setMyimage(ima);
-        //       image.setIcon(ima);
-    }//GEN-LAST:event_btnphotoUploadActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-        txtEntName.setEnabled(true);
-        txtEntLocation.setEnabled(true);
-        txtPhoneNumber.setEnabled(true);
-        txtEntName.setEnabled(true);
-        comboStatus.setEnabled(true);
-        comboxOpenTime.setEnabled(true);
-        comboxClosedTime.setEnabled(true);
-        txtPassword.setEnabled(true);
-        btnUpdate.setEnabled(false);
-        btnSave.setEnabled(true);
-        btnphotoUpload.setEnabled(true);
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
-
-        //        txtEntName.setText(kindergarden.getName());
-        //        txtEntLocation.setText(kindergarden.getName());
-        //        txtPhoneNumber.setText(kindergarden.getName());
-        //        txtEntName.setText(kindergarden.getName());
-        //        comboStatus.setSelectedItem(kindergarden.getStatus());
-        //        comboxOpenTime.setSelectedItem(kindergarden.getOpenTime());
-        //        comboxClosedTime.setSelectedItem(kindergarden.getClosedTime());
-    }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
         // TODO add your handling code here:
@@ -2445,6 +839,8 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         String password = TTxtPassword.getText();
         String teacherName = TTxtTeacherName.getText();
         Employee employee = kindergartenEnterprise.getEmployeeDirectory().createEmployee(teacherName);
+        employee.setId(kindergartenEnterprise.getUserAccountDirectory().getUserAccountList().size()+1);
+        userAccount.getEmployee().getSubIdList().add(employee.getId());
         UserAccount account = kindergartenEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new TeacherRole());
         populateTeacherTable();
     }//GEN-LAST:event_TBtnSubmitActionPerformed
@@ -2460,8 +856,8 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
             int selectionButton = JOptionPane.YES_NO_OPTION;
             int selectionResult = JOptionPane.showConfirmDialog(null, "Are you sure to delete??","Warning",selectionButton);
             if(selectionResult == JOptionPane.YES_OPTION){
-                UserAccount userAccount = (UserAccount) tabTeacher.getValueAt(selectedRow, 0);
-                ecoSystem.getUserAccountDirectory().getUserAccountList().remove(userAccount);
+                UserAccount u = (UserAccount) tabTeacher.getValueAt(selectedRow, 0);
+                kindergartenEnterprise.getUserAccountDirectory().getUserAccountList().remove(u);
                 populateTeacherTable();
             }
         }else{
@@ -2469,218 +865,101 @@ public class KindergardenWorkAdminJPanel extends javax.swing.JPanel implements R
         }
     }//GEN-LAST:event_TBtnDelActionPerformed
 
+    private void BSDBtnSubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BSDBtnSubmitActionPerformed
+        // TODO add your handling code here:
+        String username = BSDTxtUserName.getText();
+        String password = BSDTxtPassword.getText();
+        String driverName = BSDTxtName.getText();
+        Employee employee = kindergartenEnterprise.getEmployeeDirectory().createEmployee(driverName);
+        employee.setId(kindergartenEnterprise.getUserAccountDirectory().getUserAccountList().size()+1);
+        userAccount.getEmployee().getSubIdList().add(employee.getId());
+        UserAccount account = kindergartenEnterprise.getUserAccountDirectory().createUserAccount(username, password, employee, new BusDriverRole());
+        populateBusDriverTable();
+    }//GEN-LAST:event_BSDBtnSubmitActionPerformed
+
+    private void SDComboClassListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SDComboClassListMouseClicked
+        // TODO add your handling code here:
+        SDComboClassList.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent event) {
+                Object selectedItem = event.getItem();
+                if (selectedItem == SDComboClassList.getSelectedItem()) {
+                    populateSelectedClassStudent();
+                }
+                
+                if (selectedItem.equals("All")) {
+                    populateAllStudentDirectory();
+                }
+            }
+        });
+    }//GEN-LAST:event_SDComboClassListMouseClicked
+
+    private void SDComboClassListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SDComboClassListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SDComboClassListActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel AmbulanceRequest;
-    private javax.swing.JButton BusSave;
-    private javax.swing.JButton BusUpload;
-    private javax.swing.JComboBox<String> ComboxGuard;
-    private javax.swing.JPanel ComplaintInformation;
-    private javax.swing.JPanel ComplaintJPanel;
-    private javax.swing.JPanel ComplaintNull;
+    private javax.swing.JButton BSDBtnSubmit;
+    private javax.swing.JTextField BSDTxtName;
+    private javax.swing.JTextField BSDTxtPassword;
+    private javax.swing.JTextField BSDTxtUserName;
+    private javax.swing.JPanel BusDriver;
     private javax.swing.JPanel ContentPanel;
     private javax.swing.JPanel Dashboard;
-    private javax.swing.JButton FindNearestGuard;
-    private javax.swing.JPanel ManageComplaint;
-    private javax.swing.JPanel ManageInformation;
-    private javax.swing.JPanel SchoolBusAdd;
-    private javax.swing.JPanel SchoolBusJPanel;
-    private javax.swing.JPanel SchoolBusNull;
-    private javax.swing.JComboBox SchoolBusOfStudent;
-    private javax.swing.JPanel SchoolBusViewInformation;
-    private javax.swing.JPanel Schoolbus;
-    private javax.swing.JPanel SecurityRequest;
+    private javax.swing.JComboBox SDComboClassList;
     private javax.swing.JPanel Student;
-    private javax.swing.JTextField StudentHomeAddress;
-    private javax.swing.JPanel StudentInformation;
-    private javax.swing.JPanel StudentNull;
-    private javax.swing.JPanel StudentWaitList;
     private javax.swing.JButton TBtnDel;
     private javax.swing.JButton TBtnSubmit;
     private javax.swing.JButton TBtnView;
     private javax.swing.JTextField TTxtPassword;
     private javax.swing.JTextField TTxtTeacherName;
     private javax.swing.JTextField TTxtUsername;
-    private javax.swing.JTable TableBus;
-    private javax.swing.JTable TableComplaint;
     private javax.swing.JTable TableNotification;
-    private javax.swing.JTable TableStudent;
     private javax.swing.JPanel Teacher;
-    private javax.swing.JComboBox TeacherOfStudent;
-    private javax.swing.JTextField aCapacity;
-    private javax.swing.JTextField aLiense;
-    private javax.swing.JTextField aModelNum;
-    private javax.swing.JTextField aPassword;
-    private javax.swing.JTextField aUserName;
-    private javax.swing.JTextField aYear;
-    private javax.swing.JButton btnAcceptStudent;
-    private javax.swing.JButton btnAddBus;
-    private javax.swing.JButton btnAmbulance;
-    private javax.swing.JButton btnAmbulanceLocation;
-    private javax.swing.JButton btnAmbulanceSumit;
     private javax.swing.JButton btnBus;
-    private javax.swing.JButton btnBusAdd;
-    private javax.swing.JButton btnBusDel;
-    private javax.swing.JButton btnComplaint;
     private javax.swing.JButton btnDashboard;
-    private javax.swing.JButton btnFindHospital;
-    private javax.swing.JButton btnInformation;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMarkread;
-    private javax.swing.JButton btnRejectStudent;
-    private javax.swing.JButton btnSave;
-    private javax.swing.JButton btnSecurity;
-    private javax.swing.JButton btnSecuritySubmit;
     private javax.swing.JButton btnStudent;
-    private javax.swing.JButton btnStudentDelete;
-    private javax.swing.JButton btnStudentSave;
-    private javax.swing.JButton btnStudentUpload;
     private javax.swing.JButton btnTeacher;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnViewBus;
-    private javax.swing.JButton btnViewComplaint;
-    private javax.swing.JButton btnViewStudent;
-    private javax.swing.JButton btnWaitlist;
-    private javax.swing.JButton btnphotoUpload;
-    private javax.swing.JComboBox<String> comboHispitalList;
-    private javax.swing.JComboBox<String> comboStatus;
-    private javax.swing.JComboBox<String> comboxClosedTime;
-    private javax.swing.JComboBox<String> comboxOpenTime;
-    private javax.swing.JComboBox<String> comboxSecurityLevel;
-    private javax.swing.JComboBox<String> comboxUrgencyLevel;
-    private javax.swing.JLabel image;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JLabel jLabel100;
-    private javax.swing.JLabel jLabel101;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
-    private javax.swing.JLabel jLabel52;
-    private javax.swing.JLabel jLabel53;
-    private javax.swing.JLabel jLabel54;
-    private javax.swing.JLabel jLabel55;
-    private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
-    private javax.swing.JLabel jLabel59;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel60;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel63;
-    private javax.swing.JLabel jLabel64;
-    private javax.swing.JLabel jLabel65;
-    private javax.swing.JLabel jLabel66;
-    private javax.swing.JLabel jLabel67;
-    private javax.swing.JLabel jLabel68;
-    private javax.swing.JLabel jLabel69;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel70;
-    private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
-    private javax.swing.JLabel jLabel73;
-    private javax.swing.JLabel jLabel74;
-    private javax.swing.JLabel jLabel75;
-    private javax.swing.JLabel jLabel76;
-    private javax.swing.JLabel jLabel77;
-    private javax.swing.JLabel jLabel78;
-    private javax.swing.JLabel jLabel79;
-    private javax.swing.JLabel jLabel80;
-    private javax.swing.JLabel jLabel81;
-    private javax.swing.JLabel jLabel82;
-    private javax.swing.JLabel jLabel83;
-    private javax.swing.JLabel jLabel84;
-    private javax.swing.JLabel jLabel85;
-    private javax.swing.JLabel jLabel86;
-    private javax.swing.JLabel jLabel93;
-    private javax.swing.JLabel jLabel94;
-    private javax.swing.JLabel jLabel99;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel labTime;
     private javax.swing.JLabel labelComplaintNum;
     private javax.swing.JLabel labelStudentsNum;
     private javax.swing.JLabel labelTeachersNum;
-    private javax.swing.JSpinner quantityInjured;
-    private javax.swing.JRadioButton rbtnAmbulanceGua;
-    private javax.swing.JRadioButton rbtnSecurityGuar;
-    private javax.swing.JButton sentMessageToAddresser;
-    private javax.swing.JButton sentMessageToReceiver;
-    private javax.swing.JPanel studentJPanel;
+    private javax.swing.JTable tabBusDriver;
+    private javax.swing.JTable tabStudentDirectory;
     private javax.swing.JTable tabTeacher;
-    private javax.swing.JTable tableWaitList;
-    private javax.swing.JTextField txtAmbulanceRequest;
-    private javax.swing.JTextField txtAmbulanceType;
-    private javax.swing.JTextField txtComAddresser;
-    private javax.swing.JTextArea txtComplaintDesc;
-    private javax.swing.JTextField txtComplaintEmployee;
-    private javax.swing.JTextField txtComplaintReason;
-    private javax.swing.JTextArea txtDescAmbulanceRequest;
-    private javax.swing.JTextField txtEntLocation;
-    private javax.swing.JTextField txtEntName;
-    private javax.swing.JTextField txtGuardianName;
-    private javax.swing.JTextField txtGuardianPhone;
-    private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtPhoneNumber;
-    private javax.swing.JTextArea txtSecurityDesc;
-    private javax.swing.JTextField txtSecurityLocation;
-    private javax.swing.JTextField txtSecurityType;
-    private javax.swing.JTextField txtStudentClass;
-    private javax.swing.JTextField txtStudentName;
-    private javax.swing.JTextField txtStudentView;
-    private javax.swing.JTextField txtTeacherId;
-    private javax.swing.JTextField txtUserAccount;
-    private javax.swing.JTextField txtViewBus;
-    private javax.swing.JTextField txtViewReceiver;
-    private javax.swing.JTextField vCapacity;
-    private javax.swing.JTextField vLicense;
-    private javax.swing.JTextField vModelNum;
-    private javax.swing.JTextField vPassword;
-    private javax.swing.JTextField vUserName;
-    private javax.swing.JTextField vYear;
+    private javax.swing.JLabel txtWelcome;
     // End of variables declaration//GEN-END:variables
 
     @Override

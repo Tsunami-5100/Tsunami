@@ -6,8 +6,6 @@
 package Business.Resident;
 
 import Business.Market.MerchandiseOrder;
-import Business.Market.MerchandiseOrderList;
-import Business.Message.Message;
 import Business.Property.Payment;
 import Business.Property.SRRequest;
 import java.util.ArrayList;
@@ -28,12 +26,14 @@ public class Resident {
     private ArrayList<Payment> paymentList; 
     private ArrayList<MerchandiseOrder> merchandiseOrderList;
     private ArrayList<SRRequest> SRRequestList;
-    
-    public Resident(){
-        paymentList = new ArrayList<Payment>();
-        merchandiseOrderList = new ArrayList<MerchandiseOrder>();
-        SRRequestList = new ArrayList<SRRequest>();
+
+    public Resident() {
+        this.paymentList = new ArrayList<>();
+        this.merchandiseOrderList = new ArrayList<>();
+        this.SRRequestList = new ArrayList<>();
     }
+    
+    
     
     public int getEmployeeId() {
         return employeeId;
@@ -98,7 +98,7 @@ public class Resident {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
     public ArrayList<Payment> getPaymentList() {
         if(paymentList == null){
             paymentList = new ArrayList<Payment>();
@@ -112,7 +112,7 @@ public class Resident {
 
     public ArrayList<MerchandiseOrder> getMerchandiseOrderList() {
         if(merchandiseOrderList == null){
-            merchandiseOrderList = new ArrayList<MerchandiseOrder>();
+            merchandiseOrderList = new ArrayList<>();
         }
         return merchandiseOrderList;
     }
@@ -128,7 +128,7 @@ public class Resident {
     public void setSRRequestList(ArrayList<SRRequest> SRRequestList) {
         this.SRRequestList = SRRequestList;
     }
-    
+
     @Override
     public String toString() {
         return fullname;

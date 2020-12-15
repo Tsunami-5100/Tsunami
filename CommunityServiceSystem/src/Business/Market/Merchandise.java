@@ -12,7 +12,9 @@ package Business.Market;
 public class Merchandise {
     private String name;
     private int quantity;
-    private int price;
+//    private int price;
+    private double price;
+    
 
     public String getName() {
         return name;
@@ -29,15 +31,23 @@ public class Merchandise {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    public int getPrice() {
+    
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+//    public int getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(int price) {
+//        this.price = price;
+//    }
+    public void setPrice(double price) {
         this.price = price;
     }
-     @Override
+
+    @Override
     public String toString() {
         return name;
     }

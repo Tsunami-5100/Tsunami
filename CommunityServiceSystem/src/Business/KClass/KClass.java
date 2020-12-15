@@ -20,11 +20,14 @@ import java.util.Date;
 public class KClass {
     private String className;
     private String teacherName;
+    private int teacherId;
     private String classType;
     private int capacity;
+    private int remainPlaces;
     private String deadline;
     private String startDate;
     private String endDate;
+    private String teacherUserName;
     
     public int studentNum = 0;
 
@@ -62,12 +65,28 @@ public class KClass {
         this.teacherName = teacherName;
     }
 
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
+    }
+
     public int getCapacity() {
         return capacity;
     }
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public int getRemainPlaces() {
+        return remainPlaces;
+    }
+
+    public void setRemainPlaces(int remainPlaces) {
+        this.remainPlaces = remainPlaces;
     }
 
     public String getDeadline() {
@@ -100,6 +119,14 @@ public class KClass {
 
     public void setStudentNum(int studentNum) {
         this.studentNum = studentNum;
+    }
+
+    public String getTeacherUserName() {
+        return teacherUserName;
+    }
+
+    public void setTeacherUserName(String teacherUserName) {
+        this.teacherUserName = teacherUserName;
     }
     
     @Override
